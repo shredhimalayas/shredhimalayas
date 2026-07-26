@@ -78,10 +78,13 @@
     });
 
     var policies = typeof SHData !== 'undefined' ? SHData.getPolicies() : null;
+    var defaults = typeof SHData !== 'undefined' && SHData.defaults ? SHData.defaults.policies : null;
     var content = '';
 
     if (policies && policies[currentPolicyType]) {
       content = policies[currentPolicyType];
+    } else if (defaults && defaults[currentPolicyType]) {
+      content = defaults[currentPolicyType];
     } else {
       content = '<p>Policy content unavailable.</p>';
     }
@@ -94,7 +97,9 @@
     createModalDOM();
     renderPolicyTab(type || 'privacy');
     var backdrop = document.getElementById('policyModalBackdrop');
-    backdrop.classList.add('is-open');
+    if (backdrop) {
+      backdrop.classList.add('is-open');
+    }
     document.body.style.overflow = 'hidden';
   }
 
@@ -113,32 +118,26 @@
     }
   });
 
-  // Bind footer bottom links automatically
-  function bindFooterLinks() {
-    var links = document.querySelectorAll('.footer__bottom-link');
-    links.forEach(function (link) {
-      var text = (link.textContent || '').trim().toLowerCase();
-      var policyType = null;
+  // Global Click Event Listener to capture clicks on any policy links
+  document.addEventListener('click', function (e) {
+    var target = e.target.closest('[data-policy], .footer__bottom-link, .footer__policy-links a');
+    if (!target) return;
+
+    var text = (target.textContent || '').trim().toLowerCase();
+    if (text.includes('admin')) return; // Skip Admin link
+
+    var policyType = target.getAttribute('data-policy');
+    if (!policyType) {
       if (text.includes('privacy')) policyType = 'privacy';
       else if (text.includes('terms')) policyType = 'terms';
       else if (text.includes('cancellation')) policyType = 'cancellation';
+    }
 
-      if (policyType) {
-        link.setAttribute('data-policy', policyType);
-        link.setAttribute('href', 'javascript:void(0);');
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          openPolicyModal(policyType);
-        });
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindFooterLinks);
-  } else {
-    bindFooterLinks();
-  }
+    if (policyType) {
+      e.preventDefault();
+      openPolicyModal(policyType);
+    }
+  });
 
   // Expose globally
   window.openPolicyModal = openPolicyModal;

@@ -47,6 +47,7 @@
   <!-- Favicon -->
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F4F3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m8 3 4 8 5-5 5 15H2L8 3z'/></svg>">
+  <link rel="stylesheet" href="css/footer.css?v=2">
   <link rel="stylesheet" href="css/theme.css?v=3">
   <link rel="stylesheet" href="css/ios-compat.css">
 </head>
@@ -1218,9 +1219,9 @@
               </svg></a>
           </div>
           <div class="footer__policy-links" style="display: flex; gap: var(--space-4); margin-top: var(--space-3); flex-wrap: wrap;">
-            <a href="#" class="footer__bottom-link">Privacy Policy</a>
-            <a href="#" class="footer__bottom-link">Terms of Service</a>
-            <a href="#" class="footer__bottom-link">Cancellation Policy</a>
+            <a href="javascript:void(0);" onclick="openPolicyModal('privacy'); return false;" class="footer__bottom-link" data-policy="privacy">Privacy Policy</a>
+            <a href="javascript:void(0);" onclick="openPolicyModal('terms'); return false;" class="footer__bottom-link" data-policy="terms">Terms of Service</a>
+            <a href="javascript:void(0);" onclick="openPolicyModal('cancellation'); return false;" class="footer__bottom-link" data-policy="cancellation">Cancellation Policy</a>
           </div>
         </div>
 
