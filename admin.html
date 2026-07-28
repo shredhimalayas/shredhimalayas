@@ -1,2986 +1,2986 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Admin Panel - Shred Himalayas</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/footer.css?v=2">
-  <style>
-    :root {
-      --gold: #238B45;
-      --gold-glow: rgba(35, 139, 69, 0.10);
-      --gold-border: rgba(35, 139, 69, 0.18);
-      --gold-dark: #006D2C;
-      --font-h: 'Manrope', system-ui, sans-serif;
-      --font-b: 'Inter', system-ui, sans-serif;
-      --font-l: 'Cormorant Garamond', Georgia, serif;
-      --sw: 260px;
-      --th: 64px;
-      --r: 14px;
-      --rs: 10px;
-      --rx: 6px;
-      --d: .22s;
-      --e: cubic-bezier(.16, 1, .3, 1);
-      --bg: #F7FCF5;
-      --sbg: #ffffff;
-      --tbg: rgba(255, 255, 255, 0.95);
-      --cbg: #ffffff;
-      --cbgh: #f8fafc;
-      --cb: rgba(0, 68, 27, 0.08);
-      --cbH: rgba(0, 68, 27, 0.15);
-      --t: #00441B;
-      --t2: #1A5C33;
-      --t3: #4A8C5C;
-      --ib: #f8fafc;
-      --ib2: rgba(0, 68, 27, 0.12);
-      --div: rgba(0, 68, 27, 0.08);
-      --mb: #ffffff;
-      --nab: rgba(35, 139, 69, .08);
-      --nhb: rgba(0, 68, 27, .03);
-      --sc: rgba(0, 68, 27, .1);
-      --bb: rgba(0, 68, 27, .06);
-      --bt: #1A5C33;
-      --g: #238B45;
-      --re: #ef4444;
-      --am: #B23A2E;
-      --sh: 0 10px 30px rgba(0, 68, 27, 0.06), 0 1px 3px rgba(0, 68, 27, 0.02);
-      --focus: #238B45;
-      --focus-glow: rgba(35, 139, 69, 0.15)
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    html,
-    body {
-      height: 100%
-    }
-
-    body {
-      font-family: var(--font-b);
-      background: var(--bg);
-      color: var(--t);
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      transition: background var(--d), color var(--d)
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: var(--font-h)
-    }
-
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--sc);
-      border-radius: 8px
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--gold)
-    }
-
-    /* LOGIN */
-    #loginScreen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(ellipse at 60% 20%, rgba(35, 139, 69, .08) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(196, 168, 108, .06) 0%, transparent 55%), var(--bg);
-      padding: 16px
-    }
-
-    .lorb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      animation: oFloat 8s ease-in-out infinite
-    }
-
-    .lorb:nth-child(1) {
-      width: 400px;
-      height: 400px;
-      top: -100px;
-      right: 5%;
-      background: radial-gradient(circle, rgba(35, 139, 69, .12), transparent 70%)
-    }
-
-    .lorb:nth-child(2) {
-      width: 320px;
-      height: 320px;
-      bottom: -60px;
-      left: 5%;
-      background: radial-gradient(circle, rgba(196, 168, 108, .08), transparent 70%);
-      animation-delay: 3s
-    }
-
-    @keyframes oFloat {
-
-      0%,
-      100% {
-        transform: translateY(0) scale(1)
-      }
-
-      50% {
-        transform: translateY(-20px) scale(1.05)
-      }
-    }
-
-    .lcard {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 420px;
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: 20px;
-      padding: 44px 40px;
-      backdrop-filter: blur(24px);
-      box-shadow: var(--sh);
-      animation: cIn .5s var(--e)
-    }
-
-    @keyframes cIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px) scale(.98)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    .lbrand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      margin-bottom: 32px
-    }
-
-    .lbrand-ico {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px var(--gold-glow)
-    }
-
-    .lbrand-ico svg {
-      width: 20px;
-      height: 20px;
-      stroke: #fff
-    }
-
-    .lbrand-name {
-      font-family: var(--font-l);
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -.02em
-    }
-
-    .lbrand-name span {
-      color: var(--gold)
-    }
-
-    .lbadge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      border-radius: 100px;
-      padding: 4px 12px 4px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 20px
-    }
-
-    .lbadge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      animation: pulse 2s ease infinite
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1)
-      }
-
-      50% {
-        opacity: .4;
-        transform: scale(.7)
-      }
-    }
-
-    .lcard h1 {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -.02em;
-      margin-bottom: 6px
-    }
-
-    .lcard>p {
-      color: var(--t2);
-      font-size: 13.5px;
-      margin-bottom: 28px;
-      line-height: 1.5
-    }
-
-    .fg {
-      margin-bottom: 18px
-    }
-
-    .fg label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: var(--t2);
-      margin-bottom: 7px
-    }
-
-    .fg input {
-      width: 100%;
-      padding: 12px 15px;
-      background: var(--ib);
-      border: 1px solid var(--ib2);
-      border-radius: var(--rs);
-      color: var(--t);
-      font-size: 14.5px;
-      font-family: var(--font-b);
-      transition: border-color var(--d), box-shadow var(--d);
-      outline: none
-    }
-
-    .fg input:focus {
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px var(--focus-glow)
-    }
-
-    .fg input::placeholder {
-      color: var(--t3)
-    }
-
-    .lerr {
-      background: rgba(239, 68, 68, .08);
-      border: 1px solid rgba(239, 68, 68, .2);
-      border-radius: var(--rs);
-      padding: 11px 15px;
-      color: #f87171;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-      align-items: center;
-      gap: 8px
-    }
-
-    .lerr.show {
-      display: flex
-    }
-
-    .lbtn {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: var(--rs);
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: var(--font-b);
-      cursor: pointer;
-      box-shadow: 0 6px 24px var(--gold-glow);
-      transition: all var(--d) var(--e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px
-    }
-
-    .lbtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(184, 146, 90, .35);
-      filter: brightness(1.08)
-    }
-
-    .lbtn svg {
-      transition: transform var(--d) var(--e)
-    }
-
-    .lbtn:hover svg {
-      transform: translateX(4px)
-    }
-
-    .lfoot {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 11.5px;
-      color: var(--t3)
-    }
-
-    /* APP */
-    #app {
-      display: none;
-      height: 100vh;
-      flex-direction: column
-    }
-
-    #app.visible {
-      display: flex
-    }
-
-    /* TOPBAR */
-    .topbar {
-      height: var(--th);
-      flex-shrink: 0;
-      background: var(--tbg);
-      border-bottom: 1px solid var(--div);
-      backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 14px;
-      z-index: 200;
-      transition: background var(--d)
-    }
-
-    .t-ham {
-      display: none;
-      width: 38px;
-      height: 38px;
-      border-radius: var(--rx);
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all var(--d)
-    }
-
-    .t-ham:hover {
-      background: var(--cbgh)
-    }
-
-    .t-ham svg {
-      width: 18px;
-      height: 18px
-    }
-
-    .t-brand {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      flex-shrink: 0
-    }
-
-    .t-brand-ico {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      display: flex;
-      align-items: center;
-      justify-content: center
-    }
-
-    .t-brand-ico svg {
-      width: 16px;
-      height: 16px;
-      stroke: #fff
-    }
-
-    .t-brand-name {
-      font-family: var(--font-l);
-      font-size: 15.5px;
-      font-weight: 600;
-      white-space: nowrap;
-      letter-spacing: -.02em
-    }
-
-    .t-brand-name span {
-      color: var(--gold)
-    }
-
-    .t-pill {
-      display: inline-flex;
-      padding: 3px 10px;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      border-radius: 100px;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: .08em;
-      text-transform: uppercase
-    }
-
-    .t-sp {
-      flex: 1
-    }
-
-    .t-acts {
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .tbtn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border-radius: var(--rx);
-      font-size: 12.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all var(--d);
-      border: 1px solid var(--cb);
-      background: var(--cbg);
-      color: var(--t);
-      font-family: var(--font-b);
-      white-space: nowrap
-    }
-
-    .tbtn:hover {
-      background: var(--cbgh);
-      border-color: var(--cbH)
-    }
-
-    .tbtn svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0
-    }
-
-    .tbtn--danger:hover {
-      background: rgba(239, 68, 68, .1);
-      color: #f87171;
-      border-color: rgba(239, 68, 68, .25)
-    }
-
-    .tbtn--prev:hover {
-      background: var(--gold-glow);
-      color: var(--gold);
-      border-color: var(--gold-border)
-    }
-
-    /* LAYOUT */
-    .layout {
-      display: flex;
-      flex: 1;
-      overflow: hidden
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: var(--sw);
-      flex-shrink: 0;
-      background: var(--sbg);
-      border-right: 1px solid var(--div);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: background var(--d), transform var(--d) var(--e)
-    }
-
-    .sb-inner {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px 10px 24px
-    }
-
-    .sb-admin {
-      margin: 0 4px 20px;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      border-radius: var(--r);
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .sb-av {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0
-    }
-
-    .sb-an {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--t)
-    }
-
-    .sb-ar {
-      font-size: 10.5px;
-      color: var(--gold);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      margin-top: 1px
-    }
-
-    .sb-sec {
-      margin-bottom: 4px
-    }
-
-    .sb-lbl {
-      font-size: 9.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--t3);
-      padding: 12px 14px 6px;
-      display: block
-    }
-
-    .nv {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: var(--rx);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--t2);
-      border: 1px solid transparent;
-      margin-bottom: 1px;
-      transition: all .15s;
-      position: relative;
-      user-select: none
-    }
-
-    .nv:hover {
-      background: var(--nhb);
-      color: var(--t)
-    }
-
-    .nv.active {
-      background: var(--nab);
-      color: var(--gold);
-      border-color: var(--gold-border)
-    }
-
-    .nv.active::before {
-      content: '';
-      position: absolute;
-      left: -10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 20px;
-      border-radius: 0 3px 3px 0;
-      background: var(--gold)
-    }
-
-    .nv-ico {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      opacity: .65
-    }
-
-    .nv.active .nv-ico {
-      opacity: 1
-    }
-
-    .nv-badge {
-      margin-left: auto;
-      background: var(--bb);
-      color: var(--bt);
-      font-size: 9.5px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 100px
-    }
-
-    .nv.active .nv-badge {
-      background: var(--gold-glow);
-      color: var(--gold)
-    }
-
-    .sb-bot {
-      padding: 12px 10px 10px;
-      border-top: 1px solid var(--div);
-      flex-shrink: 0
-    }
-
-    .sb-lo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: var(--rx);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--t2);
-      transition: all .15s
-    }
-
-    .sb-lo:hover {
-      background: rgba(239, 68, 68, .07);
-      color: #f87171
-    }
-
-    .sb-lo svg {
-      width: 16px;
-      height: 16px;
-      opacity: .7
-    }
-
-    .sb-ov {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .55);
-      backdrop-filter: blur(4px);
-      z-index: 299
-    }
-
-    .sb-ov.open {
-      display: block
-    }
-
-    /* MAIN */
-    .main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 32px 36px;
-      background: var(--bg);
-      transition: background var(--d)
-    }
-
-    .pg {
-      display: none
-    }
-
-    .pg.active {
-      display: block;
-      animation: pgIn .25s var(--e)
-    }
-
-    @keyframes pgIn {
-      from {
-        opacity: 0;
-        transform: translateY(6px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    .pg-hd {
-      margin-bottom: 28px
-    }
-
-    .pg-ht {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 4px
-    }
-
-    .pg-ico {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      flex-shrink: 0;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px
-    }
-
-    .pg-hd h1 {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -.02em
-    }
-
-    .pg-hd p {
-      color: var(--t2);
-      font-size: 13.5px;
-      margin-top: 4px
-    }
-
-    .pg-div {
-      height: 1px;
-      background: var(--div);
-      margin: 20px 0
-    }
-
-    /* STATS */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px
-    }
-
-    .stat-card {
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      padding: 22px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: all .2s var(--e)
-    }
-
-    .stat-card:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, .15)
-    }
-
-    .stat-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
-      flex-shrink: 0;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px
-    }
-
-    .stat-count {
-      font-family: var(--font-h);
-      font-size: 30px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--t);
-      letter-spacing: -.03em
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--t2);
-      font-weight: 500;
-      margin-top: 3px
-    }
-
-    /* QUICK */
-    .qgrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 10px
-    }
-
-    .qcard {
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      padding: 18px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all .18s var(--e)
-    }
-
-    .qcard:hover {
-      background: var(--cbgh);
-      border-color: var(--gold-border);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .1)
-    }
-
-    .qcard-ico {
-      font-size: 26px;
-      margin-bottom: 8px
-    }
-
-    .qcard-title {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: var(--t)
-    }
-
-    .qcard-count {
-      font-size: 11px;
-      color: var(--t2);
-      margin-top: 3px
-    }
-
-    .qgl {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--t);
-      margin-bottom: 12px
-    }
-
-    /* SEO MANAGER */
-    .seo-section { margin-bottom: 28px }
-
-    .seo-section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--tm);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .seo-section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--div)
-    }
-
-    .seo-score-bar {
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      padding: 18px 22px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 18px
-    }
-
-    .seo-score-ring {
-      width: 60px;
-      height: 60px;
-      flex-shrink: 0;
-      position: relative
-    }
-
-    .seo-score-ring svg { transform: rotate(-90deg) }
-
-    .seo-score-ring-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--g)
-    }
-
-    .seo-score-info { flex: 1 }
-
-    .seo-score-info strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--tf);
-      margin-bottom: 4px
-    }
-
-    .seo-score-info p {
-      font-size: 12px;
-      color: var(--ts);
-      margin: 0
-    }
-
-    .seo-field-card {
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      padding: 22px;
-      margin-bottom: 14px;
-      transition: border-color var(--d)
-    }
-
-    .seo-field-card:hover { border-color: var(--cbH) }
-
-    .seo-field-card-hd {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--div)
-    }
-
-    .seo-field-card-hd-left { flex: 1 }
-
-    .seo-field-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--tf);
-      margin-bottom: 3px
-    }
-
-    .seo-field-hint {
-      font-size: 11.5px;
-      color: var(--ts)
-    }
-
-    .seo-char-count {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 9px;
-      border-radius: 100px;
-      background: rgba(35,139,69,.08);
-      color: var(--g);
-      white-space: nowrap
-    }
-
-    .seo-char-count.warn { background: rgba(234,179,8,.10); color: #ca8a04 }
-    .seo-char-count.over { background: rgba(239,68,68,.10); color: #dc2626 }
-
-    /* Keyword tag input */
-    .keyword-input-wrap {
-      border: 1px solid var(--cb);
-      border-radius: 8px;
-      padding: 8px 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      cursor: text;
-      transition: border-color var(--d);
-      min-height: 46px;
-      align-items: flex-start
-    }
-
-    .keyword-input-wrap:focus-within { border-color: var(--g) }
-
-    .kw-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(35,139,69,.10);
-      border: 1px solid rgba(35,139,69,.20);
-      color: var(--g);
-      border-radius: 100px;
-      padding: 3px 10px;
-      font-size: 12px;
-      font-weight: 600
-    }
-
-    .kw-tag button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--g);
-      padding: 0;
-      line-height: 1;
-      font-size: 14px;
-      opacity: .6;
-      transition: opacity var(--d)
-    }
-
-    .kw-tag button:hover { opacity: 1 }
-
-    #kw-ghost-input {
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: inherit;
-      font-size: 13px;
-      color: var(--tf);
-      min-width: 140px;
-      flex: 1;
-      padding: 3px 2px
-    }
-
-    .seo-robots-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px
-    }
-
-    .seo-toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--div)
-    }
-
-    .seo-toggle-row:last-child { border-bottom: none }
-
-    .seo-toggle-label { font-size: 13px; font-weight: 600; color: var(--tf) }
-    .seo-toggle-hint { font-size: 11.5px; color: var(--ts); margin-top: 2px }
-
-    .seo-preview-box {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 18px 20px;
-      font-family: Arial, sans-serif
-    }
-
-    .seo-preview-url {
-      font-size: 12px;
-      color: #1a73e8;
-      margin-bottom: 3px
-    }
-
-    .seo-preview-title {
-      font-size: 18px;
-      color: #1a0dab;
-      font-weight: 400;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis
-    }
-
-    .seo-preview-desc {
-      font-size: 13px;
-      color: #4d5156;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden
-    }
-
-    .seo-save-bar {
-      position: sticky;
-      bottom: 0;
-      background: var(--cs);
-      border-top: 1px solid var(--div);
-      padding: 14px 0;
-      margin-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      z-index: 10
-    }
-
-    .seo-save-note { font-size: 12px; color: var(--ts) }
-
-    /* SEC BAR */
-    .sec-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px
-    }
-
-    .sec-bar h2 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -.01em
-    }
-
-    .add-btn {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 9px 20px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: #fff;
-      border: none;
-      border-radius: var(--rs);
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: var(--font-b);
-      box-shadow: 0 4px 14px var(--gold-glow);
-      transition: all var(--d) var(--e)
-    }
-
-    .add-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(215, 160, 23, .35);
-      filter: brightness(1.08)
-    }
-
-    .add-btn svg {
-      width: 14px;
-      height: 14px
-    }
-
-    section-bar,
-    .section-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px
-    }
-
-    /* CAT */
-    .admin-category {
-      background: #ffffff;
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      box-shadow: var(--sh);
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-
-    .admin-cat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #ffffff !important;
-      border-bottom: 1px solid var(--div);
-      padding: 14px 18px;
-    }
-
-    .admin-cat-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--t) !important;
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .admin-cat-title-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold) !important
-    }
-
-    .cat-add-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(35, 139, 69, 0.08);
-      color: var(--gold) !important;
-      border: 1px solid var(--gold-border);
-      border-radius: var(--rx);
-      padding: 5px 12px;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .15s;
-      font-family: var(--font-b)
-    }
-
-    .cat-add-btn:hover {
-      border-color: var(--gold) !important;
-      background: rgba(35, 139, 69, 0.15) !important;
-      color: var(--gold) !important;
-    }
-
-    /* LISTS */
-    .items-list {
-      overflow: hidden;
-    }
-
-    .simple-list {
-      background: #ffffff;
-      border: 1px solid var(--cb);
-      box-shadow: var(--sh);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-
-    .item-row,
-    .simple-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 18px;
-      background: var(--sbg);
-      border-bottom: 1px solid var(--div);
-      transition: background .13s
-    }
-
-    .item-row:nth-child(even),
-    .simple-row:nth-child(even) {
-      background: var(--cbgh)
-    }
-
-    .item-row:last-child,
-    .simple-row:last-child {
-      border-bottom: none
-    }
-
-    .item-row:hover,
-    .simple-row:hover {
-      background: rgba(47, 79, 62, 0.06) !important
-    }
-
-    .item-thumb {
-      width: 52px;
-      height: 40px;
-      border-radius: 6px;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: var(--cbgh);
-      border: 1px solid var(--cb)
-    }
-
-    .item-info,
-    .simple-row-info {
-      flex: 1;
-      min-width: 0
-    }
-
-    .item-title,
-    .simple-row-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--t);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis
-    }
-
-    .item-meta,
-    .simple-row-desc {
-      font-size: 11.5px;
-      color: var(--t2);
-      margin-top: 2px
-    }
-
-    .item-badge {
-      padding: 3px 9px;
-      border-radius: 100px;
-      font-size: 10.5px;
-      font-weight: 700;
-      background: var(--bb);
-      color: var(--bt);
-      border: 1px solid var(--cb);
-      white-space: nowrap;
-      flex-shrink: 0
-    }
-
-    .disabled-badge {
-      padding: 2px 8px;
-      border-radius: 100px;
-      font-size: 10px;
-      font-weight: 700;
-      background: rgba(239, 68, 68, .08);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, .2);
-      white-space: nowrap;
-      flex-shrink: 0;
-      letter-spacing: .04em;
-      text-transform: uppercase
-    }
-
-    .item-actions {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0
-    }
-
-    .icon-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      border: 1px solid var(--cb);
-      background: var(--ib);
-      color: var(--t2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all .14s
-    }
-
-    .icon-btn svg {
-      width: 13px;
-      height: 13px
-    }
-
-    .icon-btn:hover {
-      color: var(--gold) !important;
-      border-color: var(--gold-border) !important;
-      background: var(--gold-glow) !important
-    }
-
-    .icon-btn--edit {
-      color: var(--gold);
-      border-color: var(--gold-border)
-    }
-
-    .icon-btn--edit:hover {
-      background: var(--gold) !important;
-      color: #fff !important;
-      border-color: var(--gold) !important
-    }
-
-    .icon-btn--delete:hover {
-      background: rgba(239, 68, 68, .10);
-      color: #f87171;
-      border-color: rgba(239, 68, 68, .22)
-    }
-
-    .icon-btn--star-active {
-      color: #eab308 !important;
-      border-color: rgba(234, 179, 8, 0.3) !important;
-      background: rgba(234, 179, 8, 0.08) !important;
-    }
-
-    .icon-btn--star-active:hover {
-      background: #eab308 !important;
-      color: #fff !important;
-      border-color: #eab308 !important
-    }
-
-    .icon-btn--star-inactive:hover {
-      background: rgba(234, 179, 8, 0.08) !important;
-      color: #eab308 !important;
-      border-color: rgba(234, 179, 8, 0.3) !important;
-    }
-
-    .icon-btn--enable:hover {
-      background: rgba(34, 197, 94, .10);
-      color: var(--g);
-      border-color: rgba(34, 197, 94, .22)
-    }
-
-    .icon-btn--disable:hover {
-      background: rgba(245, 158, 11, .10);
-      color: var(--am);
-      border-color: rgba(245, 158, 11, .22)
-    }
-
-    .item-row--disabled {
-      opacity: .38
-    }
-
-    .diff-tag {
-      padding: 3px 9px;
-      border-radius: 100px;
-      font-size: 10.5px;
-      font-weight: 700;
-      white-space: nowrap;
-      flex-shrink: 0
-    }
-
-    .diff-tag--easy {
-      background: rgba(34, 197, 94, .10);
-      color: var(--g)
-    }
-
-    .diff-tag--moderate {
-      background: rgba(245, 158, 11, .10);
-      color: var(--am)
-    }
-
-    .diff-tag--challenging {
-      background: rgba(239, 68, 68, .10);
-      color: var(--re)
-    }
-
-    /* SETTINGS */
-    .settings-grid {
-      display: grid;
-      gap: 16px
-    }
-
-    .settings-card {
-      background: var(--cbg);
-      border: 1px solid var(--cb);
-      border-radius: var(--r);
-      padding: 22px;
-      transition: border-color var(--d)
-    }
-
-    .settings-card:hover {
-      border-color: var(--cbH)
-    }
-
-    .settings-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--div)
-    }
-
-    .settings-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--gold-glow);
-      border: 1px solid var(--gold-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px
-    }
-
-    .settings-card h3 {
-      font-family: var(--font-b);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--t)
-    }
-
-    .field {
-      margin-bottom: 14px
-    }
-
-    .field label {
-      display: block;
-      font-size: 10.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      color: var(--t2);
-      margin-bottom: 7px
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      padding: 11px 14px;
-      background: var(--ib);
-      border: 1px solid var(--ib2);
-      border-radius: var(--rs);
-      color: var(--t);
-      font-size: 13.5px;
-      font-family: var(--font-b);
-      transition: border-color var(--d), box-shadow var(--d);
-      outline: none
-    }
-
-    .field textarea {
-      resize: vertical;
-      min-height: 88px
-    }
-
-    .field select {
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D7A017' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
-      background-repeat: no-repeat !important;
-      background-position: right 14px center !important;
-      background-size: 12px !important;
-      padding-right: 36px !important
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px var(--focus-glow)
-    }
-
-    .field input::placeholder,
-    .field textarea::placeholder {
-      color: var(--t3)
-    }
-
-    .save-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 10px 22px;
-      border: none;
-      border-radius: var(--rs);
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: var(--font-b);
-      box-shadow: 0 4px 14px var(--gold-glow);
-      transition: all var(--d) var(--e)
-    }
-
-    .save-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.08);
-      box-shadow: 0 8px 24px rgba(215, 160, 23, .35)
-    }
-
-    /* MODAL */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .65);
-      backdrop-filter: blur(8px);
-      z-index: 5000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px
-    }
-
-    .modal-backdrop.open {
-      display: flex
-    }
-
-    .modal {
-      background: var(--mb);
-      border: 1px solid var(--cb);
-      border-radius: 18px;
-      padding: 32px;
-      width: 100%;
-      max-width: 620px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--sh);
-      animation: mIn .25s var(--e);
-      transition: background var(--d)
-    }
-
-    @keyframes mIn {
-      from {
-        opacity: 0;
-        transform: scale(.96) translateY(10px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 26px
-    }
-
-    .modal-header h2 {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -.02em
-    }
-
-    .modal-close {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      border: 1px solid var(--cb);
-      background: var(--ib);
-      color: var(--t2);
-      font-size: 17px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .15s
-    }
-
-    .modal-close:hover {
-      background: rgba(239, 68, 68, .1);
-      color: #f87171;
-      border-color: rgba(239, 68, 68, .25)
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px
-    }
-
-    .form-row.full {
-      grid-template-columns: 1fr
-    }
-
-    .modal-footer {
-      margin-top: 24px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      padding-top: 18px;
-      border-top: 1px solid var(--div)
-    }
-
-    .btn-cancel {
-      padding: 10px 22px;
-      background: var(--ib);
-      border: 1px solid var(--cb);
-      border-radius: var(--rs);
-      color: var(--t);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: var(--font-b);
-      transition: all .15s
-    }
-
-    .btn-cancel:hover {
-      background: var(--cbgh)
-    }
-
-    .btn-save {
-      padding: 10px 26px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      border: none;
-      border-radius: var(--rs);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: var(--font-b);
-      box-shadow: 0 4px 14px var(--gold-glow);
-      transition: all var(--d) var(--e)
-    }
-
-    .btn-save:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08)
-    }
-
-    /* UPLOAD & TAGS */
-    .img-upload-row {
-      display: flex;
-      gap: 8px;
-      align-items: stretch
-    }
-
-    .img-upload-row input[type=text] {
-      flex: 1
-    }
-
-    .import-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 10px 13px;
-      background: var(--ib);
-      color: var(--t);
-      border: 1px solid var(--ib2);
-      border-radius: var(--rs);
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all .15s;
-      font-family: var(--font-b)
-    }
-
-    .import-btn:hover {
-      border-color: var(--gold-border);
-      color: var(--gold)
-    }
-
-    .img-preview {
-      margin-top: 10px
-    }
-
-    .img-preview img {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      border-radius: var(--rs);
-      border: 1px solid var(--cb)
-    }
-
-    .tag-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-      min-height: 42px;
-      padding: 8px 10px;
-      background: var(--ib);
-      border: 1px solid var(--ib2);
-      border-radius: var(--rs);
-      margin-bottom: 8px
-    }
-
-    .tag-placeholder {
-      color: var(--t3);
-      font-size: 12px;
-      font-style: italic
-    }
-
-    .tag-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      padding: 4px 10px 4px 12px;
-      background: var(--gold-glow);
-      color: var(--gold);
-      border: 1px solid var(--gold-border);
-      border-radius: 100px;
-      font-size: 11.5px;
-      font-weight: 600;
-      animation: tPop .15s var(--e)
-    }
-
-    @keyframes tPop {
-      from {
-        transform: scale(.8);
-        opacity: 0
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1
-      }
-    }
-
-    .tag-pill button {
-      background: none;
-      border: none;
-      color: var(--gold);
-      cursor: pointer;
-      font-size: 14px;
-      line-height: 1;
-      padding: 0 1px;
-      opacity: .7;
-      transition: all .15s;
-      display: flex;
-      align-items: center
-    }
-
-    .tag-pill button:hover {
-      opacity: 1;
-      color: var(--re);
-      transform: scale(1.2)
-    }
-
-    .tag-add-row {
-      display: flex;
-      gap: 8px;
-      align-items: center
-    }
-
-    .tag-custom-input {
-      flex: 1;
-      padding: 9px 12px !important;
-      margin-bottom: 0 !important;
-      background: var(--ib) !important;
-      border: 1px solid var(--ib2) !important;
-      border-radius: var(--rs) !important;
-      color: var(--t) !important;
-      font-size: 13px !important;
-      outline: none !important;
-      font-family: var(--font-b) !important;
-      width: auto !important;
-      transition: border-color var(--d), box-shadow var(--d) !important
-    }
-
-    .tag-custom-input:focus {
-      border-color: var(--focus) !important;
-      box-shadow: 0 0 0 3px var(--focus-glow) !important
-    }
-
-    .tag-add-btn {
-      padding: 9px 15px;
-      background: var(--ib);
-      color: var(--t);
-      border: 1px solid var(--ib2);
-      border-radius: var(--rs);
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all .15s;
-      font-family: var(--font-b)
-    }
-
-    .tag-add-btn:hover {
-      border-color: var(--gold-border);
-      color: var(--gold)
-    }
-
-    /* TOAST */
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9998;
-      background: var(--t);
-      color: var(--bg);
-      padding: 12px 20px;
-      border-radius: var(--rs);
-      font-size: 13.5px;
-      font-weight: 600;
-      display: none;
-      box-shadow: var(--sh);
-      align-items: center;
-      gap: 8px
-    }
-
-    #toast.show {
-      display: flex;
-      animation: tIn .3s var(--e)
-    }
-
-    @keyframes tIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    /* MISC */
-    .empty-state {
-      text-align: center;
-      padding: 44px 24px;
-      color: var(--t2);
-      font-size: 13.5px;
-      border: 1px dashed var(--cb);
-      border-radius: var(--r);
-      margin: 4px 0
-    }
-
-    .empty-state-icon {
-      font-size: 36px;
-      margin-bottom: 10px;
-      opacity: .5
-    }
-
-    .empty-state strong {
-      display: block;
-      font-size: 15px;
-      margin-bottom: 4px;
-      color: var(--t)
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--div);
-      margin: 22px 0
-    }
-
-    .section-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px
-    }
-
-    .section-bar h2 {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -.01em
-    }
-
-    @media(max-width:768px) {
-
-      .fg input,
-      .field input,
-      .field textarea,
-      .field select,
-      .tag-custom-input {
-        font-size: 16px !important
-      }
-    }
-
-    /* RESPONSIVE */
-    @media(max-width:900px) {
-      .sidebar {
-        position: fixed;
-        top: var(--th);
-        left: 0;
-        height: calc(100vh - var(--th));
-        z-index: 300;
-        transform: translateX(-100%);
-        box-shadow: 4px 0 32px rgba(0, 0, 0, .3)
-      }
-
-      .sidebar.open {
-        transform: translateX(0)
-      }
-
-      .t-ham {
-        display: flex
-      }
-
-      .t-pill {
-        display: none
-      }
-    }
-
-    @media(max-width:640px) {
-      .main {
-        padding: 20px 16px
-      }
-
-      .modal {
-        padding: 22px 18px;
-        border-radius: 14px
-      }
-
-      .form-row {
-        grid-template-columns: 1fr
-      }
-
-      .stat-grid {
-        grid-template-columns: 1fr 1fr
-      }
-
-      .pg-hd h1 {
-        font-size: 22px
-      }
-
-      .tbtn span {
-        display: none
-      }
-
-      .item-row {
-        flex-wrap: wrap;
-        gap: 8px
-      }
-
-      .item-actions {
-        width: 100%;
-        justify-content: flex-end
-      }
-
-      .simple-row {
-        flex-wrap: wrap;
-        gap: 8px
-      }
-
-      .topbar {
-        padding: 0 14px;
-        gap: 10px
-      }
-
-      .lcard {
-        padding: 32px 24px
-      }
-    }
-
-    @media(max-width:400px) {
-      .stat-grid {
-        grid-template-columns: 1fr
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="css/theme.css?v=1">
-  <style>
-    /* ============================================
-       ADMIN FORM INPUT FIELDS - HIGH VISIBILITY STYLES
-       ============================================ */
-
-    .fg label,
-    .field label,
-    .modal-header h2,
-    .settings-card-header h3,
-    .seo-field-label {
-      color: #00441B !important;
-      font-weight: 800 !important;
-      font-size: 12px !important;
-      letter-spacing: 0.05em !important;
-      text-transform: uppercase !important;
-      margin-bottom: 6px !important;
-    }
-
-    /* Clear, distinct, visible input controls */
-    .fg input,
-    .field input,
-    .field textarea,
-    .field select,
-    .tag-custom-input,
-    .seo-field-card input,
-    .seo-field-card textarea,
-    .seo-field-card select,
-    #kw-ghost-input,
-    .modal input,
-    .modal textarea,
-    .modal select,
-    .settings-card input,
-    .settings-card textarea,
-    .settings-card select {
-      background-color: #F4F8F5 !important; /* Soft light sage background so inputs stand out from white cards */
-      border: 1.5px solid #238B45 !important; /* Distinct crisp green border */
-      color: #00441B !important; /* Dark bold text */
-      font-weight: 600 !important;
-      font-size: 14px !important;
-      padding: 11px 15px !important;
-      border-radius: 8px !important;
-      box-shadow: inset 0 1px 3px rgba(0, 68, 27, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
-      transition: all 0.2s ease !important;
-    }
-
-    /* Hover state */
-    .fg input:hover,
-    .field input:hover,
-    .field textarea:hover,
-    .field select:hover,
-    .modal input:hover,
-    .modal textarea:hover,
-    .modal select:hover,
-    .settings-card input:hover,
-    .settings-card textarea:hover,
-    .settings-card select:hover {
-      background-color: #FFFFFF !important;
-      border-color: #006D2C !important;
-    }
-
-    /* Focus state - vivid active highlight */
-    .fg input:focus,
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus,
-    .tag-custom-input:focus,
-    .seo-field-card input:focus,
-    .seo-field-card textarea:focus,
-    .seo-field-card select:focus,
-    .modal input:focus,
-    .modal textarea:focus,
-    .modal select:focus,
-    .settings-card input:focus,
-    .settings-card textarea:focus,
-    .settings-card select:focus {
-      background-color: #FFFFFF !important;
-      border-color: #238B45 !important;
-      box-shadow: 0 0 0 4px rgba(35, 139, 69, 0.2), 0 2px 8px rgba(35, 139, 69, 0.15) !important;
-      outline: none !important;
-      color: #00441B !important;
-    }
-
-    /* High visibility placeholders */
-    .fg input::placeholder,
-    .field input::placeholder,
-    .field textarea::placeholder,
-    .modal input::placeholder,
-    .modal textarea::placeholder,
-    .settings-card input::placeholder,
-    .settings-card textarea::placeholder {
-      color: #64748B !important;
-      font-weight: 400 !important;
-      opacity: 0.9 !important;
-    }
-
-    /* File upload button styling */
-    .img-upload-row .import-btn,
-    .tag-add-btn {
-      background: #238B45 !important;
-      color: #ffffff !important;
-      border: 1px solid #238B45 !important;
-      font-weight: 700 !important;
-      padding: 10px 16px !important;
-      border-radius: 8px !important;
-      cursor: pointer !important;
-      transition: all 0.2s ease !important;
-    }
-
-    .img-upload-row .import-btn:hover,
-    .tag-add-btn:hover {
-      background: #006D2C !important;
-      border-color: #006D2C !important;
-    }
-
-    /* Select dropdown arrow fix */
-    .field select,
-    .modal select,
-    .settings-card select {
-      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23238B45' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
-      background-repeat: no-repeat !important;
-      background-position: right 14px center !important;
-      background-size: 14px !important;
-      padding-right: 38px !important;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div id="loginScreen">
-    <div class="lorb"></div>
-    <div class="lorb"></div>
-    <div class="lcard">
-      <div class="lbrand">
-        <div class="lbrand-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-          </svg></div>
-        <div class="lbrand-name">Shred <span>Himalayas</span></div>
-      </div>
-      <div class="lbadge">Admin Portal</div>
-      <h1>Welcome Back</h1>
-      <p>Sign in to manage your website content and services.</p>
-      <div class="lerr" id="loginError"><span>&#128274;</span> Incorrect credentials. Please try again.</div>
-      <form onsubmit="return doLogin(event)">
-        <div class="fg"><label>Username</label><input type="text" id="loginUser" placeholder="Enter your username"
-            autocomplete="username" required></div>
-        <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="Enter your password"
-            autocomplete="current-password" required></div>
-        <button type="submit" onclick="doLogin(event)" class="lbtn">Sign in to Dashboard <svg viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.5" width="16" height="16">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg></button>
-      </form>
-      <div class="lfoot">Shred Himalayas &copy; 2025 &mdash; Admin v2.0</div>
-    </div>
-  </div>
-
-  <div id="app">
-    <header class="topbar">
-      <button class="t-ham" onclick="toggleSB()" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
-      <div class="t-brand">
-        <div class="t-brand-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-          </svg></div>
-        <div class="t-brand-name">Shred <span>Himalayas</span></div>
-      </div>
-      <span class="t-pill">Admin</span>
-      <div class="t-sp"></div>
-      <div class="t-acts">
-
-        <button class="tbtn tbtn--prev" onclick="window.open('index.html','_blank')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-            <polyline points="15 3 21 3 21 9" />
-            <line x1="10" y1="14" x2="21" y2="3" />
-          </svg>
-          <span>Preview Site</span>
-        </button>
-        <button class="tbtn tbtn--danger" onclick="doLogout()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
-          <span>Sign Out</span>
-        </button>
-      </div>
-    </header>
-    <div class="sb-ov" id="sbOv" onclick="closeSB()"></div>
-    <div class="layout">
-      <aside class="sidebar" id="sidebar">
-        <div class="sb-inner">
-          <div class="sb-admin">
-            <div class="sb-av">A</div>
-            <div>
-              <div class="sb-an">Administrator</div>
-              <div class="sb-ar">Super Admin</div>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Overview</span>
-            <div class="nv active" data-page="dashboard" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="9" />
-                <rect x="14" y="3" width="7" height="5" />
-                <rect x="14" y="12" width="7" height="9" />
-                <rect x="3" y="16" width="7" height="5" />
-              </svg>
-              <span>Dashboard</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Snow Sports</span>
-            <div class="nv" data-page="skiing" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 17h16M7 14l-3 3 3 3M17 14l3 3-3 3" />
-              </svg><span>Skiing</span>
-            </div>
-            <div class="nv" data-page="snowboarding" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="9" width="18" height="6" rx="2" />
-                <path d="m7 12 2-2 2 2-2 2zm6 0 2-2 2 2-2 2z" />
-              </svg><span>Snowboarding</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Adventures</span>
-            <div class="nv" data-page="trekking" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-              </svg><span>Trekking</span>
-            </div>
-            <div class="nv" data-page="activities" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2a10 10 0 1 0 10 10" />
-                <path d="M12 12V2" />
-                <path d="M12 2a5 5 0 0 1 5 5" />
-              </svg><span>Activities</span>
-            </div>
-            <div class="nv" data-page="sightseeing" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg><span>Sightseeing</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Equipment Rentals</span>
-            <div class="nv" data-page="rentals" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 17h16M7 14l-3 3 3 3M17 14l3 3-3 3" />
-              </svg><span>Rental Equipment</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Transportation</span>
-            <div class="nv" data-page="transport" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path
-                  d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12.5V16c0 .6.4 1 1 1h2" />
-                <circle cx="7" cy="17" r="2" />
-                <circle cx="17" cy="17" r="2" />
-              </svg><span>Transport Fleet</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Tour Packages</span>
-            <div class="nv" data-page="packages" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path
-                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-              </svg><span>All Packages</span>
-            </div>
-            <div class="nv" data-page="itineraries" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <polyline points="10 9 9 9 8 9" />
-              </svg><span>Itineraries</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Content</span>
-            <div class="nv" data-page="testimonials" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg><span>Testimonials</span>
-            </div>
-            <div class="nv" data-page="team" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg><span>Our Team</span>
-            </div>
-            <div class="nv" data-page="about" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              </svg><span>Our Story</span>
-            </div>
-          </div>
-          <div class="sb-sec">
-            <span class="sb-lbl">Configuration & Legal</span>
-            <div class="nv" data-page="policies" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg><span>Legal Policies</span>
-            </div>
-            <div class="nv" data-page="settings" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="3" />
-                <path
-                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg><span>Site Settings</span>
-            </div>
-            <div class="nv" data-page="contacts" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg><span>Contact Info</span>
-            </div>
-            <div class="nv" data-page="seo" onclick="navigate(this)">
-              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                <path d="M11 8v6M8 11h6"/>
-              </svg><span>SEO Manager</span>
-            </div>
-          </div>
-        </div>
-        <div class="sb-bot">
-          <div class="sb-lo" onclick="confirmReset()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-            <span>Reset Defaults</span>
-          </div>
-          <div class="sb-lo" onclick="doLogout()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            <span>Sign Out</span>
-          </div>
-        </div>
-      </aside>
-      <main class="main">
-        <div class="pg active" id="page-dashboard">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#128075;</div>
-              <div>
-                <h1>Dashboard</h1>
-                <p>Welcome back! Here's an overview of your website content.</p>
-              </div>
-            </div>
-          </div>
-          <div class="stat-grid" id="dashStats"></div>
-          <div class="pg-div"></div>
-          <div class="qgl">Quick Access</div>
-          <div class="qgrid" id="quickNav"></div>
-        </div>
-        <div class="pg" id="page-skiing">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#9975;&#65039;</div>
-              <div>
-                <h1>Skiing Packages</h1>
-                <p>Manage all skiing packages across categories.</p>
-              </div>
-            </div>
-          </div>
-          <div id="skiing-editor"></div>
-        </div>
-        <div class="pg" id="page-snowboarding">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#127943;</div>
-              <div>
-                <h1>Snowboarding Packages</h1>
-                <p>Manage all snowboarding packages across categories.</p>
-              </div>
-            </div>
-          </div>
-          <div id="snowboarding-editor"></div>
-        </div>
-        <div class="pg" id="page-trekking">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#129402;</div>
-              <div>
-                <h1>Trekking</h1>
-                <p>Manage all trekking routes and details.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>All Treks</h2><button class="add-btn" onclick="openModal('trek',null,null)"><svg viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Trek</button>
-          </div>
-          <div class="simple-list" id="trekking-editor"></div>
-        </div>
-        <div class="pg" id="page-activities">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#127919;</div>
-              <div>
-                <h1>Activities</h1>
-                <p>Manage winter and summer activity listings.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>&#10052;&#65039; Winter Activities</h2><button class="add-btn"
-              onclick="openModal('activity','winter',null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Activity</button>
-          </div>
-          <div class="simple-list" id="winter-activities-editor"></div>
-          <hr class="divider">
-          <div class="section-bar">
-            <h2>&#9728;&#65039; Summer Activities</h2><button class="add-btn"
-              onclick="openModal('activity','summer',null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Activity</button>
-          </div>
-          <div class="simple-list" id="summer-activities-editor"></div>
-        </div>
-        <div class="pg" id="page-sightseeing">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#128205;</div>
-              <div>
-                <h1>Sightseeing</h1>
-                <p>Manage sightseeing destinations shown on the map.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Destinations</h2><button class="add-btn" onclick="openModal('sightseeing',null,null)"><svg
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Destination</button>
-          </div>
-          <div class="simple-list" id="sightseeing-editor"></div>
-        </div>
-        <div class="pg" id="page-rentals">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸŽ¿</div>
-              <div>
-                <h1>Equipment Rentals</h1>
-                <p>Manage rental categories and equipment items. Changes sync instantly to rental.html.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Rental Categories &amp; Equipment</h2>
-            <button class="add-btn" onclick="openModal('rental-cat',null,null)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Add Category
-            </button>
-          </div>
-          <div id="rentals-editor"></div>
-        </div>
-        <div class="pg" id="page-transport">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸš—</div>
-              <div>
-                <h1>Transport Fleet</h1>
-                <p>Manage transport categories and vehicles. Changes sync instantly to travel.html.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Transport Categories &amp; Vehicles</h2>
-            <button class="add-btn" onclick="openModal('transport-cat',null,null)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Add Category
-            </button>
-          </div>
-          <div id="transport-editor"></div>
-        </div>
-        <div class="pg" id="page-packages">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#128230;</div>
-              <div>
-                <h1>Tour Packages</h1>
-                <p>Manage all tour packages.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>All Packages</h2><button class="add-btn" onclick="openModal('package',null,null)"><svg
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Package</button>
-          </div>
-          <div class="items-list" id="packages-editor"></div>
-        </div>
-        <div class="pg" id="page-itineraries">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ“„</div>
-              <div>
-                <h1>Package Itinerary Management</h1>
-                <p>Manage itinerary PDFs for each tour package.</p>
-              </div>
-            </div>
-          </div>
-          <div class="settings-grid" id="itineraries-editor"></div>
-        </div>
-        <div class="pg" id="page-testimonials">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#128172;</div>
-              <div>
-                <h1>Testimonials</h1>
-                <p>Manage customer reviews shown on the homepage.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Reviews</h2><button class="add-btn" onclick="openModal('testimonial',null,null)"><svg
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>Add Review</button>
-          </div>
-          <div class="simple-list" id="testimonials-editor"></div>
-        </div>
-        <div class="pg" id="page-team">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ‘¥</div>
-              <div>
-                <h1>Our Team Management</h1>
-                <p>Add, update, and delete team member cards shown on the homepage.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Team Members</h2>
-            <button class="add-btn" onclick="openModal('team-member',null,null)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Add Team Member
-            </button>
-          </div>
-          <div class="simple-list" id="team-editor"></div>
-        </div>
-        <div class="pg" id="page-about">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ“–</div>
-              <div>
-                <h1>Our Story Management</h1>
-                <p>Edit the "Built By Local Experts" story section, founder quote, bio text, portrait image, and timeline milestones on the homepage.</p>
-              </div>
-            </div>
-            <button class="add-btn" onclick="saveAboutSettings()">ðŸ’¾ Save Story Content</button>
-          </div>
-
-          <div class="settings-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 24px;">
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">ðŸ“</div>
-                <h3>Headlines & Description</h3>
-              </div>
-              <div class="field">
-                <label>Section Tagline Label</label>
-                <input type="text" id="ab-label" placeholder="Our Story">
-              </div>
-              <div class="form-row">
-                <div class="field">
-                  <label>Title Prefix</label>
-                  <input type="text" id="ab-titlePrefix" placeholder="Built By ">
-                </div>
-                <div class="field">
-                  <label>Title Highlight (Gradient)</label>
-                  <input type="text" id="ab-titleGradient" placeholder="Local Experts">
-                </div>
-              </div>
-              <div class="field">
-                <label>Founder Quote</label>
-                <textarea id="ab-quote" rows="3" placeholder="&quot;We don't just show you Kashmir...&quot;"></textarea>
-              </div>
-              <div class="field">
-                <label>Bio / Story Paragraph</label>
-                <textarea id="ab-bio" rows="5" placeholder="Shred Himalayas was born from a passion..."></textarea>
-              </div>
-            </div>
-
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">ðŸ–¼ï¸</div>
-                <h3>Founder / Guide Portrait</h3>
-              </div>
-              <div id="ab-portrait-field-container"></div>
-              <button class="save-btn" style="margin-top: 24px; width: 100%;" onclick="saveAboutSettings()">ðŸ’¾ Save Story Content</button>
-            </div>
-          </div>
-
-          <div class="section-bar">
-            <h2>Story Timeline Milestones</h2>
-            <button class="add-btn" onclick="openModal('timeline-item', null, null)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Add Timeline Milestone
-            </button>
-          </div>
-          <div class="simple-list" id="timeline-editor"></div>
-        </div>
-        <div class="pg" id="page-policies">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ›¡ï¸</div>
-              <div>
-                <h1>Legal Policies</h1>
-                <p>Edit website Privacy Policy, Terms of Service, and Cancellation Policy displayed in footer popup.</p>
-              </div>
-            </div>
-            <div style="display:flex; gap:10px;">
-              <button class="tbtn tbtn--prev" onclick="openPolicyModal('privacy')">ðŸ‘ï¸ Preview Popup</button>
-              <button class="add-btn" onclick="savePolicies()">ðŸ’¾ Save All Policies</button>
-            </div>
-          </div>
-          <div class="settings-grid" style="grid-template-columns: 1fr;">
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">ðŸ”’</div>
-                <h3>Privacy Policy</h3>
-              </div>
-              <div class="field">
-                <label>Privacy Policy Content (HTML / Text)</label>
-                <textarea id="pol-privacy" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
-              </div>
-            </div>
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">ðŸ“œ</div>
-                <h3>Terms of Service</h3>
-              </div>
-              <div class="field">
-                <label>Terms of Service Content (HTML / Text)</label>
-                <textarea id="pol-terms" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
-              </div>
-            </div>
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">âŒ</div>
-                <h3>Cancellation & Refund Policy</h3>
-              </div>
-              <div class="field">
-                <label>Cancellation Policy Content (HTML / Text)</label>
-                <textarea id="pol-cancellation" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
-              </div>
-            </div>
-            <div style="display:flex; gap:12px; justify-content: flex-end; margin-top: 10px;">
-              <button class="btn-cancel"
-                style="background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 8px; cursor: pointer;"
-                onclick="resetPolicies()">â†º Reset Policies to Default</button>
-              <button class="save-btn" style="width: auto; padding: 12px 30px;" onclick="savePolicies()">ðŸ’¾ Save Legal
-                Policies</button>
-            </div>
-          </div>
-        </div>
-        <div class="pg" id="page-settings">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">&#9881;&#65039;</div>
-              <div>
-                <h1>Site Settings</h1>
-                <p>Control global website settings.</p>
-              </div>
-            </div>
-          </div>
-          <div class="settings-grid">
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">&#128241;</div>
-                <h3>WhatsApp Contact</h3>
-              </div>
-              <div class="field"><label>WhatsApp Number (with country code, no +)</label><input type="text"
-                  id="s-whatsapp" placeholder="e.g. 919876543210"></div>
-              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
-            </div>
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">&#127956;&#65039;</div>
-                <h3>Hero Section</h3>
-              </div>
-              <div class="field"><label>Hero Title</label><input type="text" id="s-heroTitle"></div>
-              <div class="field"><label>Hero Subtitle</label><textarea id="s-heroSubtitle" rows="3"></textarea></div>
-              <div class="field"><label>Hero Video URL</label><input type="text" id="s-heroVideo"
-                  placeholder="https://..."></div>
-              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
-            </div>
-            <div class="settings-card">
-              <div class="settings-card-header">
-                <div class="settings-card-icon">&#128251;</div>
-                <h3>Footer</h3>
-              </div>
-              <div class="field"><label>Copyright Text</label><input type="text" id="s-copyright"></div>
-              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
-            </div>
-          </div>
-        </div>
-        <div class="pg" id="page-contacts">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ“ž</div>
-              <div>
-                <h1>Contact Locations</h1>
-                <p>Manage branch offices, emails, phone numbers, and WhatsApp numbers.</p>
-              </div>
-            </div>
-          </div>
-          <div class="section-bar">
-            <h2>Branch Offices & Contact Points</h2>
-            <button class="add-btn" onclick="openModal('contact',null,null)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Add Contact Point
-            </button>
-          </div>
-          <div class="items-list" id="contacts-editor"></div>
-        </div>
-
-        <div class="pg" id="page-seo">
-          <div class="pg-hd">
-            <div class="pg-ht">
-              <div class="pg-ico">ðŸ”</div>
-              <div>
-                <h1>SEO Manager</h1>
-                <p>Manage meta tags, keywords, Open Graph, and structured data - all injected invisibly in the page source.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Google Preview -->
-          <div class="seo-section">
-            <div class="seo-section-title">Google Search Preview</div>
-            <div class="seo-field-card">
-              <div class="seo-field-label" style="margin-bottom:12px">How your site appears in Google search results</div>
-              <div class="seo-preview-box">
-                <div class="seo-preview-url" id="seo-prev-url">shredhimalayas.com</div>
-                <div class="seo-preview-title" id="seo-prev-title">Shred Himalayas - Premium Himalayan Adventures</div>
-                <div class="seo-preview-desc" id="seo-prev-desc">Luxury adventures, ski experiences, treks, and bespoke Himalayan journeys crafted by local experts in Kashmir.</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Core Meta -->
-          <div class="seo-section">
-            <div class="seo-section-title">Core Meta Tags</div>
-
-            <div class="seo-field-card">
-              <div class="seo-field-card-hd">
-                <div class="seo-field-card-hd-left">
-                  <div class="seo-field-label">Page Title</div>
-                  <div class="seo-field-hint">Shown in browser tab and Google search. Ideal: 50â€“60 characters.</div>
-                </div>
-                <span class="seo-char-count" id="cc-metaTitle">0 / 60</span>
-              </div>
-              <input type="text" id="seo-metaTitle" class="field" placeholder="e.g. Shred Himalayas - Best Skiing & Adventures in Kashmir" oninput="seoCharCount('metaTitle',60); seoUpdatePreview()">
-            </div>
-
-            <div class="seo-field-card">
-              <div class="seo-field-card-hd">
-                <div class="seo-field-card-hd-left">
-                  <div class="seo-field-label">Meta Description</div>
-                  <div class="seo-field-hint">Shown below the title in search results. Ideal: 150â€“160 characters.</div>
-                </div>
-                <span class="seo-char-count" id="cc-metaDesc">0 / 160</span>
-              </div>
-              <textarea id="seo-metaDescription" class="field" rows="3" placeholder="A compelling description of your site..." oninput="seoCharCount('metaDesc',160); seoUpdatePreview()"></textarea>
-            </div>
-
-            <div class="seo-field-card">
-              <div class="seo-field-card-hd">
-                <div class="seo-field-card-hd-left">
-                  <div class="seo-field-label">Focus Keywords</div>
-                  <div class="seo-field-hint">Type a keyword and press <kbd style="background:var(--cb);padding:1px 5px;border-radius:4px;font-size:11px">Enter</kbd> or <kbd style="background:var(--cb);padding:1px 5px;border-radius:4px;font-size:11px">,</kbd> to add. These are hidden in your page source to help search engines understand your content.</div>
-                </div>
-                <span class="seo-char-count" id="cc-kwCount" style="background:rgba(35,139,69,.08);color:var(--g)">0 keywords</span>
-              </div>
-              <div class="keyword-input-wrap" onclick="document.getElementById('kw-ghost-input').focus()">
-                <div id="kw-tags-container"></div>
-                <input id="kw-ghost-input" type="text" placeholder="Type keyword then press Enter..." autocomplete="off">
-              </div>
-            </div>
-          </div>
-
-          <!-- Open Graph -->
-          <div class="seo-section">
-            <div class="seo-section-title">Open Graph (Social Sharing)</div>
-            <div class="seo-field-card">
-              <div class="seo-field-label" style="margin-bottom:4px">OG Title</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Title shown when your link is shared on Facebook, WhatsApp, LinkedIn.</div>
-              <input type="text" id="seo-ogTitle" class="field" placeholder="Shred Himalayas - Premium Himalayan Adventures" oninput="seoUpdatePreview()">
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">OG Description</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Subtitle shown in social share cards.</div>
-              <textarea id="seo-ogDescription" class="field" rows="2" placeholder="Crafting extraordinary ski, snowboard, trek experiences in Kashmir..."></textarea>
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">OG Image URL</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Image shown in social share previews. Recommended: 1200Ã—630px.</div>
-              <input type="text" id="seo-ogImage" class="field" placeholder="assets/images/hero-mountains.png">
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">Canonical / Site URL</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Your website's primary URL. Used for canonical tag and OG URL.</div>
-              <input type="text" id="seo-canonicalUrl" class="field" placeholder="https://shredhimalayas.com" oninput="seoUpdatePreview()">
-            </div>
-          </div>
-
-          <!-- Twitter / X -->
-          <div class="seo-section">
-            <div class="seo-section-title">Twitter / X Card</div>
-            <div class="seo-field-card">
-              <div class="seo-field-label" style="margin-bottom:4px">Twitter Title</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Title for Twitter/X link cards (leave blank to use OG Title).</div>
-              <input type="text" id="seo-twitterTitle" class="field" placeholder="Leave blank to mirror OG Title">
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">Twitter Description</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Short description for Twitter cards (leave blank to use OG Description).</div>
-              <textarea id="seo-twitterDescription" class="field" rows="2" placeholder="Leave blank to mirror OG Description"></textarea>
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">Twitter Handle</div>
-              <div class="seo-field-hint" style="margin-bottom:10px">Your @handle on Twitter/X, e.g. @ShredHimalayas.</div>
-              <input type="text" id="seo-twitterSite" class="field" placeholder="@ShredHimalayas">
-
-              <div class="seo-field-label" style="margin: 16px 0 4px">Card Type</div>
-              <select id="seo-twitterCard" class="field">
-                <option value="summary_large_image">summary_large_image (recommended)</option>
-                <option value="summary">summary</option>
-                <option value="app">app</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Technical SEO -->
-          <div class="seo-section">
-            <div class="seo-section-title">Technical SEO</div>
-            <div class="seo-field-card">
-              <div class="seo-toggle-row">
-                <div>
-                  <div class="seo-toggle-label">Schema / Structured Data (JSON-LD)</div>
-                  <div class="seo-toggle-hint">Injects a TravelAgency schema block into the page &lt;head&gt; - helps Google understand your business and can enable rich results.</div>
-                </div>
-                <label class="toggle">
-                  <input type="checkbox" id="seo-schemaEnabled">
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-              <div class="seo-toggle-row">
-                <div>
-                  <div class="seo-toggle-label">Robots Directive</div>
-                  <div class="seo-toggle-hint">Controls how search engine crawlers index this page.</div>
-                </div>
-                <select id="seo-robotsDirective" class="field" style="max-width:200px">
-                  <option value="index, follow">index, follow (recommended)</option>
-                  <option value="noindex, follow">noindex, follow</option>
-                  <option value="index, nofollow">index, nofollow</option>
-                  <option value="noindex, nofollow">noindex, nofollow</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Save Bar -->
-          <div class="seo-save-bar">
-            <span class="seo-save-note">ðŸ”’ These tags are injected in the page source - never visible to visitors, only to search engines.</span>
-            <button class="add-btn" onclick="saveSEOSettings()">Save SEO Settings</button>
-          </div>
-        </div>
-
-      </main>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
-    <div class="modal" id="modal">
-      <div class="modal-header">
-        <h2 id="modal-title">Edit Item</h2><button class="modal-close" onclick="closeModal()">&#x2715;</button>
-      </div>
-      <div id="modal-body"></div>
-      <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button
-          class="btn-save" onclick="saveModal()">Save Changes</button></div>
-    </div>
-  </div>
-  <div id="toast"></div>
-
-  <script>
-
-    function toggleSB() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sbOv').classList.toggle('open') }
-    function closeSB() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sbOv').classList.remove('open') }
-
-
-    window.addEventListener('beforeunload', function (e) {
-      var app = document.getElementById('app');
-      if (app && app.classList.contains('visible')) {
-        var msg = 'You are currently logged in to the Admin Panel. Leaving the page will discard unsaved changes.';
-        e.preventDefault();
-        e.returnValue = msg;
-        return msg;
-      }
-    });
-  </script>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/site-data.js?v=6"></script>
-  <script src="js/policy-modal.js"></script>
-  <script src="js/admin.js?v=2"></script>
-  <script>
-    function navigate(el) {
-      document.querySelectorAll('.nv').forEach(function (i) { i.classList.remove('active') });
-      el.classList.add('active');
-      var pg = el.dataset.page;
-      document.querySelectorAll('.pg').forEach(function (p) { p.classList.remove('active') });
-      var t = document.getElementById('page-' + pg);
-      if (t) t.classList.add('active');
-      if (typeof renderPage === 'function') renderPage(pg);
-      closeSB();
-    }
-    function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modalBackdrop')) closeModal() }
-    function closeModal() { document.getElementById('modalBackdrop').classList.remove('open') }
-    function showToast(msg, ok) { var t = document.getElementById('toast'); t.textContent = (ok !== false ? '\u2705 ' : '\u274c ') + msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show') }, 3000) }
-    function confirmReset() { if (confirm('Reset all content to defaults? This cannot be undone.')) { SHData.reset(); SHData.init().then(function () { showToast('Content reset to defaults'); loadAll(); }); } }
-  </script>
-</body>
-
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin Panel - Shred Himalayas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/footer.css?v=2">
+  <style>
+    :root {
+      --gold: #238B45;
+      --gold-glow: rgba(35, 139, 69, 0.10);
+      --gold-border: rgba(35, 139, 69, 0.18);
+      --gold-dark: #006D2C;
+      --font-h: 'Manrope', system-ui, sans-serif;
+      --font-b: 'Inter', system-ui, sans-serif;
+      --font-l: 'Cormorant Garamond', Georgia, serif;
+      --sw: 260px;
+      --th: 64px;
+      --r: 14px;
+      --rs: 10px;
+      --rx: 6px;
+      --d: .22s;
+      --e: cubic-bezier(.16, 1, .3, 1);
+      --bg: #F7FCF5;
+      --sbg: #ffffff;
+      --tbg: rgba(255, 255, 255, 0.95);
+      --cbg: #ffffff;
+      --cbgh: #f8fafc;
+      --cb: rgba(0, 68, 27, 0.08);
+      --cbH: rgba(0, 68, 27, 0.15);
+      --t: #00441B;
+      --t2: #1A5C33;
+      --t3: #4A8C5C;
+      --ib: #f8fafc;
+      --ib2: rgba(0, 68, 27, 0.12);
+      --div: rgba(0, 68, 27, 0.08);
+      --mb: #ffffff;
+      --nab: rgba(35, 139, 69, .08);
+      --nhb: rgba(0, 68, 27, .03);
+      --sc: rgba(0, 68, 27, .1);
+      --bb: rgba(0, 68, 27, .06);
+      --bt: #1A5C33;
+      --g: #238B45;
+      --re: #ef4444;
+      --am: #B23A2E;
+      --sh: 0 10px 30px rgba(0, 68, 27, 0.06), 0 1px 3px rgba(0, 68, 27, 0.02);
+      --focus: #238B45;
+      --focus-glow: rgba(35, 139, 69, 0.15)
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--t);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background var(--d), color var(--d)
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--font-h)
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--sc);
+      border-radius: 8px
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold)
+    }
+
+    /* LOGIN */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 60% 20%, rgba(35, 139, 69, .08) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(196, 168, 108, .06) 0%, transparent 55%), var(--bg);
+      padding: 16px
+    }
+
+    .lorb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      animation: oFloat 8s ease-in-out infinite
+    }
+
+    .lorb:nth-child(1) {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: 5%;
+      background: radial-gradient(circle, rgba(35, 139, 69, .12), transparent 70%)
+    }
+
+    .lorb:nth-child(2) {
+      width: 320px;
+      height: 320px;
+      bottom: -60px;
+      left: 5%;
+      background: radial-gradient(circle, rgba(196, 168, 108, .08), transparent 70%);
+      animation-delay: 3s
+    }
+
+    @keyframes oFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1)
+      }
+
+      50% {
+        transform: translateY(-20px) scale(1.05)
+      }
+    }
+
+    .lcard {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: 20px;
+      padding: 44px 40px;
+      backdrop-filter: blur(24px);
+      box-shadow: var(--sh);
+      animation: cIn .5s var(--e)
+    }
+
+    @keyframes cIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(.98)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .lbrand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 32px
+    }
+
+    .lbrand-ico {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px var(--gold-glow)
+    }
+
+    .lbrand-ico svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff
+    }
+
+    .lbrand-name {
+      font-family: var(--font-l);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -.02em
+    }
+
+    .lbrand-name span {
+      color: var(--gold)
+    }
+
+    .lbadge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      border-radius: 100px;
+      padding: 4px 12px 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 20px
+    }
+
+    .lbadge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s ease infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(.7)
+      }
+    }
+
+    .lcard h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 6px
+    }
+
+    .lcard>p {
+      color: var(--t2);
+      font-size: 13.5px;
+      margin-bottom: 28px;
+      line-height: 1.5
+    }
+
+    .fg {
+      margin-bottom: 18px
+    }
+
+    .fg label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--t2);
+      margin-bottom: 7px
+    }
+
+    .fg input {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--ib);
+      border: 1px solid var(--ib2);
+      border-radius: var(--rs);
+      color: var(--t);
+      font-size: 14.5px;
+      font-family: var(--font-b);
+      transition: border-color var(--d), box-shadow var(--d);
+      outline: none
+    }
+
+    .fg input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px var(--focus-glow)
+    }
+
+    .fg input::placeholder {
+      color: var(--t3)
+    }
+
+    .lerr {
+      background: rgba(239, 68, 68, .08);
+      border: 1px solid rgba(239, 68, 68, .2);
+      border-radius: var(--rs);
+      padding: 11px 15px;
+      color: #f87171;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px
+    }
+
+    .lerr.show {
+      display: flex
+    }
+
+    .lbtn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--rs);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-b);
+      cursor: pointer;
+      box-shadow: 0 6px 24px var(--gold-glow);
+      transition: all var(--d) var(--e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .lbtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(184, 146, 90, .35);
+      filter: brightness(1.08)
+    }
+
+    .lbtn svg {
+      transition: transform var(--d) var(--e)
+    }
+
+    .lbtn:hover svg {
+      transform: translateX(4px)
+    }
+
+    .lfoot {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11.5px;
+      color: var(--t3)
+    }
+
+    /* APP */
+    #app {
+      display: none;
+      height: 100vh;
+      flex-direction: column
+    }
+
+    #app.visible {
+      display: flex
+    }
+
+    /* TOPBAR */
+    .topbar {
+      height: var(--th);
+      flex-shrink: 0;
+      background: var(--tbg);
+      border-bottom: 1px solid var(--div);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 14px;
+      z-index: 200;
+      transition: background var(--d)
+    }
+
+    .t-ham {
+      display: none;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--rx);
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--d)
+    }
+
+    .t-ham:hover {
+      background: var(--cbgh)
+    }
+
+    .t-ham svg {
+      width: 18px;
+      height: 18px
+    }
+
+    .t-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0
+    }
+
+    .t-brand-ico {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .t-brand-ico svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff
+    }
+
+    .t-brand-name {
+      font-family: var(--font-l);
+      font-size: 15.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      letter-spacing: -.02em
+    }
+
+    .t-brand-name span {
+      color: var(--gold)
+    }
+
+    .t-pill {
+      display: inline-flex;
+      padding: 3px 10px;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .t-sp {
+      flex: 1
+    }
+
+    .t-acts {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .tbtn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--rx);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--d);
+      border: 1px solid var(--cb);
+      background: var(--cbg);
+      color: var(--t);
+      font-family: var(--font-b);
+      white-space: nowrap
+    }
+
+    .tbtn:hover {
+      background: var(--cbgh);
+      border-color: var(--cbH)
+    }
+
+    .tbtn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0
+    }
+
+    .tbtn--danger:hover {
+      background: rgba(239, 68, 68, .1);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, .25)
+    }
+
+    .tbtn--prev:hover {
+      background: var(--gold-glow);
+      color: var(--gold);
+      border-color: var(--gold-border)
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sw);
+      flex-shrink: 0;
+      background: var(--sbg);
+      border-right: 1px solid var(--div);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background var(--d), transform var(--d) var(--e)
+    }
+
+    .sb-inner {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 10px 24px
+    }
+
+    .sb-admin {
+      margin: 0 4px 20px;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--r);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .sb-av {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .sb-an {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t)
+    }
+
+    .sb-ar {
+      font-size: 10.5px;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-top: 1px
+    }
+
+    .sb-sec {
+      margin-bottom: 4px
+    }
+
+    .sb-lbl {
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--t3);
+      padding: 12px 14px 6px;
+      display: block
+    }
+
+    .nv {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--rx);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--t2);
+      border: 1px solid transparent;
+      margin-bottom: 1px;
+      transition: all .15s;
+      position: relative;
+      user-select: none
+    }
+
+    .nv:hover {
+      background: var(--nhb);
+      color: var(--t)
+    }
+
+    .nv.active {
+      background: var(--nab);
+      color: var(--gold);
+      border-color: var(--gold-border)
+    }
+
+    .nv.active::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 20px;
+      border-radius: 0 3px 3px 0;
+      background: var(--gold)
+    }
+
+    .nv-ico {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: .65
+    }
+
+    .nv.active .nv-ico {
+      opacity: 1
+    }
+
+    .nv-badge {
+      margin-left: auto;
+      background: var(--bb);
+      color: var(--bt);
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 100px
+    }
+
+    .nv.active .nv-badge {
+      background: var(--gold-glow);
+      color: var(--gold)
+    }
+
+    .sb-bot {
+      padding: 12px 10px 10px;
+      border-top: 1px solid var(--div);
+      flex-shrink: 0
+    }
+
+    .sb-lo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--rx);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--t2);
+      transition: all .15s
+    }
+
+    .sb-lo:hover {
+      background: rgba(239, 68, 68, .07);
+      color: #f87171
+    }
+
+    .sb-lo svg {
+      width: 16px;
+      height: 16px;
+      opacity: .7
+    }
+
+    .sb-ov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(4px);
+      z-index: 299
+    }
+
+    .sb-ov.open {
+      display: block
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 36px;
+      background: var(--bg);
+      transition: background var(--d)
+    }
+
+    .pg {
+      display: none
+    }
+
+    .pg.active {
+      display: block;
+      animation: pgIn .25s var(--e)
+    }
+
+    @keyframes pgIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .pg-hd {
+      margin-bottom: 28px
+    }
+
+    .pg-ht {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px
+    }
+
+    .pg-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px
+    }
+
+    .pg-hd h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    .pg-hd p {
+      color: var(--t2);
+      font-size: 13.5px;
+      margin-top: 4px
+    }
+
+    .pg-div {
+      height: 1px;
+      background: var(--div);
+      margin: 20px 0
+    }
+
+    /* STATS */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px
+    }
+
+    .stat-card {
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all .2s var(--e)
+    }
+
+    .stat-card:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .15)
+    }
+
+    .stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px
+    }
+
+    .stat-count {
+      font-family: var(--font-h);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--t);
+      letter-spacing: -.03em
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--t2);
+      font-weight: 500;
+      margin-top: 3px
+    }
+
+    /* QUICK */
+    .qgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px
+    }
+
+    .qcard {
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      padding: 18px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .18s var(--e)
+    }
+
+    .qcard:hover {
+      background: var(--cbgh);
+      border-color: var(--gold-border);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .1)
+    }
+
+    .qcard-ico {
+      font-size: 26px;
+      margin-bottom: 8px
+    }
+
+    .qcard-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--t)
+    }
+
+    .qcard-count {
+      font-size: 11px;
+      color: var(--t2);
+      margin-top: 3px
+    }
+
+    .qgl {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t);
+      margin-bottom: 12px
+    }
+
+    /* SEO MANAGER */
+    .seo-section { margin-bottom: 28px }
+
+    .seo-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--tm);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .seo-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--div)
+    }
+
+    .seo-score-bar {
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px
+    }
+
+    .seo-score-ring {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      position: relative
+    }
+
+    .seo-score-ring svg { transform: rotate(-90deg) }
+
+    .seo-score-ring-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--g)
+    }
+
+    .seo-score-info { flex: 1 }
+
+    .seo-score-info strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--tf);
+      margin-bottom: 4px
+    }
+
+    .seo-score-info p {
+      font-size: 12px;
+      color: var(--ts);
+      margin: 0
+    }
+
+    .seo-field-card {
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      padding: 22px;
+      margin-bottom: 14px;
+      transition: border-color var(--d)
+    }
+
+    .seo-field-card:hover { border-color: var(--cbH) }
+
+    .seo-field-card-hd {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--div)
+    }
+
+    .seo-field-card-hd-left { flex: 1 }
+
+    .seo-field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--tf);
+      margin-bottom: 3px
+    }
+
+    .seo-field-hint {
+      font-size: 11.5px;
+      color: var(--ts)
+    }
+
+    .seo-char-count {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: rgba(35,139,69,.08);
+      color: var(--g);
+      white-space: nowrap
+    }
+
+    .seo-char-count.warn { background: rgba(234,179,8,.10); color: #ca8a04 }
+    .seo-char-count.over { background: rgba(239,68,68,.10); color: #dc2626 }
+
+    /* Keyword tag input */
+    .keyword-input-wrap {
+      border: 1px solid var(--cb);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      cursor: text;
+      transition: border-color var(--d);
+      min-height: 46px;
+      align-items: flex-start
+    }
+
+    .keyword-input-wrap:focus-within { border-color: var(--g) }
+
+    .kw-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(35,139,69,.10);
+      border: 1px solid rgba(35,139,69,.20);
+      color: var(--g);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 600
+    }
+
+    .kw-tag button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--g);
+      padding: 0;
+      line-height: 1;
+      font-size: 14px;
+      opacity: .6;
+      transition: opacity var(--d)
+    }
+
+    .kw-tag button:hover { opacity: 1 }
+
+    #kw-ghost-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--tf);
+      min-width: 140px;
+      flex: 1;
+      padding: 3px 2px
+    }
+
+    .seo-robots-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .seo-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--div)
+    }
+
+    .seo-toggle-row:last-child { border-bottom: none }
+
+    .seo-toggle-label { font-size: 13px; font-weight: 600; color: var(--tf) }
+    .seo-toggle-hint { font-size: 11.5px; color: var(--ts); margin-top: 2px }
+
+    .seo-preview-box {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      font-family: Arial, sans-serif
+    }
+
+    .seo-preview-url {
+      font-size: 12px;
+      color: #1a73e8;
+      margin-bottom: 3px
+    }
+
+    .seo-preview-title {
+      font-size: 18px;
+      color: #1a0dab;
+      font-weight: 400;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .seo-preview-desc {
+      font-size: 13px;
+      color: #4d5156;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
+
+    .seo-save-bar {
+      position: sticky;
+      bottom: 0;
+      background: var(--cs);
+      border-top: 1px solid var(--div);
+      padding: 14px 0;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 10
+    }
+
+    .seo-save-note { font-size: 12px; color: var(--ts) }
+
+    /* SEC BAR */
+    .sec-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .sec-bar h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.01em
+    }
+
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      border: none;
+      border-radius: var(--rs);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-b);
+      box-shadow: 0 4px 14px var(--gold-glow);
+      transition: all var(--d) var(--e)
+    }
+
+    .add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(215, 160, 23, .35);
+      filter: brightness(1.08)
+    }
+
+    .add-btn svg {
+      width: 14px;
+      height: 14px
+    }
+
+    section-bar,
+    .section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    /* CAT */
+    .admin-category {
+      background: #ffffff;
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .admin-cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff !important;
+      border-bottom: 1px solid var(--div);
+      padding: 14px 18px;
+    }
+
+    .admin-cat-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--t) !important;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .admin-cat-title-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold) !important
+    }
+
+    .cat-add-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(35, 139, 69, 0.08);
+      color: var(--gold) !important;
+      border: 1px solid var(--gold-border);
+      border-radius: var(--rx);
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: var(--font-b)
+    }
+
+    .cat-add-btn:hover {
+      border-color: var(--gold) !important;
+      background: rgba(35, 139, 69, 0.15) !important;
+      color: var(--gold) !important;
+    }
+
+    /* LISTS */
+    .items-list {
+      overflow: hidden;
+    }
+
+    .simple-list {
+      background: #ffffff;
+      border: 1px solid var(--cb);
+      box-shadow: var(--sh);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .item-row,
+    .simple-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: var(--sbg);
+      border-bottom: 1px solid var(--div);
+      transition: background .13s
+    }
+
+    .item-row:nth-child(even),
+    .simple-row:nth-child(even) {
+      background: var(--cbgh)
+    }
+
+    .item-row:last-child,
+    .simple-row:last-child {
+      border-bottom: none
+    }
+
+    .item-row:hover,
+    .simple-row:hover {
+      background: rgba(47, 79, 62, 0.06) !important
+    }
+
+    .item-thumb {
+      width: 52px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--cbgh);
+      border: 1px solid var(--cb)
+    }
+
+    .item-info,
+    .simple-row-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .item-title,
+    .simple-row-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--t);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .item-meta,
+    .simple-row-desc {
+      font-size: 11.5px;
+      color: var(--t2);
+      margin-top: 2px
+    }
+
+    .item-badge {
+      padding: 3px 9px;
+      border-radius: 100px;
+      font-size: 10.5px;
+      font-weight: 700;
+      background: var(--bb);
+      color: var(--bt);
+      border: 1px solid var(--cb);
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .disabled-badge {
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(239, 68, 68, .08);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, .2);
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0
+    }
+
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--cb);
+      background: var(--ib);
+      color: var(--t2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all .14s
+    }
+
+    .icon-btn svg {
+      width: 13px;
+      height: 13px
+    }
+
+    .icon-btn:hover {
+      color: var(--gold) !important;
+      border-color: var(--gold-border) !important;
+      background: var(--gold-glow) !important
+    }
+
+    .icon-btn--edit {
+      color: var(--gold);
+      border-color: var(--gold-border)
+    }
+
+    .icon-btn--edit:hover {
+      background: var(--gold) !important;
+      color: #fff !important;
+      border-color: var(--gold) !important
+    }
+
+    .icon-btn--delete:hover {
+      background: rgba(239, 68, 68, .10);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, .22)
+    }
+
+    .icon-btn--star-active {
+      color: #eab308 !important;
+      border-color: rgba(234, 179, 8, 0.3) !important;
+      background: rgba(234, 179, 8, 0.08) !important;
+    }
+
+    .icon-btn--star-active:hover {
+      background: #eab308 !important;
+      color: #fff !important;
+      border-color: #eab308 !important
+    }
+
+    .icon-btn--star-inactive:hover {
+      background: rgba(234, 179, 8, 0.08) !important;
+      color: #eab308 !important;
+      border-color: rgba(234, 179, 8, 0.3) !important;
+    }
+
+    .icon-btn--enable:hover {
+      background: rgba(34, 197, 94, .10);
+      color: var(--g);
+      border-color: rgba(34, 197, 94, .22)
+    }
+
+    .icon-btn--disable:hover {
+      background: rgba(245, 158, 11, .10);
+      color: var(--am);
+      border-color: rgba(245, 158, 11, .22)
+    }
+
+    .item-row--disabled {
+      opacity: .38
+    }
+
+    .diff-tag {
+      padding: 3px 9px;
+      border-radius: 100px;
+      font-size: 10.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .diff-tag--easy {
+      background: rgba(34, 197, 94, .10);
+      color: var(--g)
+    }
+
+    .diff-tag--moderate {
+      background: rgba(245, 158, 11, .10);
+      color: var(--am)
+    }
+
+    .diff-tag--challenging {
+      background: rgba(239, 68, 68, .10);
+      color: var(--re)
+    }
+
+    /* SETTINGS */
+    .settings-grid {
+      display: grid;
+      gap: 16px
+    }
+
+    .settings-card {
+      background: var(--cbg);
+      border: 1px solid var(--cb);
+      border-radius: var(--r);
+      padding: 22px;
+      transition: border-color var(--d)
+    }
+
+    .settings-card:hover {
+      border-color: var(--cbH)
+    }
+
+    .settings-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--div)
+    }
+
+    .settings-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px
+    }
+
+    .settings-card h3 {
+      font-family: var(--font-b);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--t)
+    }
+
+    .field {
+      margin-bottom: 14px
+    }
+
+    .field label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--t2);
+      margin-bottom: 7px
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--ib);
+      border: 1px solid var(--ib2);
+      border-radius: var(--rs);
+      color: var(--t);
+      font-size: 13.5px;
+      font-family: var(--font-b);
+      transition: border-color var(--d), box-shadow var(--d);
+      outline: none
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 88px
+    }
+
+    .field select {
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D7A017' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 14px center !important;
+      background-size: 12px !important;
+      padding-right: 36px !important
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px var(--focus-glow)
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--t3)
+    }
+
+    .save-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: var(--rs);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-b);
+      box-shadow: 0 4px 14px var(--gold-glow);
+      transition: all var(--d) var(--e)
+    }
+
+    .save-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 8px 24px rgba(215, 160, 23, .35)
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .65);
+      backdrop-filter: blur(8px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px
+    }
+
+    .modal-backdrop.open {
+      display: flex
+    }
+
+    .modal {
+      background: var(--mb);
+      border: 1px solid var(--cb);
+      border-radius: 18px;
+      padding: 32px;
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--sh);
+      animation: mIn .25s var(--e);
+      transition: background var(--d)
+    }
+
+    @keyframes mIn {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 26px
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--cb);
+      background: var(--ib);
+      color: var(--t2);
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s
+    }
+
+    .modal-close:hover {
+      background: rgba(239, 68, 68, .1);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, .25)
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr
+    }
+
+    .modal-footer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--div)
+    }
+
+    .btn-cancel {
+      padding: 10px 22px;
+      background: var(--ib);
+      border: 1px solid var(--cb);
+      border-radius: var(--rs);
+      color: var(--t);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-b);
+      transition: all .15s
+    }
+
+    .btn-cancel:hover {
+      background: var(--cbgh)
+    }
+
+    .btn-save {
+      padding: 10px 26px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none;
+      border-radius: var(--rs);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-b);
+      box-shadow: 0 4px 14px var(--gold-glow);
+      transition: all var(--d) var(--e)
+    }
+
+    .btn-save:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08)
+    }
+
+    /* UPLOAD & TAGS */
+    .img-upload-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch
+    }
+
+    .img-upload-row input[type=text] {
+      flex: 1
+    }
+
+    .import-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 13px;
+      background: var(--ib);
+      color: var(--t);
+      border: 1px solid var(--ib2);
+      border-radius: var(--rs);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .15s;
+      font-family: var(--font-b)
+    }
+
+    .import-btn:hover {
+      border-color: var(--gold-border);
+      color: var(--gold)
+    }
+
+    .img-preview {
+      margin-top: 10px
+    }
+
+    .img-preview img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: var(--rs);
+      border: 1px solid var(--cb)
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      background: var(--ib);
+      border: 1px solid var(--ib2);
+      border-radius: var(--rs);
+      margin-bottom: 8px
+    }
+
+    .tag-placeholder {
+      color: var(--t3);
+      font-size: 12px;
+      font-style: italic
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 10px 4px 12px;
+      background: var(--gold-glow);
+      color: var(--gold);
+      border: 1px solid var(--gold-border);
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 600;
+      animation: tPop .15s var(--e)
+    }
+
+    @keyframes tPop {
+      from {
+        transform: scale(.8);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .tag-pill button {
+      background: none;
+      border: none;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0 1px;
+      opacity: .7;
+      transition: all .15s;
+      display: flex;
+      align-items: center
+    }
+
+    .tag-pill button:hover {
+      opacity: 1;
+      color: var(--re);
+      transform: scale(1.2)
+    }
+
+    .tag-add-row {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .tag-custom-input {
+      flex: 1;
+      padding: 9px 12px !important;
+      margin-bottom: 0 !important;
+      background: var(--ib) !important;
+      border: 1px solid var(--ib2) !important;
+      border-radius: var(--rs) !important;
+      color: var(--t) !important;
+      font-size: 13px !important;
+      outline: none !important;
+      font-family: var(--font-b) !important;
+      width: auto !important;
+      transition: border-color var(--d), box-shadow var(--d) !important
+    }
+
+    .tag-custom-input:focus {
+      border-color: var(--focus) !important;
+      box-shadow: 0 0 0 3px var(--focus-glow) !important
+    }
+
+    .tag-add-btn {
+      padding: 9px 15px;
+      background: var(--ib);
+      color: var(--t);
+      border: 1px solid var(--ib2);
+      border-radius: var(--rs);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .15s;
+      font-family: var(--font-b)
+    }
+
+    .tag-add-btn:hover {
+      border-color: var(--gold-border);
+      color: var(--gold)
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9998;
+      background: var(--t);
+      color: var(--bg);
+      padding: 12px 20px;
+      border-radius: var(--rs);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: none;
+      box-shadow: var(--sh);
+      align-items: center;
+      gap: 8px
+    }
+
+    #toast.show {
+      display: flex;
+      animation: tIn .3s var(--e)
+    }
+
+    @keyframes tIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* MISC */
+    .empty-state {
+      text-align: center;
+      padding: 44px 24px;
+      color: var(--t2);
+      font-size: 13.5px;
+      border: 1px dashed var(--cb);
+      border-radius: var(--r);
+      margin: 4px 0
+    }
+
+    .empty-state-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      opacity: .5
+    }
+
+    .empty-state strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: var(--t)
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--div);
+      margin: 22px 0
+    }
+
+    .section-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .section-bar h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.01em
+    }
+
+    @media(max-width:768px) {
+
+      .fg input,
+      .field input,
+      .field textarea,
+      .field select,
+      .tag-custom-input {
+        font-size: 16px !important
+      }
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:900px) {
+      .sidebar {
+        position: fixed;
+        top: var(--th);
+        left: 0;
+        height: calc(100vh - var(--th));
+        z-index: 300;
+        transform: translateX(-100%);
+        box-shadow: 4px 0 32px rgba(0, 0, 0, .3)
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .t-ham {
+        display: flex
+      }
+
+      .t-pill {
+        display: none
+      }
+    }
+
+    @media(max-width:640px) {
+      .main {
+        padding: 20px 16px
+      }
+
+      .modal {
+        padding: 22px 18px;
+        border-radius: 14px
+      }
+
+      .form-row {
+        grid-template-columns: 1fr
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .pg-hd h1 {
+        font-size: 22px
+      }
+
+      .tbtn span {
+        display: none
+      }
+
+      .item-row {
+        flex-wrap: wrap;
+        gap: 8px
+      }
+
+      .item-actions {
+        width: 100%;
+        justify-content: flex-end
+      }
+
+      .simple-row {
+        flex-wrap: wrap;
+        gap: 8px
+      }
+
+      .topbar {
+        padding: 0 14px;
+        gap: 10px
+      }
+
+      .lcard {
+        padding: 32px 24px
+      }
+    }
+
+    @media(max-width:400px) {
+      .stat-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/theme.css?v=1">
+  <style>
+    /* ============================================
+       ADMIN FORM INPUT FIELDS - HIGH VISIBILITY STYLES
+       ============================================ */
+
+    .fg label,
+    .field label,
+    .modal-header h2,
+    .settings-card-header h3,
+    .seo-field-label {
+      color: #00441B !important;
+      font-weight: 800 !important;
+      font-size: 12px !important;
+      letter-spacing: 0.05em !important;
+      text-transform: uppercase !important;
+      margin-bottom: 6px !important;
+    }
+
+    /* Clear, distinct, visible input controls */
+    .fg input,
+    .field input,
+    .field textarea,
+    .field select,
+    .tag-custom-input,
+    .seo-field-card input,
+    .seo-field-card textarea,
+    .seo-field-card select,
+    #kw-ghost-input,
+    .modal input,
+    .modal textarea,
+    .modal select,
+    .settings-card input,
+    .settings-card textarea,
+    .settings-card select {
+      background-color: #F4F8F5 !important; /* Soft light sage background so inputs stand out from white cards */
+      border: 1.5px solid #238B45 !important; /* Distinct crisp green border */
+      color: #00441B !important; /* Dark bold text */
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      padding: 11px 15px !important;
+      border-radius: 8px !important;
+      box-shadow: inset 0 1px 3px rgba(0, 68, 27, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      transition: all 0.2s ease !important;
+    }
+
+    /* Hover state */
+    .fg input:hover,
+    .field input:hover,
+    .field textarea:hover,
+    .field select:hover,
+    .modal input:hover,
+    .modal textarea:hover,
+    .modal select:hover,
+    .settings-card input:hover,
+    .settings-card textarea:hover,
+    .settings-card select:hover {
+      background-color: #FFFFFF !important;
+      border-color: #006D2C !important;
+    }
+
+    /* Focus state - vivid active highlight */
+    .fg input:focus,
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus,
+    .tag-custom-input:focus,
+    .seo-field-card input:focus,
+    .seo-field-card textarea:focus,
+    .seo-field-card select:focus,
+    .modal input:focus,
+    .modal textarea:focus,
+    .modal select:focus,
+    .settings-card input:focus,
+    .settings-card textarea:focus,
+    .settings-card select:focus {
+      background-color: #FFFFFF !important;
+      border-color: #238B45 !important;
+      box-shadow: 0 0 0 4px rgba(35, 139, 69, 0.2), 0 2px 8px rgba(35, 139, 69, 0.15) !important;
+      outline: none !important;
+      color: #00441B !important;
+    }
+
+    /* High visibility placeholders */
+    .fg input::placeholder,
+    .field input::placeholder,
+    .field textarea::placeholder,
+    .modal input::placeholder,
+    .modal textarea::placeholder,
+    .settings-card input::placeholder,
+    .settings-card textarea::placeholder {
+      color: #64748B !important;
+      font-weight: 400 !important;
+      opacity: 0.9 !important;
+    }
+
+    /* File upload button styling */
+    .img-upload-row .import-btn,
+    .tag-add-btn {
+      background: #238B45 !important;
+      color: #ffffff !important;
+      border: 1px solid #238B45 !important;
+      font-weight: 700 !important;
+      padding: 10px 16px !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .img-upload-row .import-btn:hover,
+    .tag-add-btn:hover {
+      background: #006D2C !important;
+      border-color: #006D2C !important;
+    }
+
+    /* Select dropdown arrow fix */
+    .field select,
+    .modal select,
+    .settings-card select {
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23238B45' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 14px center !important;
+      background-size: 14px !important;
+      padding-right: 38px !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loginScreen">
+    <div class="lorb"></div>
+    <div class="lorb"></div>
+    <div class="lcard">
+      <div class="lbrand">
+        <div class="lbrand-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+          </svg></div>
+        <div class="lbrand-name">Shred <span>Himalayas</span></div>
+      </div>
+      <div class="lbadge">Admin Portal</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to manage your website content and services.</p>
+      <div class="lerr" id="loginError"><span>&#128274;</span> Incorrect credentials. Please try again.</div>
+      <form onsubmit="return doLogin(event)">
+        <div class="fg"><label>Username</label><input type="text" id="loginUser" placeholder="Enter your username"
+            autocomplete="username" required></div>
+        <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="Enter your password"
+            autocomplete="current-password" required></div>
+        <button type="submit" onclick="doLogin(event)" class="lbtn">Sign in to Dashboard <svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" width="16" height="16">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg></button>
+      </form>
+      <div class="lfoot">Shred Himalayas &copy; 2025 &mdash; Admin v2.0</div>
+    </div>
+  </div>
+
+  <div id="app">
+    <header class="topbar">
+      <button class="t-ham" onclick="toggleSB()" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <div class="t-brand">
+        <div class="t-brand-ico"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+          </svg></div>
+        <div class="t-brand-name">Shred <span>Himalayas</span></div>
+      </div>
+      <span class="t-pill">Admin</span>
+      <div class="t-sp"></div>
+      <div class="t-acts">
+
+        <button class="tbtn tbtn--prev" onclick="window.open('index.html','_blank')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          <span>Preview Site</span>
+        </button>
+        <button class="tbtn tbtn--danger" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </header>
+    <div class="sb-ov" id="sbOv" onclick="closeSB()"></div>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sb-inner">
+          <div class="sb-admin">
+            <div class="sb-av">A</div>
+            <div>
+              <div class="sb-an">Administrator</div>
+              <div class="sb-ar">Super Admin</div>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Overview</span>
+            <div class="nv active" data-page="dashboard" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="9" />
+                <rect x="14" y="3" width="7" height="5" />
+                <rect x="14" y="12" width="7" height="9" />
+                <rect x="3" y="16" width="7" height="5" />
+              </svg>
+              <span>Dashboard</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Snow Sports</span>
+            <div class="nv" data-page="skiing" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 17h16M7 14l-3 3 3 3M17 14l3 3-3 3" />
+              </svg><span>Skiing</span>
+            </div>
+            <div class="nv" data-page="snowboarding" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="9" width="18" height="6" rx="2" />
+                <path d="m7 12 2-2 2 2-2 2zm6 0 2-2 2 2-2 2z" />
+              </svg><span>Snowboarding</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Adventures</span>
+            <div class="nv" data-page="trekking" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+              </svg><span>Trekking</span>
+            </div>
+            <div class="nv" data-page="activities" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a10 10 0 1 0 10 10" />
+                <path d="M12 12V2" />
+                <path d="M12 2a5 5 0 0 1 5 5" />
+              </svg><span>Activities</span>
+            </div>
+            <div class="nv" data-page="sightseeing" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg><span>Sightseeing</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Equipment Rentals</span>
+            <div class="nv" data-page="rentals" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 17h16M7 14l-3 3 3 3M17 14l3 3-3 3" />
+              </svg><span>Rental Equipment</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Transportation</span>
+            <div class="nv" data-page="transport" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12.5V16c0 .6.4 1 1 1h2" />
+                <circle cx="7" cy="17" r="2" />
+                <circle cx="17" cy="17" r="2" />
+              </svg><span>Transport Fleet</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Tour Packages</span>
+            <div class="nv" data-page="packages" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              </svg><span>All Packages</span>
+            </div>
+            <div class="nv" data-page="itineraries" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg><span>Itineraries</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Content</span>
+            <div class="nv" data-page="testimonials" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg><span>Testimonials</span>
+            </div>
+            <div class="nv" data-page="team" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg><span>Our Team</span>
+            </div>
+            <div class="nv" data-page="about" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg><span>Our Story</span>
+            </div>
+          </div>
+          <div class="sb-sec">
+            <span class="sb-lbl">Configuration & Legal</span>
+            <div class="nv" data-page="policies" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg><span>Legal Policies</span>
+            </div>
+            <div class="nv" data-page="settings" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg><span>Site Settings</span>
+            </div>
+            <div class="nv" data-page="contacts" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg><span>Contact Info</span>
+            </div>
+            <div class="nv" data-page="seo" onclick="navigate(this)">
+              <svg class="nv-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <path d="M11 8v6M8 11h6"/>
+              </svg><span>SEO Manager</span>
+            </div>
+          </div>
+        </div>
+        <div class="sb-bot">
+          <div class="sb-lo" onclick="confirmReset()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+            </svg>
+            <span>Reset Defaults</span>
+          </div>
+          <div class="sb-lo" onclick="doLogout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            <span>Sign Out</span>
+          </div>
+        </div>
+      </aside>
+      <main class="main">
+        <div class="pg active" id="page-dashboard">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#128075;</div>
+              <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's an overview of your website content.</p>
+              </div>
+            </div>
+          </div>
+          <div class="stat-grid" id="dashStats"></div>
+          <div class="pg-div"></div>
+          <div class="qgl">Quick Access</div>
+          <div class="qgrid" id="quickNav"></div>
+        </div>
+        <div class="pg" id="page-skiing">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#9975;&#65039;</div>
+              <div>
+                <h1>Skiing Packages</h1>
+                <p>Manage all skiing packages across categories.</p>
+              </div>
+            </div>
+          </div>
+          <div id="skiing-editor"></div>
+        </div>
+        <div class="pg" id="page-snowboarding">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#127943;</div>
+              <div>
+                <h1>Snowboarding Packages</h1>
+                <p>Manage all snowboarding packages across categories.</p>
+              </div>
+            </div>
+          </div>
+          <div id="snowboarding-editor"></div>
+        </div>
+        <div class="pg" id="page-trekking">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#129402;</div>
+              <div>
+                <h1>Trekking</h1>
+                <p>Manage all trekking routes and details.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>All Treks</h2><button class="add-btn" onclick="openModal('trek',null,null)"><svg viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Trek</button>
+          </div>
+          <div class="simple-list" id="trekking-editor"></div>
+        </div>
+        <div class="pg" id="page-activities">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#127919;</div>
+              <div>
+                <h1>Activities</h1>
+                <p>Manage winter and summer activity listings.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>&#10052;&#65039; Winter Activities</h2><button class="add-btn"
+              onclick="openModal('activity','winter',null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Activity</button>
+          </div>
+          <div class="simple-list" id="winter-activities-editor"></div>
+          <hr class="divider">
+          <div class="section-bar">
+            <h2>&#9728;&#65039; Summer Activities</h2><button class="add-btn"
+              onclick="openModal('activity','summer',null)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Activity</button>
+          </div>
+          <div class="simple-list" id="summer-activities-editor"></div>
+        </div>
+        <div class="pg" id="page-sightseeing">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#128205;</div>
+              <div>
+                <h1>Sightseeing</h1>
+                <p>Manage sightseeing destinations shown on the map.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Destinations</h2><button class="add-btn" onclick="openModal('sightseeing',null,null)"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Destination</button>
+          </div>
+          <div class="simple-list" id="sightseeing-editor"></div>
+        </div>
+        <div class="pg" id="page-rentals">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸŽ¿</div>
+              <div>
+                <h1>Equipment Rentals</h1>
+                <p>Manage rental categories and equipment items. Changes sync instantly to rental.html.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Rental Categories &amp; Equipment</h2>
+            <button class="add-btn" onclick="openModal('rental-cat',null,null)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Category
+            </button>
+          </div>
+          <div id="rentals-editor"></div>
+        </div>
+        <div class="pg" id="page-transport">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸš—</div>
+              <div>
+                <h1>Transport Fleet</h1>
+                <p>Manage transport categories and vehicles. Changes sync instantly to travel.html.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Transport Categories &amp; Vehicles</h2>
+            <button class="add-btn" onclick="openModal('transport-cat',null,null)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Category
+            </button>
+          </div>
+          <div id="transport-editor"></div>
+        </div>
+        <div class="pg" id="page-packages">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#128230;</div>
+              <div>
+                <h1>Tour Packages</h1>
+                <p>Manage all tour packages.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>All Packages</h2><button class="add-btn" onclick="openModal('package',null,null)"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Package</button>
+          </div>
+          <div class="items-list" id="packages-editor"></div>
+        </div>
+        <div class="pg" id="page-itineraries">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ“„</div>
+              <div>
+                <h1>Package Itinerary Management</h1>
+                <p>Manage itinerary PDFs for each tour package.</p>
+              </div>
+            </div>
+          </div>
+          <div class="settings-grid" id="itineraries-editor"></div>
+        </div>
+        <div class="pg" id="page-testimonials">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#128172;</div>
+              <div>
+                <h1>Testimonials</h1>
+                <p>Manage customer reviews shown on the homepage.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Reviews</h2><button class="add-btn" onclick="openModal('testimonial',null,null)"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>Add Review</button>
+          </div>
+          <div class="simple-list" id="testimonials-editor"></div>
+        </div>
+        <div class="pg" id="page-team">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ‘¥</div>
+              <div>
+                <h1>Our Team Management</h1>
+                <p>Add, update, and delete team member cards shown on the homepage.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Team Members</h2>
+            <button class="add-btn" onclick="openModal('team-member',null,null)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Team Member
+            </button>
+          </div>
+          <div class="simple-list" id="team-editor"></div>
+        </div>
+        <div class="pg" id="page-about">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ“–</div>
+              <div>
+                <h1>Our Story Management</h1>
+                <p>Edit the "Built By Local Experts" story section, founder quote, bio text, portrait image, and timeline milestones on the homepage.</p>
+              </div>
+            </div>
+            <button class="add-btn" onclick="saveAboutSettings()">ðŸ’¾ Save Story Content</button>
+          </div>
+
+          <div class="settings-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 24px;">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">🛠️</div>
+                <h3>Headlines & Description</h3>
+              </div>
+              <div class="field">
+                <label>Section Tagline Label</label>
+                <input type="text" id="ab-label" placeholder="Our Story">
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label>Title Prefix</label>
+                  <input type="text" id="ab-titlePrefix" placeholder="Built By ">
+                </div>
+                <div class="field">
+                  <label>Title Highlight (Gradient)</label>
+                  <input type="text" id="ab-titleGradient" placeholder="Local Experts">
+                </div>
+              </div>
+              <div class="field">
+                <label>Founder Quote</label>
+                <textarea id="ab-quote" rows="3" placeholder="&quot;We don't just show you Kashmir...&quot;"></textarea>
+              </div>
+              <div class="field">
+                <label>Bio / Story Paragraph</label>
+                <textarea id="ab-bio" rows="5" placeholder="Shred Himalayas was born from a passion..."></textarea>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">🖼️</div>
+                <h3>Founder / Guide Portrait</h3>
+              </div>
+              <div id="ab-portrait-field-container"></div>
+              <button class="save-btn" style="margin-top: 24px; width: 100%;" onclick="saveAboutSettings()">ðŸ’¾ Save Story Content</button>
+            </div>
+          </div>
+
+          <div class="section-bar">
+            <h2>Story Timeline Milestones</h2>
+            <button class="add-btn" onclick="openModal('timeline-item', null, null)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Timeline Milestone
+            </button>
+          </div>
+          <div class="simple-list" id="timeline-editor"></div>
+        </div>
+        <div class="pg" id="page-policies">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ›¡ï¸</div>
+              <div>
+                <h1>Legal Policies</h1>
+                <p>Edit website Privacy Policy, Terms of Service, and Cancellation Policy displayed in footer popup.</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="tbtn tbtn--prev" onclick="openPolicyModal('privacy')">ðŸ‘ï¸ Preview Popup</button>
+              <button class="add-btn" onclick="savePolicies()">ðŸ’¾ Save All Policies</button>
+            </div>
+          </div>
+          <div class="settings-grid" style="grid-template-columns: 1fr;">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">⚙️</div>
+                <h3>Privacy Policy</h3>
+              </div>
+              <div class="field">
+                <label>Privacy Policy Content (HTML / Text)</label>
+                <textarea id="pol-privacy" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">📄</div>
+                <h3>Terms of Service</h3>
+              </div>
+              <div class="field">
+                <label>Terms of Service Content (HTML / Text)</label>
+                <textarea id="pol-terms" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
+              </div>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">❌</div>
+                <h3>Cancellation & Refund Policy</h3>
+              </div>
+              <div class="field">
+                <label>Cancellation Policy Content (HTML / Text)</label>
+                <textarea id="pol-cancellation" rows="8" style="font-family: monospace; font-size: 13px;"></textarea>
+              </div>
+            </div>
+            <div style="display:flex; gap:12px; justify-content: flex-end; margin-top: 10px;">
+              <button class="btn-cancel"
+                style="background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 8px; cursor: pointer;"
+                onclick="resetPolicies()">↩ Reset Policies to Default</button>
+              <button class="save-btn" style="width: auto; padding: 12px 30px;" onclick="savePolicies()">ðŸ’¾ Save Legal
+                Policies</button>
+            </div>
+          </div>
+        </div>
+        <div class="pg" id="page-settings">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">&#9881;&#65039;</div>
+              <div>
+                <h1>Site Settings</h1>
+                <p>Control global website settings.</p>
+              </div>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">&#128241;</div>
+                <h3>WhatsApp Contact</h3>
+              </div>
+              <div class="field"><label>WhatsApp Number (with country code, no +)</label><input type="text"
+                  id="s-whatsapp" placeholder="e.g. 919876543210"></div>
+              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">&#127956;&#65039;</div>
+                <h3>Hero Section</h3>
+              </div>
+              <div class="field"><label>Hero Title</label><input type="text" id="s-heroTitle"></div>
+              <div class="field"><label>Hero Subtitle</label><textarea id="s-heroSubtitle" rows="3"></textarea></div>
+              <div class="field"><label>Hero Video URL</label><input type="text" id="s-heroVideo"
+                  placeholder="https://..."></div>
+              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
+            </div>
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-icon">&#128251;</div>
+                <h3>Footer</h3>
+              </div>
+              <div class="field"><label>Copyright Text</label><input type="text" id="s-copyright"></div>
+              <button class="save-btn" onclick="saveSettings()">&#128190; Save Changes</button>
+            </div>
+          </div>
+        </div>
+        <div class="pg" id="page-contacts">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ“ž</div>
+              <div>
+                <h1>Contact Locations</h1>
+                <p>Manage branch offices, emails, phone numbers, and WhatsApp numbers.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-bar">
+            <h2>Branch Offices & Contact Points</h2>
+            <button class="add-btn" onclick="openModal('contact',null,null)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Contact Point
+            </button>
+          </div>
+          <div class="items-list" id="contacts-editor"></div>
+        </div>
+
+        <div class="pg" id="page-seo">
+          <div class="pg-hd">
+            <div class="pg-ht">
+              <div class="pg-ico">ðŸ”</div>
+              <div>
+                <h1>SEO Manager</h1>
+                <p>Manage meta tags, keywords, Open Graph, and structured data - all injected invisibly in the page source.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Google Preview -->
+          <div class="seo-section">
+            <div class="seo-section-title">Google Search Preview</div>
+            <div class="seo-field-card">
+              <div class="seo-field-label" style="margin-bottom:12px">How your site appears in Google search results</div>
+              <div class="seo-preview-box">
+                <div class="seo-preview-url" id="seo-prev-url">shredhimalayas.com</div>
+                <div class="seo-preview-title" id="seo-prev-title">Shred Himalayas - Premium Himalayan Adventures</div>
+                <div class="seo-preview-desc" id="seo-prev-desc">Luxury adventures, ski experiences, treks, and bespoke Himalayan journeys crafted by local experts in Kashmir.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Core Meta -->
+          <div class="seo-section">
+            <div class="seo-section-title">Core Meta Tags</div>
+
+            <div class="seo-field-card">
+              <div class="seo-field-card-hd">
+                <div class="seo-field-card-hd-left">
+                  <div class="seo-field-label">Page Title</div>
+                  <div class="seo-field-hint">Shown in browser tab and Google search. Ideal: 50–60 characters.</div>
+                </div>
+                <span class="seo-char-count" id="cc-metaTitle">0 / 60</span>
+              </div>
+              <input type="text" id="seo-metaTitle" class="field" placeholder="e.g. Shred Himalayas - Best Skiing & Adventures in Kashmir" oninput="seoCharCount('metaTitle',60); seoUpdatePreview()">
+            </div>
+
+            <div class="seo-field-card">
+              <div class="seo-field-card-hd">
+                <div class="seo-field-card-hd-left">
+                  <div class="seo-field-label">Meta Description</div>
+                  <div class="seo-field-hint">Shown below the title in search results. Ideal: 150–160 characters.</div>
+                </div>
+                <span class="seo-char-count" id="cc-metaDesc">0 / 160</span>
+              </div>
+              <textarea id="seo-metaDescription" class="field" rows="3" placeholder="A compelling description of your site..." oninput="seoCharCount('metaDesc',160); seoUpdatePreview()"></textarea>
+            </div>
+
+            <div class="seo-field-card">
+              <div class="seo-field-card-hd">
+                <div class="seo-field-card-hd-left">
+                  <div class="seo-field-label">Focus Keywords</div>
+                  <div class="seo-field-hint">Type a keyword and press <kbd style="background:var(--cb);padding:1px 5px;border-radius:4px;font-size:11px">Enter</kbd> or <kbd style="background:var(--cb);padding:1px 5px;border-radius:4px;font-size:11px">,</kbd> to add. These are hidden in your page source to help search engines understand your content.</div>
+                </div>
+                <span class="seo-char-count" id="cc-kwCount" style="background:rgba(35,139,69,.08);color:var(--g)">0 keywords</span>
+              </div>
+              <div class="keyword-input-wrap" onclick="document.getElementById('kw-ghost-input').focus()">
+                <div id="kw-tags-container"></div>
+                <input id="kw-ghost-input" type="text" placeholder="Type keyword then press Enter..." autocomplete="off">
+              </div>
+            </div>
+          </div>
+
+          <!-- Open Graph -->
+          <div class="seo-section">
+            <div class="seo-section-title">Open Graph (Social Sharing)</div>
+            <div class="seo-field-card">
+              <div class="seo-field-label" style="margin-bottom:4px">OG Title</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Title shown when your link is shared on Facebook, WhatsApp, LinkedIn.</div>
+              <input type="text" id="seo-ogTitle" class="field" placeholder="Shred Himalayas - Premium Himalayan Adventures" oninput="seoUpdatePreview()">
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">OG Description</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Subtitle shown in social share cards.</div>
+              <textarea id="seo-ogDescription" class="field" rows="2" placeholder="Crafting extraordinary ski, snowboard, trek experiences in Kashmir..."></textarea>
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">OG Image URL</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Image shown in social share previews. Recommended: 1200Ã—630px.</div>
+              <input type="text" id="seo-ogImage" class="field" placeholder="assets/images/hero-mountains.png">
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">Canonical / Site URL</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Your website's primary URL. Used for canonical tag and OG URL.</div>
+              <input type="text" id="seo-canonicalUrl" class="field" placeholder="https://shredhimalayas.com" oninput="seoUpdatePreview()">
+            </div>
+          </div>
+
+          <!-- Twitter / X -->
+          <div class="seo-section">
+            <div class="seo-section-title">Twitter / X Card</div>
+            <div class="seo-field-card">
+              <div class="seo-field-label" style="margin-bottom:4px">Twitter Title</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Title for Twitter/X link cards (leave blank to use OG Title).</div>
+              <input type="text" id="seo-twitterTitle" class="field" placeholder="Leave blank to mirror OG Title">
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">Twitter Description</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Short description for Twitter cards (leave blank to use OG Description).</div>
+              <textarea id="seo-twitterDescription" class="field" rows="2" placeholder="Leave blank to mirror OG Description"></textarea>
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">Twitter Handle</div>
+              <div class="seo-field-hint" style="margin-bottom:10px">Your @handle on Twitter/X, e.g. @ShredHimalayas.</div>
+              <input type="text" id="seo-twitterSite" class="field" placeholder="@ShredHimalayas">
+
+              <div class="seo-field-label" style="margin: 16px 0 4px">Card Type</div>
+              <select id="seo-twitterCard" class="field">
+                <option value="summary_large_image">summary_large_image (recommended)</option>
+                <option value="summary">summary</option>
+                <option value="app">app</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Technical SEO -->
+          <div class="seo-section">
+            <div class="seo-section-title">Technical SEO</div>
+            <div class="seo-field-card">
+              <div class="seo-toggle-row">
+                <div>
+                  <div class="seo-toggle-label">Schema / Structured Data (JSON-LD)</div>
+                  <div class="seo-toggle-hint">Injects a TravelAgency schema block into the page &lt;head&gt; - helps Google understand your business and can enable rich results.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="seo-schemaEnabled">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="seo-toggle-row">
+                <div>
+                  <div class="seo-toggle-label">Robots Directive</div>
+                  <div class="seo-toggle-hint">Controls how search engine crawlers index this page.</div>
+                </div>
+                <select id="seo-robotsDirective" class="field" style="max-width:200px">
+                  <option value="index, follow">index, follow (recommended)</option>
+                  <option value="noindex, follow">noindex, follow</option>
+                  <option value="index, nofollow">index, nofollow</option>
+                  <option value="noindex, nofollow">noindex, nofollow</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Bar -->
+          <div class="seo-save-bar">
+            <span class="seo-save-note">⚙️ These tags are injected in the page source - never visible to visitors, only to search engines.</span>
+            <button class="add-btn" onclick="saveSEOSettings()">Save SEO Settings</button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Edit Item</h2><button class="modal-close" onclick="closeModal()">&#x2715;</button>
+      </div>
+      <div id="modal-body"></div>
+      <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">Cancel</button><button
+          class="btn-save" onclick="saveModal()">Save Changes</button></div>
+    </div>
+  </div>
+  <div id="toast"></div>
+
+  <script>
+
+    function toggleSB() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sbOv').classList.toggle('open') }
+    function closeSB() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sbOv').classList.remove('open') }
+
+
+    window.addEventListener('beforeunload', function (e) {
+      var app = document.getElementById('app');
+      if (app && app.classList.contains('visible')) {
+        var msg = 'You are currently logged in to the Admin Panel. Leaving the page will discard unsaved changes.';
+        e.preventDefault();
+        e.returnValue = msg;
+        return msg;
+      }
+    });
+  </script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/site-data.js?v=6"></script>
+  <script src="js/policy-modal.js"></script>
+  <script src="js/admin.js?v=2"></script>
+  <script>
+    function navigate(el) {
+      document.querySelectorAll('.nv').forEach(function (i) { i.classList.remove('active') });
+      el.classList.add('active');
+      var pg = el.dataset.page;
+      document.querySelectorAll('.pg').forEach(function (p) { p.classList.remove('active') });
+      var t = document.getElementById('page-' + pg);
+      if (t) t.classList.add('active');
+      if (typeof renderPage === 'function') renderPage(pg);
+      closeSB();
+    }
+    function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modalBackdrop')) closeModal() }
+    function closeModal() { document.getElementById('modalBackdrop').classList.remove('open') }
+    function showToast(msg, ok) { var t = document.getElementById('toast'); t.textContent = (ok !== false ? '\u2705 ' : '\u274c ') + msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show') }, 3000) }
+    function confirmReset() { if (confirm('Reset all content to defaults? This cannot be undone.')) { SHData.reset(); SHData.init().then(function () { showToast('Content reset to defaults'); loadAll(); }); } }
+  </script>
+</body>
+
 </html>

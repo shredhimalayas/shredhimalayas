@@ -1,1102 +1,1102 @@
-/* ============================================
-   EXPERIENCES v2 - Editorial Magazine Layout
-   Forest Green & Sand Beige Premium Edition
-   ============================================ */
-
-.experiences {
-  
-  min-height: auto;
-  background: var(--bg-raised);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ---- Decorative Background Elements ---- */
-.experiences::before {
-  content: '';
-  position: absolute;
-  top: -120px;
-  right: -120px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(199, 154, 99, 0.07) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.experiences::after {
-  content: '';
-  position: absolute;
-  bottom: -80px;
-  left: -80px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(199, 154, 99, 0.05) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-/* ---- Layout ---- */
-.experiences__layout {
-  display: grid;
-  grid-template-columns: 380px 1fr;
-  min-height: 600px;
-  position: relative;
-  z-index: 2;
-}
-
-/* ---- Left Sidebar ---- */
-.experiences__sidebar {
-  background: var(--charcoal);
-  padding: clamp(32px, 5vw, 60px) clamp(24px, 4vw, 48px);
-  /* Reduced from 60px 48px */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.experiences__sidebar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-/* Vertical decorative line */
-.experiences__sidebar::after {
-  content: '';
-  position: absolute;
-  top: 60px;
-  bottom: 60px;
-  right: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.1) 70%, transparent);
-  pointer-events: none;
-}
-
-.experiences__sidebar-header {
-  margin-bottom: 56px;
-  position: relative;
-  z-index: 2;
-}
-
-.experiences__sidebar-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-accent);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(35, 139, 69, 0.8);
-  margin-bottom: 20px;
-}
-
-.experiences__sidebar-label::before {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.experiences__sidebar-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  font-weight: var(--weight-bold);
-  line-height: 1.15;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-}
-
-.experiences__sidebar-title span {
-  color: var(--gold);
-  font-style: normal;
-}
-
-/* ---- Activity Navigation List ---- */
-.experiences__nav {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  z-index: 2;
-}
-
-.experiences__nav-item {
-  position: relative;
-}
-
-.experiences__nav-btn {
-  width: 100%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 20px 0;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-}
-
-.experiences__nav-btn::before {
-  content: '';
-  position: absolute;
-  left: -48px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--gold);
-  transform: scaleY(0);
-  transform-origin: center;
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.experiences__nav-btn.is-active::before {
-  transform: scaleY(1);
-}
-
-.experiences__nav-num {
-  font-family: var(--font-accent);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: 0.15em;
-  min-width: 24px;
-  transition: color 0.3s ease;
-}
-
-.experiences__nav-info {
-  flex: 1;
-}
-
-.experiences__nav-title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0.02em;
-  margin-bottom: 2px;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.experiences__nav-sub {
-  font-family: var(--font-accent);
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.2);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-}
-
-.experiences__nav-arrow {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.2);
-  font-size: 14px;
-  flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* Active state */
-.experiences__nav-btn.is-active .experiences__nav-num {
-  color: var(--gold);
-}
-
-.experiences__nav-btn.is-active .experiences__nav-title {
-  color: #ffffff;
-  font-size: 1.45rem;
-}
-
-.experiences__nav-btn.is-active .experiences__nav-sub {
-  max-height: 20px;
-  opacity: 1;
-  color: rgba(199, 154, 99, 0.8);
-}
-
-.experiences__nav-btn.is-active .experiences__nav-arrow {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: #ffffff;
-  transform: rotate(45deg);
-}
-
-/* Hover state (non-active) */
-.experiences__nav-btn:not(.is-active):hover .experiences__nav-title {
-  color: rgba(255, 255, 255, 0.8);
-  transform: translateX(8px);
-}
-
-.experiences__nav-btn:not(.is-active):hover .experiences__nav-arrow {
-  border-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* ---- Right Panel - Image Stage ---- */
-.experiences__stage {
-  position: relative;
-  overflow: hidden;
-  background: var(--charcoal);
-}
-
-.experiences__panel {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.7s;
-}
-
-.experiences__panel.is-active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.experiences__panel-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.05);
-  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.experiences__panel.is-active .experiences__panel-image {
-  transform: scale(1);
-}
-
-/* Dark gradient overlay */
-.experiences__panel-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-      rgba(12, 14, 16, 0.35) 0%,
-      transparent 50%,
-      rgba(12, 14, 16, 0.65) 100%);
-  z-index: 1;
-}
-
-/* Bottom overlay for content */
-.experiences__panel-overlay-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 55%;
-  background: linear-gradient(to top, rgba(12, 14, 16, 0.92) 0%, transparent 100%);
-  z-index: 1;
-}
-
-/* Large decorative number */
-.experiences__panel-bignum {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  font-family: var(--font-heading);
-  font-size: clamp(6rem, 12vw, 14rem);
-  font-weight: 700;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
-  z-index: 2;
-  pointer-events: none;
-  user-select: none;
-  transition: all 0.7s ease;
-}
-
-/* Panel Content - Premium Floating Cream Card */
-.experiences__panel-content {
-  position: absolute;
-  bottom: 48px;
-  left: 48px;
-  max-width: 440px;
-  background: #ffffff !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  border-radius: var(--radius-lg) !important;
-  padding: 32px 36px !important;
-  z-index: 3;
-  box-shadow: var(--shadow-lg);
-  box-sizing: border-box;
-}
-
-.experiences__panel-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #FDF9F0 !important;
-  border: 1px solid rgba(167, 123, 52, 0.3) !important;
-  border-radius: 100px;
-  padding: 5px 12px;
-  font-family: var(--font-accent);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #855B14 !important;
-  margin-bottom: 16px;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.1s;
-}
-
-.experiences__panel-tag::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--sunset-gold);
-}
-
-.experiences__panel.is-active .experiences__panel-tag {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.experiences__panel-heading {
-  font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3vw, 2.3rem) !important;
-  font-weight: 400 !important;
-  line-height: 1.15 !important;
-  color: #1b1b1b !important;
-  /* Dark charcoal text */
-  letter-spacing: -0.01em;
-  margin-bottom: 24px !important;
-  transform: translateY(30px);
-  opacity: 0;
-  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
-}
-
-.experiences__panel.is-active .experiences__panel-heading {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.experiences__panel-desc {
-  display: none !important;
-  /* Remove/hide paragraph lines completely from all images */
-}
-
-
-.experiences__panel-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--gold);
-  color: #ffffff;
-  font-family: var(--font-accent);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 16px 28px;
-  border-radius: 4px;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  transform: translateY(20px);
-  opacity: 0;
-  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.4s,
-    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.4s,
-    background 0.3s ease, box-shadow 0.3s ease;
-}
-
-.experiences__panel.is-active .experiences__panel-cta {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.experiences__panel-cta:hover {
-  background: #b68a55;
-  box-shadow: 0 12px 32px rgba(199, 154, 99, 0.3);
-  gap: 18px;
-}
-
-.experiences__panel-cta-icon {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  transition: transform 0.3s ease;
-}
-
-.experiences__panel-cta:hover .experiences__panel-cta-icon {
-  transform: translateX(4px);
-}
-
-/* ---- Stats strip inside panel ---- */
-.experiences__panel-stats {
-  display: flex;
-  gap: 32px;
-  margin-top: 0;
-  padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  transform: translateY(20px);
-  opacity: 0;
-  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.45s;
-}
-
-.experiences__panel.is-active .experiences__panel-stats {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.experiences__stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.experiences__stat-num {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.experiences__stat-label {
-  font-family: var(--font-accent);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #4B5563 !important;
-}
-
-/* ---- Progress Dots ---- */
-.experiences__dots {
-  position: absolute;
-  bottom: 28px;
-  right: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 10;
-}
-
-.experiences__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.experiences__dot.is-active {
-  background: var(--gold);
-  height: 24px;
-  border-radius: 4px;
-}
-
-/* ================================================
-   MOBILE LAYOUT - Sidebar First, Image Below
-   3Ã—2 icon grid Â· Dark sidebar Â· Clean stage
-   ================================================ */
-
-@media (max-width: 1024px) {
-
-  .experiences {
-    min-height: auto;
-    background: #1C1C1C;
-  }
-
-  .experiences::before,
-  .experiences::after {
-    display: none;
-  }
-
-  .experiences__layout {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ---- SIDEBAR — appears first on mobile ---- */
-  .experiences__sidebar {
-    order: 1;
-    background: #1C1C1C;
-    padding: 40px 20px 28px;
-    min-height: auto;
-  }
-
-  .experiences__sidebar::before {
-    opacity: 0.3;
-  }
-
-  .experiences__sidebar::after {
-    display: none;
-  }
-
-  .experiences__sidebar-header {
-    margin-bottom: 28px;
-  }
-
-  .experiences__sidebar-title {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-  }
-
-  /* ---- IMAGE STAGE — appears below sidebar ---- */
-  .experiences__stage {
-    order: 2;
-    width: 100%;
-    height: 60vw;
-    min-height: 300px;
-    max-height: 480px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .experiences__panel-content {
-    bottom: 24px !important;
-    left: 20px !important;
-    right: 20px !important;
-    max-width: none !important;
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-    padding: 24px 28px !important;
-    border-radius: 12px !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-sizing: border-box;
-  }
-
-  .experiences__panel-heading {
-    font-size: clamp(1.4rem, 4vw, 1.8rem) !important;
-    color: #111827 !important;
-    text-shadow: none !important;
-    font-weight: 600 !important;
-    margin-bottom: 16px !important;
-    line-height: 1.25 !important;
-  }
-
-  .experiences__panel-tag {
-    background: #FDF9F0 !important;
-    color: #855B14 !important;
-    border: 1px solid rgba(167, 123, 52, 0.3) !important;
-    margin-bottom: 12px !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .experiences__panel-tag::before {
-    background: #855B14 !important;
-  }
-
-  /* Mobile CTA button — cream so it pops on dark image overlay */
-  .experiences__panel-cta {
-    background: var(--gold) !important;
-    color: #ffffff !important;
-    border-radius: 6px !important;
-    padding: 12px 22px !important;
-    font-size: 10px !important;
-  }
-
-  .experiences__panel-cta:hover {
-    background: #ffffff !important;
-    color: #1a2e22 !important;
-  }
-
-  .experiences__panel-stats {
-    display: none;
-  }
-
-  .experiences__panel-bignum {
-    display: none;
-  }
-
-  .experiences__dots {
-    flex-direction: row;
-    bottom: 16px;
-    right: 16px;
-  }
-
-  .experiences__dot.is-active {
-    width: 22px;
-    height: 6px;
-    border-radius: 3px;
-  }
-
-  /* ================================================
-     3 Ã— 2 SERVICE ICON GRID
-     All 6 options visible - no scrolling needed
-     ================================================ */
-  .experiences__nav {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    overflow: visible;
-    padding: 0;
-  }
-
-  .experiences__nav-item {
-    flex-shrink: unset;
-  }
-
-  /* Each card - tall, centred icon style */
-  .experiences__nav-btn {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    padding: 16px 10px 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    min-width: unset;
-    text-align: center;
-    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .experiences__nav-btn::before {
-    display: none;
-  }
-
-  /* No shimmer layer needed with new style */
-  .experiences__nav-btn::after {
-    display: none;
-  }
-
-  /* Circular number badge */
-  .experiences__nav-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0;
-    color: rgba(255, 255, 255, 0.35);
-    margin: 0 auto 10px;
-    flex-shrink: 0;
-    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  /* Text column */
-  .experiences__nav-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    width: 100%;
-  }
-
-  .experiences__nav-title {
-    font-size: 0.78rem !important;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    width: 100%;
-    text-align: center;
-    transition: color 0.3s ease;
-  }
-
-  .experiences__nav-sub {
-    max-height: none !important;
-    opacity: 1 !important;
-    font-size: 7px !important;
-    letter-spacing: 0.08em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    width: 100%;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.22);
-    text-transform: uppercase;
-    transition: color 0.3s ease;
-  }
-
-  .experiences__nav-arrow {
-    display: none;
-  }
-
-  /* ---- ACTIVE STATE — clean top-border tab style ---- */
-  .experiences__nav-btn.is-active {
-    background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.12);
-    /* Solid gold bar across the top */
-    border-top: 2px solid var(--gold);
-  }
-
-  .experiences__nav-btn.is-active .experiences__nav-num {
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.0);
-    color: var(--gold);
-    font-weight: 700;
-  }
-
-  .experiences__nav-btn.is-active .experiences__nav-title {
-    color: #f7f3ee !important;
-    font-weight: 600;
-  }
-
-  .experiences__nav-btn.is-active .experiences__nav-sub {
-    color: rgba(199, 154, 99, 0.8);
-  }
-}
-
-/* ---- 480px fine-tuning ---- */
-@media (max-width: 480px) {
-  .experiences__sidebar {
-    padding: 32px 16px 24px;
-  }
-
-  .experiences__nav {
-    gap: 8px;
-  }
-
-  .experiences__nav-btn {
-    padding: 14px 8px 12px;
-    border-radius: 14px;
-  }
-
-  .experiences__nav-num {
-    width: 28px;
-    height: 28px;
-    font-size: 9px;
-    margin-bottom: 8px;
-  }
-
-  .experiences__nav-title {
-    font-size: 0.72rem !important;
-  }
-
-  .experiences__nav-sub {
-    font-size: 6.5px !important;
-  }
-
-  .experiences__stage {
-    height: 65vw;
-    min-height: 260px;
-  }
-}
-
-/* ---- Very small phones (â‰¤380px) ---- */
-@media (max-width: 380px) {
-  .experiences__nav-btn {
-    padding: 12px 6px 10px;
-    border-radius: 12px;
-  }
-
-  .experiences__nav-num {
-    width: 26px;
-    height: 26px;
-    font-size: 8px;
-    margin-bottom: 7px;
-  }
-
-  .experiences__nav-title {
-    font-size: 0.66rem !important;
-  }
-}
-
-/* ============================================================
-   MOBILE HORIZONTAL SCROLL CARDS (max-width: 767px)
-   ============================================================ */
-@media (max-width: 767px) {
-
-  /* Layout: single horizontal flex row instead of 3x2 grid */
-  .experiences__nav {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important;
-
-    /* Pull edge-to-edge with negative margin, offset by padding */
-    margin-left: -20px !important;
-    margin-right: -20px !important;
-    padding: 12px 10vw 24px !important;
-    gap: 16px !important;
-
-    /* Hide scrollbar */
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-
-  .experiences__nav::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  /* Fixed size for individual cards, snapping to center */
-  .experiences__nav-item {
-    flex: 0 0 80vw !important;
-    max-width: 300px !important;
-    scroll-snap-align: center !important;
-    scroll-snap-stop: always !important;
-  }
-
-  /* Expand button to fill container height */
-  .experiences__nav-btn {
-    height: 100% !important;
-    padding: 22px 16px 18px !important;
-  }
-}
-
-/* Adjust negative margins on smaller screens to match sidebar padding */
-@media (max-width: 480px) {
-  .experiences__nav {
-    margin-left: -16px !important;
-    margin-right: -16px !important;
-    padding-left: 10vw !important;
-    padding-right: 10vw !important;
-    gap: 12px !important;
-  }
-}
-
-/* ============================================================
-   MOBILE REDESIGN FOR EXPERIENCES SECTION (max-width: 768px)
-   ============================================================ */
-@media (max-width: 768px) {
-
-  /* Hide the old tab navigation list and pagination dots */
-  .experiences__nav,
-  .experiences__dots {
-    display: none !important;
-  }
-
-  /* Make sidebar container very compact (just the header) */
-  .experiences__sidebar {
-    padding: 40px 24px 20px !important;
-  }
-
-  .experiences__sidebar-header {
-    margin-bottom: 0 !important;
-  }
-
-  /* The stage becomes the horizontal scroll row of cards */
-  .experiences__stage {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    scroll-behavior: smooth !important;
-    -webkit-overflow-scrolling: touch !important;
-
-    margin: 0 !important;
-    padding: 24px 24px 40px !important;
-    gap: 16px !important;
-    height: auto !important;
-    min-height: unset !important;
-    max-height: none !important;
-
-    /* Hide scrollbar */
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-
-  .experiences__stage::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  /* Each panel acts as a card */
-  .experiences__panel {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 0 0 82vw !important;
-    max-width: 320px !important;
-    position: relative !important;
-    inset: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    background: #121212 !important;
-    /* Dark luxury card background */
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 20px !important;
-    /* Rounded corners 18-24px */
-    overflow: hidden !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
-    scroll-snap-align: center !important;
-    scroll-snap-stop: always !important;
-
-    /* Active scale setup */
-    transform: scale(0.95) !important;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-      box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-      border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-  }
-
-  /* Active Card Scale Up */
-  .experiences__panel.is-active {
-    transform: scale(1) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
-    border-color: rgba(167, 123, 52, 0.35) !important;
-  }
-
-  /* Large Image at the top */
-  .experiences__panel-image {
-    position: relative !important;
-    width: 100% !important;
-    height: 180px !important;
-    object-fit: cover !important;
-    border-radius: 0 !important;
-    display: block !important;
-  }
-
-  /* Hide the dark image overlays */
-  .experiences__panel-overlay,
-  .experiences__panel-overlay-bottom {
-    display: none !important;
-  }
-
-  /* Content area below the image */
-  .experiences__panel-content {
-    position: relative !important;
-    inset: auto !important;
-    padding: 24px 20px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    text-align: left !important;
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    border-top: none !important;
-    border-radius: 0 0 12px 12px !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    flex-grow: 1 !important;
-    /* Prevent animation on the content container itself */
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
-  }
-
-  /* Reset animations/transitions for content children on mobile */
-  .experiences__panel-tag,
-  .experiences__panel-heading,
-  .experiences__panel-stats {
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
-  }
-
-  /* Tag style */
-  .experiences__panel-tag {
-    font-size: 8px !important;
-    font-family: var(--font-accent);
-    font-weight: 700;
-    letter-spacing: 0.15em !important;
-    text-transform: uppercase !important;
-    color: #855B14 !important;
-    background: #FDF9F0 !important;
-    border: 1px solid rgba(167, 123, 52, 0.3) !important;
-    padding: 4px 10px !important;
-    border-radius: 100px !important;
-    margin-bottom: 12px !important;
-    display: inline-block !important;
-  }
-
-  /* Heading style */
-  .experiences__panel-heading {
-    font-size: 1.3rem !important;
-    color: #111827 !important;
-    font-weight: 600 !important;
-    margin: 0 0 10px 0 !important;
-    text-shadow: none !important;
-    line-height: 1.3 !important;
-  }
-
-  /* Description style */
-  .experiences__panel-desc {
-    font-size: 0.82rem !important;
-    color: #374151 !important;
-    line-height: 1.55 !important;
-    margin: 0 0 20px 0 !important;
-    display: block !important;
-  }
-
-  /* CTA Button style */
-  .experiences__panel-cta {
-    display: inline-flex !important;
-    align-items: center !important;
-    background: var(--gold) !important;
-    color: #ffffff !important;
-    font-family: var(--font-accent);
-    font-size: 9.5px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.15em !important;
-    text-transform: uppercase !important;
-    text-decoration: none !important;
-    padding: 10px 18px !important;
-    border-radius: 6px !important;
-    transform: none !important;
-    opacity: 1 !important;
-    gap: 8px !important;
-    margin-top: auto !important;
-    transition: all 0.3s ease !important;
-  }
-
-  .experiences__panel-cta-icon {
-    width: 14px !important;
-    height: 14px !important;
-    stroke-width: 2.5px !important;
-    transform: none !important;
-  }
-
-  /* Stats label/num readibility on white */
-  .experiences__stat-label {
-    color: #4B5563 !important;
-  }
-
-  .experiences__stat-num {
-    color: #855B14 !important;
-  }
-}
-
-/* View Timeline Fade-in Animation */
-@supports (animation-timeline: view()) {
-  .experiences__stage {
-    animation: experiencesFadeIn linear both;
-    animation-timeline: view();
-    animation-range: entry 10% cover 30%;
-  }
-}
-
-@keyframes experiencesFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ============================================
+   EXPERIENCES v2 - Editorial Magazine Layout
+   Forest Green & Sand Beige Premium Edition
+   ============================================ */
+
+.experiences {
+  
+  min-height: auto;
+  background: var(--bg-raised);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Decorative Background Elements ---- */
+.experiences::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(199, 154, 99, 0.07) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.experiences::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(199, 154, 99, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ---- Layout ---- */
+.experiences__layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: 600px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Left Sidebar ---- */
+.experiences__sidebar {
+  background: var(--charcoal);
+  padding: clamp(32px, 5vw, 60px) clamp(24px, 4vw, 48px);
+  /* Reduced from 60px 48px */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.experiences__sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Vertical decorative line */
+.experiences__sidebar::after {
+  content: '';
+  position: absolute;
+  top: 60px;
+  bottom: 60px;
+  right: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.1) 70%, transparent);
+  pointer-events: none;
+}
+
+.experiences__sidebar-header {
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 2;
+}
+
+.experiences__sidebar-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(35, 139, 69, 0.8);
+  margin-bottom: 20px;
+}
+
+.experiences__sidebar-label::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.experiences__sidebar-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: var(--weight-bold);
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.experiences__sidebar-title span {
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* ---- Activity Navigation List ---- */
+.experiences__nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.experiences__nav-item {
+  position: relative;
+}
+
+.experiences__nav-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.experiences__nav-btn::before {
+  content: '';
+  position: absolute;
+  left: -48px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.experiences__nav-btn.is-active::before {
+  transform: scaleY(1);
+}
+
+.experiences__nav-num {
+  font-family: var(--font-accent);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.15em;
+  min-width: 24px;
+  transition: color 0.3s ease;
+}
+
+.experiences__nav-info {
+  flex: 1;
+}
+
+.experiences__nav-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.experiences__nav-sub {
+  font-family: var(--font-accent);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.experiences__nav-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Active state */
+.experiences__nav-btn.is-active .experiences__nav-num {
+  color: var(--gold);
+}
+
+.experiences__nav-btn.is-active .experiences__nav-title {
+  color: #ffffff;
+  font-size: 1.45rem;
+}
+
+.experiences__nav-btn.is-active .experiences__nav-sub {
+  max-height: 20px;
+  opacity: 1;
+  color: rgba(199, 154, 99, 0.8);
+}
+
+.experiences__nav-btn.is-active .experiences__nav-arrow {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #ffffff;
+  transform: rotate(45deg);
+}
+
+/* Hover state (non-active) */
+.experiences__nav-btn:not(.is-active):hover .experiences__nav-title {
+  color: rgba(255, 255, 255, 0.8);
+  transform: translateX(8px);
+}
+
+.experiences__nav-btn:not(.is-active):hover .experiences__nav-arrow {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ---- Right Panel - Image Stage ---- */
+.experiences__stage {
+  position: relative;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+.experiences__panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.7s;
+}
+
+.experiences__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.experiences__panel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.experiences__panel.is-active .experiences__panel-image {
+  transform: scale(1);
+}
+
+/* Dark gradient overlay */
+.experiences__panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+      rgba(12, 14, 16, 0.35) 0%,
+      transparent 50%,
+      rgba(12, 14, 16, 0.65) 100%);
+  z-index: 1;
+}
+
+/* Bottom overlay for content */
+.experiences__panel-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(12, 14, 16, 0.92) 0%, transparent 100%);
+  z-index: 1;
+}
+
+/* Large decorative number */
+.experiences__panel-bignum {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  font-family: var(--font-heading);
+  font-size: clamp(6rem, 12vw, 14rem);
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  transition: all 0.7s ease;
+}
+
+/* Panel Content - Premium Floating Cream Card */
+.experiences__panel-content {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  max-width: 440px;
+  background: #ffffff !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 32px 36px !important;
+  z-index: 3;
+  box-shadow: var(--shadow-lg);
+  box-sizing: border-box;
+}
+
+.experiences__panel-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FDF9F0 !important;
+  border: 1px solid rgba(167, 123, 52, 0.3) !important;
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-family: var(--font-accent);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #855B14 !important;
+  margin-bottom: 16px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.1s;
+}
+
+.experiences__panel-tag::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--sunset-gold);
+}
+
+.experiences__panel.is-active .experiences__panel-tag {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.experiences__panel-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.3rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
+  color: #1b1b1b !important;
+  /* Dark charcoal text */
+  letter-spacing: -0.01em;
+  margin-bottom: 24px !important;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
+}
+
+.experiences__panel.is-active .experiences__panel-heading {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.experiences__panel-desc {
+  display: none !important;
+  /* Remove/hide paragraph lines completely from all images */
+}
+
+
+.experiences__panel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--gold);
+  color: #ffffff;
+  font-family: var(--font-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 28px;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.4s,
+    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.4s,
+    background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experiences__panel.is-active .experiences__panel-cta {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.experiences__panel-cta:hover {
+  background: #b68a55;
+  box-shadow: 0 12px 32px rgba(199, 154, 99, 0.3);
+  gap: 18px;
+}
+
+.experiences__panel-cta-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.3s ease;
+}
+
+.experiences__panel-cta:hover .experiences__panel-cta-icon {
+  transform: translateX(4px);
+}
+
+/* ---- Stats strip inside panel ---- */
+.experiences__panel-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 0;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.45s;
+}
+
+.experiences__panel.is-active .experiences__panel-stats {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.experiences__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.experiences__stat-num {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.experiences__stat-label {
+  font-family: var(--font-accent);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4B5563 !important;
+}
+
+/* ---- Progress Dots ---- */
+.experiences__dots {
+  position: absolute;
+  bottom: 28px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+.experiences__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.experiences__dot.is-active {
+  background: var(--gold);
+  height: 24px;
+  border-radius: 4px;
+}
+
+/* ================================================
+   MOBILE LAYOUT - Sidebar First, Image Below
+   3Ã—2 icon grid · Dark sidebar · Clean stage
+   ================================================ */
+
+@media (max-width: 1024px) {
+
+  .experiences {
+    min-height: auto;
+    background: #1C1C1C;
+  }
+
+  .experiences::before,
+  .experiences::after {
+    display: none;
+  }
+
+  .experiences__layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- SIDEBAR — appears first on mobile ---- */
+  .experiences__sidebar {
+    order: 1;
+    background: #1C1C1C;
+    padding: 40px 20px 28px;
+    min-height: auto;
+  }
+
+  .experiences__sidebar::before {
+    opacity: 0.3;
+  }
+
+  .experiences__sidebar::after {
+    display: none;
+  }
+
+  .experiences__sidebar-header {
+    margin-bottom: 28px;
+  }
+
+  .experiences__sidebar-title {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  /* ---- IMAGE STAGE — appears below sidebar ---- */
+  .experiences__stage {
+    order: 2;
+    width: 100%;
+    height: 60vw;
+    min-height: 300px;
+    max-height: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .experiences__panel-content {
+    bottom: 24px !important;
+    left: 20px !important;
+    right: 20px !important;
+    max-width: none !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    padding: 24px 28px !important;
+    border-radius: 12px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-sizing: border-box;
+  }
+
+  .experiences__panel-heading {
+    font-size: clamp(1.4rem, 4vw, 1.8rem) !important;
+    color: #111827 !important;
+    text-shadow: none !important;
+    font-weight: 600 !important;
+    margin-bottom: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  .experiences__panel-tag {
+    background: #FDF9F0 !important;
+    color: #855B14 !important;
+    border: 1px solid rgba(167, 123, 52, 0.3) !important;
+    margin-bottom: 12px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .experiences__panel-tag::before {
+    background: #855B14 !important;
+  }
+
+  /* Mobile CTA button — cream so it pops on dark image overlay */
+  .experiences__panel-cta {
+    background: var(--gold) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 12px 22px !important;
+    font-size: 10px !important;
+  }
+
+  .experiences__panel-cta:hover {
+    background: #ffffff !important;
+    color: #1a2e22 !important;
+  }
+
+  .experiences__panel-stats {
+    display: none;
+  }
+
+  .experiences__panel-bignum {
+    display: none;
+  }
+
+  .experiences__dots {
+    flex-direction: row;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .experiences__dot.is-active {
+    width: 22px;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  /* ================================================
+     3 Ã— 2 SERVICE ICON GRID
+     All 6 options visible - no scrolling needed
+     ================================================ */
+  .experiences__nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .experiences__nav-item {
+    flex-shrink: unset;
+  }
+
+  /* Each card - tall, centred icon style */
+  .experiences__nav-btn {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 16px 10px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-width: unset;
+    text-align: center;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .experiences__nav-btn::before {
+    display: none;
+  }
+
+  /* No shimmer layer needed with new style */
+  .experiences__nav-btn::after {
+    display: none;
+  }
+
+  /* Circular number badge */
+  .experiences__nav-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0 auto 10px;
+    flex-shrink: 0;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Text column */
+  .experiences__nav-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    width: 100%;
+  }
+
+  .experiences__nav-title {
+    font-size: 0.78rem !important;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  .experiences__nav-sub {
+    max-height: none !important;
+    opacity: 1 !important;
+    font-size: 7px !important;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.22);
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+
+  .experiences__nav-arrow {
+    display: none;
+  }
+
+  /* ---- ACTIVE STATE — clean top-border tab style ---- */
+  .experiences__nav-btn.is-active {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+    /* Solid gold bar across the top */
+    border-top: 2px solid var(--gold);
+  }
+
+  .experiences__nav-btn.is-active .experiences__nav-num {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.0);
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .experiences__nav-btn.is-active .experiences__nav-title {
+    color: #f7f3ee !important;
+    font-weight: 600;
+  }
+
+  .experiences__nav-btn.is-active .experiences__nav-sub {
+    color: rgba(199, 154, 99, 0.8);
+  }
+}
+
+/* ---- 480px fine-tuning ---- */
+@media (max-width: 480px) {
+  .experiences__sidebar {
+    padding: 32px 16px 24px;
+  }
+
+  .experiences__nav {
+    gap: 8px;
+  }
+
+  .experiences__nav-btn {
+    padding: 14px 8px 12px;
+    border-radius: 14px;
+  }
+
+  .experiences__nav-num {
+    width: 28px;
+    height: 28px;
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+
+  .experiences__nav-title {
+    font-size: 0.72rem !important;
+  }
+
+  .experiences__nav-sub {
+    font-size: 6.5px !important;
+  }
+
+  .experiences__stage {
+    height: 65vw;
+    min-height: 260px;
+  }
+}
+
+/* ---- Very small phones (≤380px) ---- */
+@media (max-width: 380px) {
+  .experiences__nav-btn {
+    padding: 12px 6px 10px;
+    border-radius: 12px;
+  }
+
+  .experiences__nav-num {
+    width: 26px;
+    height: 26px;
+    font-size: 8px;
+    margin-bottom: 7px;
+  }
+
+  .experiences__nav-title {
+    font-size: 0.66rem !important;
+  }
+}
+
+/* ============================================================
+   MOBILE HORIZONTAL SCROLL CARDS (max-width: 767px)
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* Layout: single horizontal flex row instead of 3x2 grid */
+  .experiences__nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+
+    /* Pull edge-to-edge with negative margin, offset by padding */
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    padding: 12px 10vw 24px !important;
+    gap: 16px !important;
+
+    /* Hide scrollbar */
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .experiences__nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Fixed size for individual cards, snapping to center */
+  .experiences__nav-item {
+    flex: 0 0 80vw !important;
+    max-width: 300px !important;
+    scroll-snap-align: center !important;
+    scroll-snap-stop: always !important;
+  }
+
+  /* Expand button to fill container height */
+  .experiences__nav-btn {
+    height: 100% !important;
+    padding: 22px 16px 18px !important;
+  }
+}
+
+/* Adjust negative margins on smaller screens to match sidebar padding */
+@media (max-width: 480px) {
+  .experiences__nav {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    padding-left: 10vw !important;
+    padding-right: 10vw !important;
+    gap: 12px !important;
+  }
+}
+
+/* ============================================================
+   MOBILE REDESIGN FOR EXPERIENCES SECTION (max-width: 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* Hide the old tab navigation list and pagination dots */
+  .experiences__nav,
+  .experiences__dots {
+    display: none !important;
+  }
+
+  /* Make sidebar container very compact (just the header) */
+  .experiences__sidebar {
+    padding: 40px 24px 20px !important;
+  }
+
+  .experiences__sidebar-header {
+    margin-bottom: 0 !important;
+  }
+
+  /* The stage becomes the horizontal scroll row of cards */
+  .experiences__stage {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+
+    margin: 0 !important;
+    padding: 24px 24px 40px !important;
+    gap: 16px !important;
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+
+    /* Hide scrollbar */
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .experiences__stage::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Each panel acts as a card */
+  .experiences__panel {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 82vw !important;
+    max-width: 320px !important;
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: #121212 !important;
+    /* Dark luxury card background */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    /* Rounded corners 18-24px */
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+    scroll-snap-align: center !important;
+    scroll-snap-stop: always !important;
+
+    /* Active scale setup */
+    transform: scale(0.95) !important;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+
+  /* Active Card Scale Up */
+  .experiences__panel.is-active {
+    transform: scale(1) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+    border-color: rgba(167, 123, 52, 0.35) !important;
+  }
+
+  /* Large Image at the top */
+  .experiences__panel-image {
+    position: relative !important;
+    width: 100% !important;
+    height: 180px !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+    display: block !important;
+  }
+
+  /* Hide the dark image overlays */
+  .experiences__panel-overlay,
+  .experiences__panel-overlay-bottom {
+    display: none !important;
+  }
+
+  /* Content area below the image */
+  .experiences__panel-content {
+    position: relative !important;
+    inset: auto !important;
+    padding: 24px 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-top: none !important;
+    border-radius: 0 0 12px 12px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    flex-grow: 1 !important;
+    /* Prevent animation on the content container itself */
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Reset animations/transitions for content children on mobile */
+  .experiences__panel-tag,
+  .experiences__panel-heading,
+  .experiences__panel-stats {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Tag style */
+  .experiences__panel-tag {
+    font-size: 8px !important;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    color: #855B14 !important;
+    background: #FDF9F0 !important;
+    border: 1px solid rgba(167, 123, 52, 0.3) !important;
+    padding: 4px 10px !important;
+    border-radius: 100px !important;
+    margin-bottom: 12px !important;
+    display: inline-block !important;
+  }
+
+  /* Heading style */
+  .experiences__panel-heading {
+    font-size: 1.3rem !important;
+    color: #111827 !important;
+    font-weight: 600 !important;
+    margin: 0 0 10px 0 !important;
+    text-shadow: none !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Description style */
+  .experiences__panel-desc {
+    font-size: 0.82rem !important;
+    color: #374151 !important;
+    line-height: 1.55 !important;
+    margin: 0 0 20px 0 !important;
+    display: block !important;
+  }
+
+  /* CTA Button style */
+  .experiences__panel-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: var(--gold) !important;
+    color: #ffffff !important;
+    font-family: var(--font-accent);
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    padding: 10px 18px !important;
+    border-radius: 6px !important;
+    transform: none !important;
+    opacity: 1 !important;
+    gap: 8px !important;
+    margin-top: auto !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .experiences__panel-cta-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke-width: 2.5px !important;
+    transform: none !important;
+  }
+
+  /* Stats label/num readibility on white */
+  .experiences__stat-label {
+    color: #4B5563 !important;
+  }
+
+  .experiences__stat-num {
+    color: #855B14 !important;
+  }
+}
+
+/* View Timeline Fade-in Animation */
+@supports (animation-timeline: view()) {
+  .experiences__stage {
+    animation: experiencesFadeIn linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+}
+
+@keyframes experiencesFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

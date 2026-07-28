@@ -1,1248 +1,1248 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Adventures Ã¢â‚¬â€ Shred Himalayas</title>
-  <meta name="description"
-    content="Explore all adventures by Shred Himalayas Ã¢â‚¬â€ skiing, snowboarding, trekking and adventure activities in the Himalayas of Kashmir.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/variables.css?v=5">
-  <link rel="stylesheet" href="css/base.css?v=5">
-  <link rel="stylesheet" href="css/navbar.css?v=4">
-
-  <link rel="stylesheet" href="css/page-hero.css?v=9">
-  <link rel="stylesheet" href="css/subpage.css?v=13">
-  <link rel="stylesheet" href="css/footer.css">
-  <link rel="stylesheet" href="css/polish.css?v=11">
-  <link rel="stylesheet" href="css/cursor.css?v=1">
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F4F3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m8 3 4 8 5-5 5 15H2L8 3z'/></svg>">
-
-  <style>
-    /* ============================================
-       ADVENTURES PAGE Ã¢â‚¬â€ Dark Gold Luxury
-    ============================================ */
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Hero Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-hero {
-      position: relative;
-      min-height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
-
-    .adv-hero__bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 25%;
-      filter: brightness(0.55) saturate(0.75);
-      transform: scale(1.03);
-    }
-
-    .adv-hero__overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to right,
-          rgba(4, 4, 4, 0.92) 0%,
-          rgba(4, 4, 4, 0.65) 40%,
-          rgba(4, 4, 4, 0.10) 70%,
-          transparent 100%),
-        linear-gradient(to top,
-          rgba(4, 4, 4, 0.6) 0%,
-          transparent 40%);
-    }
-
-    /* Hero top content */
-    .adv-hero__top {
-      position: relative;
-      z-index: 2;
-      max-width: var(--container-wide);
-      width: 100%;
-      margin: 0 auto;
-      padding: 120px var(--container-padding) 32px;
-    }
-
-    .adv-hero__label {
-      font-family: var(--font-accent);
-      font-size: 9px;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(47, 79, 62, 0.3);
-      background: rgba(47, 79, 62, 0.08);
-      padding: 6px 16px;
-      display: inline-block;
-      margin-bottom: 18px;
-    }
-
-    .adv-hero__title {
-      font-family: var(--font-heading) !important;
-      font-weight: 300 !important;
-      font-size: clamp(2.8rem, 6vw, 5.5rem) !important;
-      color: #f7f3ee !important;
-      letter-spacing: -0.02em !important;
-      line-height: 1.05 !important;
-      margin: 0 0 20px !important;
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.9) !important;
-    }
-
-    .adv-hero__title em {
-      font-style: italic !important;
-      color: #8bba99 !important;
-      font-weight: 300 !important;
-    }
-
-    .adv-hero__sub {
-      font-family: var(--font-body) !important;
-      font-size: 15px !important;
-      color: #d4cfc8 !important;
-      max-width: 500px !important;
-      line-height: 1.7 !important;
-      margin-bottom: 28px !important;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7) !important;
-    }
-
-    .adv-hero__badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .adv-hero__badge {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 7px !important;
-      font-family: var(--font-accent) !important;
-      font-size: 9.5px !important;
-      letter-spacing: 0.12em !important;
-      text-transform: uppercase !important;
-      color: #f0ebe4 !important;
-      background: rgba(255, 255, 255, 0.10) !important;
-      border: 1px solid rgba(255, 255, 255, 0.22) !important;
-      padding: 7px 14px !important;
-      backdrop-filter: blur(8px) !important;
-    }
-
-    .adv-hero__badge svg {
-      color: #8bba99 !important;
-      flex-shrink: 0;
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Category Selector Cards Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-cats {
-      position: relative;
-      z-index: 3;
-      max-width: var(--container-wide);
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 var(--container-padding) 0;
-      margin-top: 32px;
-      padding-bottom: 0;
-    }
-
-    .adv-cats__label {
-      font-family: var(--font-accent);
-      font-size: 9px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.65;
-      margin-bottom: 16px;
-    }
-
-    .adv-cats__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-
-    /* Individual category card */
-    .cat-card {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      height: auto;
-      border-radius: 24px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.25s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
-
-    .cat-card.active {
-      border-color: var(--gold);
-      box-shadow: 0 12px 35px rgba(196, 168, 108, 0.2);
-    }
-
-    .cat-card__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.55) saturate(0.65);
-      /* Brighter Ã¢â‚¬â€ was 0.42 */
-      transition: transform 0.5s ease, filter 0.4s ease;
-      display: block;
-    }
-
-    .cat-card:hover .cat-card__img,
-    .cat-card.active .cat-card__img {
-      transform: scale(1.06);
-      filter: brightness(0.7) saturate(0.8);
-    }
-
-    .cat-card__overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(6, 6, 6, 0.9) 0%, rgba(6, 6, 6, 0.15) 60%);
-    }
-
-    .cat-card.active .cat-card__overlay {
-      background: linear-gradient(to top, rgba(6, 6, 6, 0.92) 0%, rgba(47, 79, 62, 0.08) 100%);
-    }
-
-    .cat-card__body {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 16px 18px;
-    }
-
-    .cat-card__icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(8, 8, 8, 0.8);
-      border: 1px solid rgba(47, 79, 62, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold);
-      margin-bottom: 10px;
-      transition: background 0.25s ease;
-    }
-
-    .cat-card.active .cat-card__icon,
-    .cat-card:hover .cat-card__icon {
-      background: var(--gold);
-      color: #0a0a0a;
-    }
-
-    .cat-card__title {
-      font-family: var(--font-body) !important;
-      font-size: 16px !important;
-      font-weight: 600 !important;
-      color: #ffffff !important;
-      margin: 0 0 4px !important;
-      letter-spacing: 0.01em !important;
-      transition: color 0.2s !important;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8) !important;
-    }
-
-    .cat-card.active .cat-card__title {
-      color: #8bba99 !important;
-    }
-
-    .cat-card__desc {
-      font-size: 11.5px !important;
-      color: #ccc7c0 !important;
-      line-height: 1.45 !important;
-      margin: 0 !important;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
-    }
-
-    .cat-card__arrow {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      font-size: 18px;
-      color: var(--gold);
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: all 0.22s ease;
-    }
-
-    .cat-card:hover .cat-card__arrow,
-    .cat-card.active .cat-card__arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* Active gold top border accent */
-    .cat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-      z-index: 5;
-    }
-
-    .cat-card.active::before {
-      transform: scaleX(1);
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Tab Content Area Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-content {
-      background: var(--bg-base);
-      border-top: 1px solid rgba(47, 79, 62, 0.12);
-      margin-top: 3px;
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Panel intro strip Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-panel__intro {
-      position: relative;
-      background: var(--bg-raised);
-      border-bottom: 1px solid rgba(47, 79, 62, 0.1);
-      overflow: hidden;
-    }
-
-    .adv-panel__intro-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.35) saturate(0.5);
-      /* Enough to show image but dark enough for text */
-    }
-
-    .adv-panel__intro-inner {
-      position: relative;
-      z-index: 2;
-      max-width: var(--container-wide);
-      margin: 0 auto;
-      padding: 48px var(--container-padding);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-    }
-
-    .adv-panel__intro-text {}
-
-    .adv-panel__intro-label {
-      font-family: var(--font-accent);
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #8bba99 !important;
-      margin-bottom: 10px;
-    }
-
-    .adv-panel__intro-title {
-      font-family: var(--font-heading);
-      font-weight: 300;
-      font-size: clamp(1.8rem, 3vw, 2.8rem);
-      color: #f7f3ee !important;
-      /* Was var(--text-primary) = dark on dark bg */
-      line-height: 1.15;
-      margin: 0 0 12px;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
-    }
-
-    .adv-panel__intro-desc {
-      font-size: 14px;
-      color: #ccc7c0 !important;
-      /* Was var(--text-secondary) = dark on dark bg */
-      line-height: 1.65;
-      max-width: 520px;
-      margin: 0;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .adv-panel__intro-stats {
-      display: flex;
-      gap: 0;
-      flex-shrink: 0;
-    }
-
-    .adv-intro-stat {
-      text-align: center;
-      padding: 18px 28px;
-      border-left: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .adv-intro-stat:first-child {
-      border-left: none;
-    }
-
-    .adv-intro-stat__val {
-      font-family: var(--font-heading);
-      font-size: 2rem;
-      font-weight: 300;
-      color: #8bba99 !important;
-      /* Sage green accent Ã¢â‚¬â€ visible on dark bg */
-      line-height: 1;
-      margin-bottom: 4px;
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    .adv-intro-stat__label {
-      font-family: var(--font-accent);
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #a8a39c !important;
-      /* Light muted Ã¢â‚¬â€ visible on dark bg */
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Package Panels Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-panel {
-      display: none;
-    }
-
-    .adv-panel.is-active {
-      display: block;
-      animation: panelIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    @keyframes panelIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Package content wrapper Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-packages {
-      max-width: var(--container-wide);
-      margin: 0 auto;
-      padding: 60px var(--container-padding);
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ CTA Strip Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-cta {
-      background: var(--bg-raised);
-      border-top: 1px solid rgba(47, 79, 62, 0.1);
-      padding: 44px 0;
-    }
-
-    .adv-cta__inner {
-      max-width: var(--container-wide);
-      margin: 0 auto;
-      padding: 0 var(--container-padding);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .adv-cta__text h3 {
-      font-family: var(--font-heading);
-      font-weight: 300;
-      font-size: 1.7rem;
-      color: var(--text-primary);
-      margin: 0 0 4px;
-    }
-
-    .adv-cta__text p {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-
-    .adv-cta__btns {
-      display: flex;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Activities Layout Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-activities-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    .adv-activities-col-title {
-      font-family: var(--font-accent);
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      padding-bottom: 12px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid rgba(47, 79, 62, 0.15);
-    }
-
-    #activities-winter-container,
-    #activities-summer-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    /* Override detail-card for horizontal layout within adventure page */
-    .adv-packages .detail-card {
-      margin-bottom: 20px;
-    }
-
-    .adv-packages .detail-grid {
-      gap: 20px;
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Activities items override for premium vertical cards with photos Ã¢â€â‚¬Ã¢â€â‚¬ */
-    .adv-packages .activities__item {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
-      padding: 0;
-      background: var(--bg-card);
-      border: 1px solid rgba(47, 79, 62, 0.12);
-      border-radius: 0;
-      transition: all var(--duration-normal) var(--ease-premium);
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .adv-packages .activities__item:hover {
-      border-color: var(--gold);
-      background: var(--bg-hover);
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-xl), var(--shadow-glow);
-    }
-
-    .adv-packages .activities__item-img-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/10;
-      overflow: hidden;
-    }
-
-    .adv-packages .activities__item-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform var(--duration-slower) var(--ease-smooth);
-      filter: brightness(0.8) saturate(0.8) sepia(0.05);
-    }
-
-    .adv-packages .activities__item:hover .activities__item-img {
-      transform: scale(1.05);
-      filter: brightness(0.88) saturate(0.85);
-    }
-
-    .adv-packages .activities__item-body {
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: flex-start;
-      width: 100%;
-    }
-
-    .adv-packages .activities__item-name {
-      font-family: var(--font-body);
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text-primary) !important;
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-
-    .adv-packages .activities__item-desc {
-      font-size: 12.5px;
-      color: var(--text-secondary) !important;
-      line-height: 1.55;
-    }
-
-    @media (max-width: 1024px) {
-      .adv-cats {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
-
-      .adv-cats__label {
-        padding-left: var(--container-padding);
-      }
-
-      .adv-cats__grid {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory !important;
-        gap: 12px !important;
-        scroll-behavior: smooth !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding-left: var(--container-padding) !important;
-        padding-right: var(--container-padding) !important;
-        padding-bottom: 16px !important;
-        scrollbar-width: none !important;
-      }
-
-      .adv-cats__grid::-webkit-scrollbar {
-        display: none !important;
-      }
-
-      .cat-card {
-        flex: 0 0 45% !important;
-        scroll-snap-align: start !important;
-        height: auto !important;
-        aspect-ratio: 1 / 1 !important;
-        max-width: 280px !important;
-        border-radius: 20px !important;
-      }
-
-      .adv-panel__intro-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 32px var(--container-padding, 24px);
-      }
-
-      .adv-panel__intro-stats {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        padding-top: 20px;
-        margin-top: 16px;
-      }
-
-      .adv-intro-stat {
-        padding: 12px 20px;
-        flex: 1 1 30%;
-      }
-
-      .adv-intro-stat:first-child {
-        padding-left: 0;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .cat-card {
-        flex: 0 0 68% !important;
-        height: auto !important;
-        aspect-ratio: 1 / 1 !important;
-        max-width: 220px !important;
-        border-radius: 20px !important;
-      }
-
-      .cat-card__body {
-        padding: 12px 14px !important;
-      }
-
-      .cat-card__icon {
-        width: 32px !important;
-        height: 32px !important;
-        margin-bottom: 6px !important;
-      }
-
-      .cat-card__icon svg {
-        width: 15px !important;
-        height: 15px !important;
-      }
-
-      .cat-card__title {
-        font-size: 14px !important;
-      }
-
-      .cat-card__desc {
-        font-size: 11px !important;
-      }
-
-      #activities-winter-container,
-      #activities-summer-container {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory !important;
-        gap: 14px !important;
-        scroll-behavior: smooth !important;
-        margin-left: -20px !important;
-        margin-right: -20px !important;
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-        padding-bottom: 16px !important;
-        scrollbar-width: none !important;
-      }
-
-      #activities-winter-container::-webkit-scrollbar,
-      #activities-summer-container::-webkit-scrollbar {
-        display: none !important;
-      }
-
-      .adv-packages .activities__item {
-        flex: 0 0 78% !important;
-        scroll-snap-align: start !important;
-        max-width: 290px !important;
-        height: auto !important;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .cat-card {
-        flex: 0 0 75% !important;
-      }
-
-      .adv-activities-wrap {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Ã¢â€â‚¬Ã¢â€â‚¬ Trekking Card Carousel Ã¢â€â‚¬Ã¢â€â‚¬ */
-    #trekking-packages-container {
-      display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      gap: 24px !important;
-      scroll-behavior: smooth !important;
-      -webkit-overflow-scrolling: touch !important;
-      padding: 20px 0 !important;
-      
-      /* Hide scrollbar */
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
-    }
-
-    #trekking-packages-container::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    #trekking-packages-container .trek-card {
-      flex: 0 0 calc(33.333% - 16px) !important;
-      min-width: 320px !important;
-      scroll-snap-align: start !important;
-      height: auto !important;
-      animation: cardSlideIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
-    }
-
-    /* Staggered load animation */
-    #trekking-packages-container .trek-card:nth-child(1) { animation-delay: 0.1s; }
-    #trekking-packages-container .trek-card:nth-child(2) { animation-delay: 0.2s; }
-    #trekking-packages-container .trek-card:nth-child(3) { animation-delay: 0.3s; }
-    #trekking-packages-container .trek-card:nth-child(4) { animation-delay: 0.4s; }
-
-    @keyframes cardSlideIn {
-      from {
-        opacity: 0;
-        transform: translateX(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    /* Hover effect (desktop only) */
-    @media (min-width: 1025px) {
-      #trekking-packages-container .trek-card:hover {
-        transform: translateY(-8px) !important;
-        border-color: var(--gold) !important;
-        box-shadow: 0 20px 40px rgba(196, 168, 108, 0.15), 0 12px 24px rgba(0, 0, 0, 0.5) !important;
-      }
-    }
-
-    /* Tablet breakpoint (approx 2 cards visible) */
-    @media (max-width: 1024px) {
-      #trekking-packages-container .trek-card {
-        flex: 0 0 calc(50% - 12px) !important;
-      }
-    }
-
-    /* Mobile breakpoint (1 card visible, snap scroll) */
-    @media (max-width: 768px) {
-      #trekking-packages-container {
-        scroll-snap-type: x mandatory !important;
-        gap: 16px !important;
-        padding: 20px 16px !important;
-        margin-left: calc(-1 * var(--container-padding)) !important;
-        margin-right: calc(-1 * var(--container-padding)) !important;
-      }
-
-      #trekking-packages-container .trek-card {
-        flex: 0 0 85% !important;
-        min-width: 280px !important;
-        max-width: none !important;
-        scroll-snap-align: center !important;
-        transform: scale(0.95) !important;
-        opacity: 0.8 !important;
-      }
-
-      #trekking-packages-container .trek-card.is-active {
-        transform: scale(1.0) !important;
-        opacity: 1.0 !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="css/theme.css?v=1">
-  <link rel="stylesheet" href="css/ios-compat.css">
-</head>
-
-<body>
-
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar" id="navbar">
-    <div class="navbar__inner">
-      <a href="index.html" class="navbar__logo">
-        <div class="navbar__logo-icon">
-          <svg viewBox="0 0 100 100" class="navbar__yak-logo" width="34" height="34" fill="none" stroke="currentColor"
-            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 35 C15 20, 30 10, 50 25 C70 10, 85 20, 85 35" />
-            <path d="M22 38 C25 28, 38 24, 50 32 C62 24, 75 28, 78 38" />
-            <path d="M32 36 L40 70 C42 75, 45 80, 50 80 C55 80, 58 75, 60 70 L68 36 Z" />
-            <path d="M44 68 C46 70, 54 70, 56 68" />
-          </svg>
-        </div>
-        <div class="navbar__logo-text">
-          <span>Shred</span>
-          <span>Himalayas</span>
-        </div>
-      </a>
-
-      <div class="navbar__links" id="navLinks">
-        <a href="index.html" class="navbar__link">Home</a>
-        <a href="adventures.html" class="navbar__link active">Adventures</a>
-        <a href="activities.html" class="navbar__link">Activities</a>
-        <a href="packages.html" class="navbar__link">Packages</a>
-        <a href="index.html#gallery" class="navbar__link">Gallery</a>
-        <a href="index.html#about" class="navbar__link">About</a>
-        <a href="index.html#contact" class="navbar__link">Contact Us</a>
-      </div>
-
-
-      <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navSheet">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- ===== MOBILE NAV BOTTOM-SHEET ===== -->
-  <div class="nav-sheet-backdrop" id="navSheetBackdrop"></div>
-  <div class="nav-sheet" id="navSheet" role="dialog" aria-modal="true" aria-label="Navigation">
-    <div class="nav-sheet__pill"></div>
-    <div class="nav-sheet__header">
-      <span class="nav-sheet__label">Navigation</span>
-    </div>
-    <div class="nav-sheet__divider"></div>
-    <div class="nav-sheet__grid">
-      <a href="index.html" class="nav-sheet__item">
-        Home
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="adventures.html" class="nav-sheet__item active">
-        Adventures
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="activities.html" class="nav-sheet__item nav-sheet__item--full" id="mobileActivitiesToggle">
-        Activities
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="packages.html" class="nav-sheet__item">
-        Packages
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="index.html#gallery" class="nav-sheet__item">
-        Gallery
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="index.html#about" class="nav-sheet__item">
-        About
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="index.html#contact" class="nav-sheet__item">
-        Contact
-        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <!-- ===== TICKER BAR ===== -->
-  <!-- <div class="nav-ticker" aria-hidden="true">
-    <div class="nav-ticker__track">
-      <span class="nav-ticker__item">+91 91499 74118</span><span class="nav-ticker__dot"></span>
-      <span class="nav-ticker__item">loneakash7753@gmai.com</span><span class="nav-ticker__dot"></span>
-    </div>
-  </div> -->
-
-  <!-- ===== HERO + CATEGORY CARDS ===== -->
-
-  <section class="adv-hero">
-    <img src="assets/images/hero-mountains.png" alt="Himalayan Adventures" class="adv-hero__bg">
-    <div class="adv-hero__overlay"></div>
-
-    <div class="adv-hero__top">
-      <p class="adv-hero__label">Shred Himalayas</p>
-      <h1 class="adv-hero__title">Explore. Experience. <em>Excel.</em></h1>
-      <p class="adv-hero__sub">From adrenaline-pumping ski runs to peaceful alpine treks Ã¢â‚¬â€ choose your Himalayan
-        adventure and create memories that last a lifetime.</p>
-      <div class="adv-hero__badges">
-        <span class="adv-hero__badge">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>Expert Guides
-        </span>
-        <span class="adv-hero__badge">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8v4l3 3" />
-          </svg>Premium Gear
-        </span>
-        <span class="adv-hero__badge">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-          </svg>Best Locations
-        </span>
-        <span class="adv-hero__badge">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 2 4.11V3a2 2 0 0 1 2-2" />
-          </svg>24/7 Support
-        </span>
-      </div>
-    </div>
-
-    <!-- Category selector cards inside hero -->
-    <div class="adv-cats">
-      <p class="adv-cats__label">Choose Your Experience</p>
-      <div class="adv-cats__grid">
-
-        <div class="cat-card active" data-tab="skiing" onclick="switchTab('skiing')">
-          <img src="assets/images/skiing-action.png" alt="Skiing" class="cat-card__img">
-          <div class="cat-card__overlay"></div>
-          <div class="cat-card__body">
-            <div class="cat-card__icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M19.5 3.5L18 2l-4 4-2-2-3 3 4.5 4.5" />
-                <path d="m4 20 7-7M5 4l-2 2 8 8" />
-              </svg>
-            </div>
-            <h3 class="cat-card__title">Skiing</h3>
-            <p class="cat-card__desc">Feel the thrill on pristine white slopes of Gulmarg</p>
-          </div>
-          <span class="cat-card__arrow">â†’</span>
-        </div>
-
-        <div class="cat-card" data-tab="snowboarding" onclick="switchTab('snowboarding')">
-          <img src="assets/images/snowboarding-action.png" alt="Snowboarding" class="cat-card__img">
-          <div class="cat-card__overlay"></div>
-          <div class="cat-card__body">
-            <div class="cat-card__icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
-                <rect x="9" y="11" width="14" height="10" rx="2" />
-              </svg>
-            </div>
-            <h3 class="cat-card__title">Snowboarding</h3>
-            <p class="cat-card__desc">Carve your way through the mountains of Kashmir</p>
-          </div>
-          <span class="cat-card__arrow">â†’</span>
-        </div>
-
-        <div class="cat-card" data-tab="trekking" onclick="switchTab('trekking')">
-          <img src="assets/images/trekking-landscape.png" alt="Trekking" class="cat-card__img">
-          <div class="cat-card__overlay"></div>
-          <div class="cat-card__body">
-            <div class="cat-card__icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="m3 17 3-8 4 5 3-3 4 6" />
-                <circle cx="17" cy="7" r="2" />
-              </svg>
-            </div>
-            <h3 class="cat-card__title">Trekking</h3>
-            <p class="cat-card__desc">Discover the raw beauty of the Himalayas on foot</p>
-          </div>
-          <span class="cat-card__arrow">â†’</span>
-        </div>
-
-        <!-- Activity card removed and moved to separate activities.html page -->
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ===== CONTENT PANELS ===== -->
-  <div class="adv-content">
-
-    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ SKIING PANEL Ã¢â€â‚¬Ã¢â€â‚¬ -->
-    <div class="adv-panel is-active" id="panel-skiing">
-      <div class="adv-panel__intro">
-        <img src="assets/images/skiing-action.png" alt="" class="adv-panel__intro-bg">
-        <div class="adv-panel__intro-inner">
-          <div class="adv-panel__intro-text">
-            <p class="adv-panel__intro-label">Snow Sports Ã‚Â· Gulmarg, Kashmir</p>
-            <h2 class="adv-panel__intro-title">Skiing in the Himalayas</h2>
-            <p class="adv-panel__intro-desc">Asia's highest gondola, legendary powder runs, and certified instructors
-              for all levels. From first-timers to expert heli-skiers Ã¢â‚¬â€ Gulmarg delivers like nowhere else on Earth.</p>
-          </div>
-          <div class="adv-panel__intro-stats">
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">4,200m</div>
-              <div class="adv-intro-stat__label">Peak Altitude</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">December</div>
-              <div class="adv-intro-stat__label">Snow Season</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">14m+</div>
-              <div class="adv-intro-stat__label">Annual Snowfall</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="adv-packages">
-        <!-- Rendered by SHData.renderSkiing() Ã¢â‚¬â€ synced with admin -->
-        <div id="skiing-packages-container"></div>
-      </div>
-      <div class="adv-cta">
-        <div class="adv-cta__inner">
-          <div class="adv-cta__text">
-            <h3>Can't find what you need?</h3>
-            <p>We build bespoke ski packages tailored to your skill level, group size and budget.</p>
-          </div>
-          <div class="adv-cta__btns">
-            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
-            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ SNOWBOARDING PANEL Ã¢â€â‚¬Ã¢â€â‚¬ -->
-    <div class="adv-panel" id="panel-snowboarding">
-      <div class="adv-panel__intro">
-        <img src="assets/images/snowboarding-action.png" alt="" class="adv-panel__intro-bg">
-        <div class="adv-panel__intro-inner">
-          <div class="adv-panel__intro-text">
-            <p class="adv-panel__intro-label">Snow Sports Ã‚Â· Gulmarg, Kashmir</p>
-            <h2 class="adv-panel__intro-title">Snowboarding in the Himalayas</h2>
-            <p class="adv-panel__intro-desc">From butter-smooth groomers to untouched backcountry powder Ã¢â‚¬â€ Gulmarg is a
-              snowboarder's dream. Expert coaches and world-class terrain for every rider.</p>
-          </div>
-          <div class="adv-panel__intro-stats">
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">Beginner</div>
-              <div class="adv-intro-stat__label">to Expert</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">DecÃ¢â‚¬â€œMar</div>
-              <div class="adv-intro-stat__label">Snow Season</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">Heli</div>
-              <div class="adv-intro-stat__label">Access Available</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="adv-packages">
-        <!-- Rendered by SHData.renderSnowboarding() Ã¢â‚¬â€ synced with admin -->
-        <div id="snowboarding-packages-container"></div>
-      </div>
-      <div class="adv-cta">
-        <div class="adv-cta__inner">
-          <div class="adv-cta__text">
-            <h3>Plan your perfect snowboard trip</h3>
-            <p>Custom board packages with premium equipment and private coaching available.</p>
-          </div>
-          <div class="adv-cta__btns">
-            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
-            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ã¢â€â‚¬Ã¢â€â‚¬ TREKKING PANEL Ã¢â€â‚¬Ã¢â€â‚¬ -->
-    <div class="adv-panel" id="panel-trekking">
-      <div class="adv-panel__intro">
-        <img src="assets/images/trekking-landscape.png" alt="" class="adv-panel__intro-bg">
-        <div class="adv-panel__intro-inner">
-          <div class="adv-panel__intro-text">
-            <p class="adv-panel__intro-label">Himalayan Treks Ã‚Â· Kashmir</p>
-            <h2 class="adv-panel__intro-title">Trek Through Living Postcards</h2>
-            <p class="adv-panel__intro-desc">Seven alpine lakes, wildflower meadows, glaciers and sacred peaks.
-              Kashmir's trekking routes are among the most breathtaking on Earth Ã¢â‚¬â€ guided by certified local experts.
-            </p>
-          </div>
-          <div class="adv-panel__intro-stats">
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">JunÃ¢â‚¬â€œOct</div>
-              <div class="adv-intro-stat__label">Trek Season</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">4,100m</div>
-              <div class="adv-intro-stat__label">Max Altitude</div>
-            </div>
-            <div class="adv-intro-stat">
-              <div class="adv-intro-stat__val">5+</div>
-              <div class="adv-intro-stat__label">Trek Routes</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="adv-packages">
-        <!-- Rendered by SHData.renderTrekking() Ã¢â‚¬â€ synced with admin -->
-        <div id="trekking-packages-container"></div>
-      </div>
-      <div class="adv-cta">
-        <div class="adv-cta__inner">
-          <div class="adv-cta__text">
-            <h3>Custom trek itinerary?</h3>
-            <p>We design multi-day expeditions with premium camping and expert local guides.</p>
-          </div>
-          <div class="adv-cta__btns">
-            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
-            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Activities panel removed and moved to separate activities.html page -->
-
-  </div><!-- /adv-content -->
-
-  <!-- Footer container -->
-  <div id="footer-placeholder"></div>
-
-  <!-- ======================================================
-       SCRIPTS
-  ====================================================== -->
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/site-data.js?v=6"></script>
-  <script src="js/policy-modal.js"></script>
-  <script src="js/navbar.js?v=3"></script>
-  <script>
-    /* ============================================================
-       Adventures Page Controller
-       â€“ Uses SHData renderers to stay in sync with admin panel
-    ============================================================ */
-    (function () {
-      'use strict';
-
-      var currentTab = 'skiing';
-
-      // â”€â”€ Tab switch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      window.switchTab = function (tabId) {
-        if (currentTab === tabId) return;
-        currentTab = tabId;
-
-        // Update card states
-        document.querySelectorAll('.cat-card').forEach(function (card) {
-          card.classList.toggle('active', card.dataset.tab === tabId);
-        });
-
-        // Show/hide panels
-        document.querySelectorAll('.adv-panel').forEach(function (panel) {
-          panel.classList.remove('is-active');
-        });
-        var target = document.getElementById('panel-' + tabId);
-        if (target) {
-          target.classList.add('is-active');
-          // Scroll smoothly to content
-          setTimeout(function () {
-            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }, 50);
-        }
-
-        // Sync navbar active highlighting
-        if (typeof window.updateNavbarActiveState === 'function') {
-          window.updateNavbarActiveState('#' + tabId);
-        }
-      };
-
-      // â”€â”€ Check URL hash or query param for deep link â”€â”€
-      var hash = (window.location.hash || '').replace('#', '');
-      var params = new URLSearchParams(window.location.search);
-      var queryTab = params.get('tab');
-      var initialTab = queryTab || hash;
-      if (['skiing', 'snowboarding', 'trekking'].indexOf(initialTab) !== -1) {
-        currentTab = '';
-        switchTab(initialTab);
-      }
-
-      window.addEventListener('hashchange', function () {
-        var newHash = (window.location.hash || '').replace('#', '');
-        if (['skiing', 'snowboarding', 'trekking'].indexOf(newHash) !== -1) {
-          switchTab(newHash);
-        } else if (!newHash) {
-          switchTab('skiing');
-        }
-      });
-
-
-      // â”€â”€ Render all panels via SHData (admin-synced) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      document.addEventListener('DOMContentLoaded', function () {
-        SHData.init();
-        SHData.onChange(function() {
-            // Skiing - uses SHData.renderSkiing
-            SHData.renderSkiing('skiing-packages-container');
-
-            // Snowboarding - uses SHData.renderSnowboarding
-            SHData.renderSnowboarding('snowboarding-packages-container');
-
-            // Trekking - uses SHData.renderTrekking
-            SHData.renderTrekking('trekking-packages-container');
-
-            // Setup observer for active/centered card scaling
-            const container = document.getElementById('trekking-packages-container');
-            if (container && window.IntersectionObserver) {
-              const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                    entry.target.classList.add('is-active');
-                  } else {
-                    entry.target.classList.remove('is-active');
-                  }
-                });
-              }, {
-                root: container,
-                threshold: 0.6
-              });
-              
-              setTimeout(function() {
-                container.querySelectorAll('.trek-card').forEach(function(card) {
-                  observer.observe(card);
-                });
-              }, 300);
-            }
-
-            // Activities rendering removed from adventures.html
-
-            // Footer
-            SHData.renderFooter();
-
-            // Update WhatsApp links with correct number from settings
-            SHData.updateWhatsApp();
-          });
-        });
-
-    }());
-
-  </script>
-  <script src="js/cursor.js?v=1"></script>
-</body>
-
-</html>
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Adventures — Shred Himalayas</title>
+  <meta name="description"
+    content="Explore all adventures by Shred Himalayas — skiing, snowboarding, trekking and adventure activities in the Himalayas of Kashmir.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/variables.css?v=5">
+  <link rel="stylesheet" href="css/base.css?v=5">
+  <link rel="stylesheet" href="css/navbar.css?v=4">
+
+  <link rel="stylesheet" href="css/page-hero.css?v=9">
+  <link rel="stylesheet" href="css/subpage.css?v=13">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/polish.css?v=11">
+  <link rel="stylesheet" href="css/cursor.css?v=1">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F4F3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m8 3 4 8 5-5 5 15H2L8 3z'/></svg>">
+
+  <style>
+    /* ============================================
+       ADVENTURES PAGE — Dark Gold Luxury
+    ============================================ */
+
+    /* ── Hero ── */
+    .adv-hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .adv-hero__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      filter: brightness(0.55) saturate(0.75);
+      transform: scale(1.03);
+    }
+
+    .adv-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right,
+          rgba(4, 4, 4, 0.92) 0%,
+          rgba(4, 4, 4, 0.65) 40%,
+          rgba(4, 4, 4, 0.10) 70%,
+          transparent 100%),
+        linear-gradient(to top,
+          rgba(4, 4, 4, 0.6) 0%,
+          transparent 40%);
+    }
+
+    /* Hero top content */
+    .adv-hero__top {
+      position: relative;
+      z-index: 2;
+      max-width: var(--container-wide);
+      width: 100%;
+      margin: 0 auto;
+      padding: 120px var(--container-padding) 32px;
+    }
+
+    .adv-hero__label {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(47, 79, 62, 0.3);
+      background: rgba(47, 79, 62, 0.08);
+      padding: 6px 16px;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    .adv-hero__title {
+      font-family: var(--font-heading) !important;
+      font-weight: 300 !important;
+      font-size: clamp(2.8rem, 6vw, 5.5rem) !important;
+      color: #f7f3ee !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.05 !important;
+      margin: 0 0 20px !important;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.9) !important;
+    }
+
+    .adv-hero__title em {
+      font-style: italic !important;
+      color: #8bba99 !important;
+      font-weight: 300 !important;
+    }
+
+    .adv-hero__sub {
+      font-family: var(--font-body) !important;
+      font-size: 15px !important;
+      color: #d4cfc8 !important;
+      max-width: 500px !important;
+      line-height: 1.7 !important;
+      margin-bottom: 28px !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    .adv-hero__badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .adv-hero__badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+      font-family: var(--font-accent) !important;
+      font-size: 9.5px !important;
+      letter-spacing: 0.12em !important;
+      text-transform: uppercase !important;
+      color: #f0ebe4 !important;
+      background: rgba(255, 255, 255, 0.10) !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      padding: 7px 14px !important;
+      backdrop-filter: blur(8px) !important;
+    }
+
+    .adv-hero__badge svg {
+      color: #8bba99 !important;
+      flex-shrink: 0;
+    }
+
+    /* ── Category Selector Cards ── */
+    .adv-cats {
+      position: relative;
+      z-index: 3;
+      max-width: var(--container-wide);
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 var(--container-padding) 0;
+      margin-top: 32px;
+      padding-bottom: 0;
+    }
+
+    .adv-cats__label {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+      margin-bottom: 16px;
+    }
+
+    .adv-cats__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    /* Individual category card */
+    .cat-card {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      height: auto;
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.25s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .cat-card.active {
+      border-color: var(--gold);
+      box-shadow: 0 12px 35px rgba(196, 168, 108, 0.2);
+    }
+
+    .cat-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.55) saturate(0.65);
+      /* Brighter — was 0.42 */
+      transition: transform 0.5s ease, filter 0.4s ease;
+      display: block;
+    }
+
+    .cat-card:hover .cat-card__img,
+    .cat-card.active .cat-card__img {
+      transform: scale(1.06);
+      filter: brightness(0.7) saturate(0.8);
+    }
+
+    .cat-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6, 6, 6, 0.9) 0%, rgba(6, 6, 6, 0.15) 60%);
+    }
+
+    .cat-card.active .cat-card__overlay {
+      background: linear-gradient(to top, rgba(6, 6, 6, 0.92) 0%, rgba(47, 79, 62, 0.08) 100%);
+    }
+
+    .cat-card__body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 18px;
+    }
+
+    .cat-card__icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(8, 8, 8, 0.8);
+      border: 1px solid rgba(47, 79, 62, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      margin-bottom: 10px;
+      transition: background 0.25s ease;
+    }
+
+    .cat-card.active .cat-card__icon,
+    .cat-card:hover .cat-card__icon {
+      background: var(--gold);
+      color: #0a0a0a;
+    }
+
+    .cat-card__title {
+      font-family: var(--font-body) !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      color: #ffffff !important;
+      margin: 0 0 4px !important;
+      letter-spacing: 0.01em !important;
+      transition: color 0.2s !important;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .cat-card.active .cat-card__title {
+      color: #8bba99 !important;
+    }
+
+    .cat-card__desc {
+      font-size: 11.5px !important;
+      color: #ccc7c0 !important;
+      line-height: 1.45 !important;
+      margin: 0 !important;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    .cat-card__arrow {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 18px;
+      color: var(--gold);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.22s ease;
+    }
+
+    .cat-card:hover .cat-card__arrow,
+    .cat-card.active .cat-card__arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Active gold top border accent */
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+      z-index: 5;
+    }
+
+    .cat-card.active::before {
+      transform: scaleX(1);
+    }
+
+    /* ── Tab Content Area ── */
+    .adv-content {
+      background: var(--bg-base);
+      border-top: 1px solid rgba(47, 79, 62, 0.12);
+      margin-top: 3px;
+    }
+
+    /* ── Panel intro strip ── */
+    .adv-panel__intro {
+      position: relative;
+      background: var(--bg-raised);
+      border-bottom: 1px solid rgba(47, 79, 62, 0.1);
+      overflow: hidden;
+    }
+
+    .adv-panel__intro-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.35) saturate(0.5);
+      /* Enough to show image but dark enough for text */
+    }
+
+    .adv-panel__intro-inner {
+      position: relative;
+      z-index: 2;
+      max-width: var(--container-wide);
+      margin: 0 auto;
+      padding: 48px var(--container-padding);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .adv-panel__intro-text {}
+
+    .adv-panel__intro-label {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8bba99 !important;
+      margin-bottom: 10px;
+    }
+
+    .adv-panel__intro-title {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      color: #f7f3ee !important;
+      /* Was var(--text-primary) = dark on dark bg */
+      line-height: 1.15;
+      margin: 0 0 12px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .adv-panel__intro-desc {
+      font-size: 14px;
+      color: #ccc7c0 !important;
+      /* Was var(--text-secondary) = dark on dark bg */
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .adv-panel__intro-stats {
+      display: flex;
+      gap: 0;
+      flex-shrink: 0;
+    }
+
+    .adv-intro-stat {
+      text-align: center;
+      padding: 18px 28px;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .adv-intro-stat:first-child {
+      border-left: none;
+    }
+
+    .adv-intro-stat__val {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 300;
+      color: #8bba99 !important;
+      /* Sage green accent — visible on dark bg */
+      line-height: 1;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .adv-intro-stat__label {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #a8a39c !important;
+      /* Light muted — visible on dark bg */
+    }
+
+    /* ── Package Panels ── */
+    .adv-panel {
+      display: none;
+    }
+
+    .adv-panel.is-active {
+      display: block;
+      animation: panelIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Package content wrapper ── */
+    .adv-packages {
+      max-width: var(--container-wide);
+      margin: 0 auto;
+      padding: 60px var(--container-padding);
+    }
+
+    /* ── CTA Strip ── */
+    .adv-cta {
+      background: var(--bg-raised);
+      border-top: 1px solid rgba(47, 79, 62, 0.1);
+      padding: 44px 0;
+    }
+
+    .adv-cta__inner {
+      max-width: var(--container-wide);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .adv-cta__text h3 {
+      font-family: var(--font-heading);
+      font-weight: 300;
+      font-size: 1.7rem;
+      color: var(--text-primary);
+      margin: 0 0 4px;
+    }
+
+    .adv-cta__text p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .adv-cta__btns {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* ── Activities Layout ── */
+    .adv-activities-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .adv-activities-col-title {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(47, 79, 62, 0.15);
+    }
+
+    #activities-winter-container,
+    #activities-summer-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    /* Override detail-card for horizontal layout within adventure page */
+    .adv-packages .detail-card {
+      margin-bottom: 20px;
+    }
+
+    .adv-packages .detail-grid {
+      gap: 20px;
+    }
+
+    /* ── Activities items override for premium vertical cards with photos ── */
+    .adv-packages .activities__item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      padding: 0;
+      background: var(--bg-card);
+      border: 1px solid rgba(47, 79, 62, 0.12);
+      border-radius: 0;
+      transition: all var(--duration-normal) var(--ease-premium);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .adv-packages .activities__item:hover {
+      border-color: var(--gold);
+      background: var(--bg-hover);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+    }
+
+    .adv-packages .activities__item-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+
+    .adv-packages .activities__item-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--duration-slower) var(--ease-smooth);
+      filter: brightness(0.8) saturate(0.8) sepia(0.05);
+    }
+
+    .adv-packages .activities__item:hover .activities__item-img {
+      transform: scale(1.05);
+      filter: brightness(0.88) saturate(0.85);
+    }
+
+    .adv-packages .activities__item-body {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .adv-packages .activities__item-name {
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-primary) !important;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .adv-packages .activities__item-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary) !important;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1024px) {
+      .adv-cats {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      .adv-cats__label {
+        padding-left: var(--container-padding);
+      }
+
+      .adv-cats__grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 12px !important;
+        scroll-behavior: smooth !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: var(--container-padding) !important;
+        padding-right: var(--container-padding) !important;
+        padding-bottom: 16px !important;
+        scrollbar-width: none !important;
+      }
+
+      .adv-cats__grid::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .cat-card {
+        flex: 0 0 45% !important;
+        scroll-snap-align: start !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        max-width: 280px !important;
+        border-radius: 20px !important;
+      }
+
+      .adv-panel__intro-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px var(--container-padding, 24px);
+      }
+
+      .adv-panel__intro-stats {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding-top: 20px;
+        margin-top: 16px;
+      }
+
+      .adv-intro-stat {
+        padding: 12px 20px;
+        flex: 1 1 30%;
+      }
+
+      .adv-intro-stat:first-child {
+        padding-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cat-card {
+        flex: 0 0 68% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        max-width: 220px !important;
+        border-radius: 20px !important;
+      }
+
+      .cat-card__body {
+        padding: 12px 14px !important;
+      }
+
+      .cat-card__icon {
+        width: 32px !important;
+        height: 32px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .cat-card__icon svg {
+        width: 15px !important;
+        height: 15px !important;
+      }
+
+      .cat-card__title {
+        font-size: 14px !important;
+      }
+
+      .cat-card__desc {
+        font-size: 11px !important;
+      }
+
+      #activities-winter-container,
+      #activities-summer-container {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 14px !important;
+        scroll-behavior: smooth !important;
+        margin-left: -20px !important;
+        margin-right: -20px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 16px !important;
+        scrollbar-width: none !important;
+      }
+
+      #activities-winter-container::-webkit-scrollbar,
+      #activities-summer-container::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .adv-packages .activities__item {
+        flex: 0 0 78% !important;
+        scroll-snap-align: start !important;
+        max-width: 290px !important;
+        height: auto !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cat-card {
+        flex: 0 0 75% !important;
+      }
+
+      .adv-activities-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Trekking Card Carousel ── */
+    #trekking-packages-container {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      gap: 24px !important;
+      scroll-behavior: smooth !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding: 20px 0 !important;
+      
+      /* Hide scrollbar */
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    #trekking-packages-container::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    #trekking-packages-container .trek-card {
+      flex: 0 0 calc(33.333% - 16px) !important;
+      min-width: 320px !important;
+      scroll-snap-align: start !important;
+      height: auto !important;
+      animation: cardSlideIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+    }
+
+    /* Staggered load animation */
+    #trekking-packages-container .trek-card:nth-child(1) { animation-delay: 0.1s; }
+    #trekking-packages-container .trek-card:nth-child(2) { animation-delay: 0.2s; }
+    #trekking-packages-container .trek-card:nth-child(3) { animation-delay: 0.3s; }
+    #trekking-packages-container .trek-card:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes cardSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Hover effect (desktop only) */
+    @media (min-width: 1025px) {
+      #trekking-packages-container .trek-card:hover {
+        transform: translateY(-8px) !important;
+        border-color: var(--gold) !important;
+        box-shadow: 0 20px 40px rgba(196, 168, 108, 0.15), 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+      }
+    }
+
+    /* Tablet breakpoint (approx 2 cards visible) */
+    @media (max-width: 1024px) {
+      #trekking-packages-container .trek-card {
+        flex: 0 0 calc(50% - 12px) !important;
+      }
+    }
+
+    /* Mobile breakpoint (1 card visible, snap scroll) */
+    @media (max-width: 768px) {
+      #trekking-packages-container {
+        scroll-snap-type: x mandatory !important;
+        gap: 16px !important;
+        padding: 20px 16px !important;
+        margin-left: calc(-1 * var(--container-padding)) !important;
+        margin-right: calc(-1 * var(--container-padding)) !important;
+      }
+
+      #trekking-packages-container .trek-card {
+        flex: 0 0 85% !important;
+        min-width: 280px !important;
+        max-width: none !important;
+        scroll-snap-align: center !important;
+        transform: scale(0.95) !important;
+        opacity: 0.8 !important;
+      }
+
+      #trekking-packages-container .trek-card.is-active {
+        transform: scale(1.0) !important;
+        opacity: 1.0 !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/theme.css?v=1">
+  <link rel="stylesheet" href="css/ios-compat.css">
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <div class="navbar__logo-icon">
+          <svg viewBox="0 0 100 100" class="navbar__yak-logo" width="34" height="34" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 35 C15 20, 30 10, 50 25 C70 10, 85 20, 85 35" />
+            <path d="M22 38 C25 28, 38 24, 50 32 C62 24, 75 28, 78 38" />
+            <path d="M32 36 L40 70 C42 75, 45 80, 50 80 C55 80, 58 75, 60 70 L68 36 Z" />
+            <path d="M44 68 C46 70, 54 70, 56 68" />
+          </svg>
+        </div>
+        <div class="navbar__logo-text">
+          <span>Shred</span>
+          <span>Himalayas</span>
+        </div>
+      </a>
+
+      <div class="navbar__links" id="navLinks">
+        <a href="index.html" class="navbar__link">Home</a>
+        <a href="adventures.html" class="navbar__link active">Adventures</a>
+        <a href="activities.html" class="navbar__link">Activities</a>
+        <a href="packages.html" class="navbar__link">Packages</a>
+        <a href="index.html#gallery" class="navbar__link">Gallery</a>
+        <a href="index.html#about" class="navbar__link">About</a>
+        <a href="index.html#contact" class="navbar__link">Contact Us</a>
+      </div>
+
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navSheet">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MOBILE NAV BOTTOM-SHEET ===== -->
+  <div class="nav-sheet-backdrop" id="navSheetBackdrop"></div>
+  <div class="nav-sheet" id="navSheet" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="nav-sheet__pill"></div>
+    <div class="nav-sheet__header">
+      <span class="nav-sheet__label">Navigation</span>
+    </div>
+    <div class="nav-sheet__divider"></div>
+    <div class="nav-sheet__grid">
+      <a href="index.html" class="nav-sheet__item">
+        Home
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="adventures.html" class="nav-sheet__item active">
+        Adventures
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="activities.html" class="nav-sheet__item nav-sheet__item--full" id="mobileActivitiesToggle">
+        Activities
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="packages.html" class="nav-sheet__item">
+        Packages
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="index.html#gallery" class="nav-sheet__item">
+        Gallery
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="index.html#about" class="nav-sheet__item">
+        About
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="index.html#contact" class="nav-sheet__item">
+        Contact
+        <svg class="nav-sheet__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== TICKER BAR ===== -->
+  <!-- <div class="nav-ticker" aria-hidden="true">
+    <div class="nav-ticker__track">
+      <span class="nav-ticker__item">+91 91499 74118</span><span class="nav-ticker__dot"></span>
+      <span class="nav-ticker__item">loneakash7753@gmai.com</span><span class="nav-ticker__dot"></span>
+    </div>
+  </div> -->
+
+  <!-- ===== HERO + CATEGORY CARDS ===== -->
+
+  <section class="adv-hero">
+    <img src="assets/images/hero-mountains.png" alt="Himalayan Adventures" class="adv-hero__bg">
+    <div class="adv-hero__overlay"></div>
+
+    <div class="adv-hero__top">
+      <p class="adv-hero__label">Shred Himalayas</p>
+      <h1 class="adv-hero__title">Explore. Experience. <em>Excel.</em></h1>
+      <p class="adv-hero__sub">From adrenaline-pumping ski runs to peaceful alpine treks — choose your Himalayan
+        adventure and create memories that last a lifetime.</p>
+      <div class="adv-hero__badges">
+        <span class="adv-hero__badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>Expert Guides
+        </span>
+        <span class="adv-hero__badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4l3 3" />
+          </svg>Premium Gear
+        </span>
+        <span class="adv-hero__badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+          </svg>Best Locations
+        </span>
+        <span class="adv-hero__badge">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 2 4.11V3a2 2 0 0 1 2-2" />
+          </svg>24/7 Support
+        </span>
+      </div>
+    </div>
+
+    <!-- Category selector cards inside hero -->
+    <div class="adv-cats">
+      <p class="adv-cats__label">Choose Your Experience</p>
+      <div class="adv-cats__grid">
+
+        <div class="cat-card active" data-tab="skiing" onclick="switchTab('skiing')">
+          <img src="assets/images/skiing-action.png" alt="Skiing" class="cat-card__img">
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__body">
+            <div class="cat-card__icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M19.5 3.5L18 2l-4 4-2-2-3 3 4.5 4.5" />
+                <path d="m4 20 7-7M5 4l-2 2 8 8" />
+              </svg>
+            </div>
+            <h3 class="cat-card__title">Skiing</h3>
+            <p class="cat-card__desc">Feel the thrill on pristine white slopes of Gulmarg</p>
+          </div>
+          <span class="cat-card__arrow">→</span>
+        </div>
+
+        <div class="cat-card" data-tab="snowboarding" onclick="switchTab('snowboarding')">
+          <img src="assets/images/snowboarding-action.png" alt="Snowboarding" class="cat-card__img">
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__body">
+            <div class="cat-card__icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
+                <rect x="9" y="11" width="14" height="10" rx="2" />
+              </svg>
+            </div>
+            <h3 class="cat-card__title">Snowboarding</h3>
+            <p class="cat-card__desc">Carve your way through the mountains of Kashmir</p>
+          </div>
+          <span class="cat-card__arrow">→</span>
+        </div>
+
+        <div class="cat-card" data-tab="trekking" onclick="switchTab('trekking')">
+          <img src="assets/images/trekking-landscape.png" alt="Trekking" class="cat-card__img">
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__body">
+            <div class="cat-card__icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="m3 17 3-8 4 5 3-3 4 6" />
+                <circle cx="17" cy="7" r="2" />
+              </svg>
+            </div>
+            <h3 class="cat-card__title">Trekking</h3>
+            <p class="cat-card__desc">Discover the raw beauty of the Himalayas on foot</p>
+          </div>
+          <span class="cat-card__arrow">→</span>
+        </div>
+
+        <!-- Activity card removed and moved to separate activities.html page -->
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== CONTENT PANELS ===== -->
+  <div class="adv-content">
+
+    <!-- ── SKIING PANEL ── -->
+    <div class="adv-panel is-active" id="panel-skiing">
+      <div class="adv-panel__intro">
+        <img src="assets/images/skiing-action.png" alt="" class="adv-panel__intro-bg">
+        <div class="adv-panel__intro-inner">
+          <div class="adv-panel__intro-text">
+            <p class="adv-panel__intro-label">Snow Sports Ã‚· Gulmarg, Kashmir</p>
+            <h2 class="adv-panel__intro-title">Skiing in the Himalayas</h2>
+            <p class="adv-panel__intro-desc">Asia's highest gondola, legendary powder runs, and certified instructors
+              for all levels. From first-timers to expert heli-skiers — Gulmarg delivers like nowhere else on Earth.</p>
+          </div>
+          <div class="adv-panel__intro-stats">
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">4,200m</div>
+              <div class="adv-intro-stat__label">Peak Altitude</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">December</div>
+              <div class="adv-intro-stat__label">Snow Season</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">14m+</div>
+              <div class="adv-intro-stat__label">Annual Snowfall</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="adv-packages">
+        <!-- Rendered by SHData.renderSkiing() — synced with admin -->
+        <div id="skiing-packages-container"></div>
+      </div>
+      <div class="adv-cta">
+        <div class="adv-cta__inner">
+          <div class="adv-cta__text">
+            <h3>Can't find what you need?</h3>
+            <p>We build bespoke ski packages tailored to your skill level, group size and budget.</p>
+          </div>
+          <div class="adv-cta__btns">
+            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
+            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SNOWBOARDING PANEL ── -->
+    <div class="adv-panel" id="panel-snowboarding">
+      <div class="adv-panel__intro">
+        <img src="assets/images/snowboarding-action.png" alt="" class="adv-panel__intro-bg">
+        <div class="adv-panel__intro-inner">
+          <div class="adv-panel__intro-text">
+            <p class="adv-panel__intro-label">Snow Sports Ã‚· Gulmarg, Kashmir</p>
+            <h2 class="adv-panel__intro-title">Snowboarding in the Himalayas</h2>
+            <p class="adv-panel__intro-desc">From butter-smooth groomers to untouched backcountry powder — Gulmarg is a
+              snowboarder's dream. Expert coaches and world-class terrain for every rider.</p>
+          </div>
+          <div class="adv-panel__intro-stats">
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">Beginner</div>
+              <div class="adv-intro-stat__label">to Expert</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">Dec–Mar</div>
+              <div class="adv-intro-stat__label">Snow Season</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">Heli</div>
+              <div class="adv-intro-stat__label">Access Available</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="adv-packages">
+        <!-- Rendered by SHData.renderSnowboarding() — synced with admin -->
+        <div id="snowboarding-packages-container"></div>
+      </div>
+      <div class="adv-cta">
+        <div class="adv-cta__inner">
+          <div class="adv-cta__text">
+            <h3>Plan your perfect snowboard trip</h3>
+            <p>Custom board packages with premium equipment and private coaching available.</p>
+          </div>
+          <div class="adv-cta__btns">
+            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
+            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TREKKING PANEL ── -->
+    <div class="adv-panel" id="panel-trekking">
+      <div class="adv-panel__intro">
+        <img src="assets/images/trekking-landscape.png" alt="" class="adv-panel__intro-bg">
+        <div class="adv-panel__intro-inner">
+          <div class="adv-panel__intro-text">
+            <p class="adv-panel__intro-label">Himalayan Treks Ã‚· Kashmir</p>
+            <h2 class="adv-panel__intro-title">Trek Through Living Postcards</h2>
+            <p class="adv-panel__intro-desc">Seven alpine lakes, wildflower meadows, glaciers and sacred peaks.
+              Kashmir's trekking routes are among the most breathtaking on Earth — guided by certified local experts.
+            </p>
+          </div>
+          <div class="adv-panel__intro-stats">
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">Jun–Oct</div>
+              <div class="adv-intro-stat__label">Trek Season</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">4,100m</div>
+              <div class="adv-intro-stat__label">Max Altitude</div>
+            </div>
+            <div class="adv-intro-stat">
+              <div class="adv-intro-stat__val">5+</div>
+              <div class="adv-intro-stat__label">Trek Routes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="adv-packages">
+        <!-- Rendered by SHData.renderTrekking() — synced with admin -->
+        <div id="trekking-packages-container"></div>
+      </div>
+      <div class="adv-cta">
+        <div class="adv-cta__inner">
+          <div class="adv-cta__text">
+            <h3>Custom trek itinerary?</h3>
+            <p>We design multi-day expeditions with premium camping and expert local guides.</p>
+          </div>
+          <div class="adv-cta__btns">
+            <a href="index.html#contact" class="btn btn--secondary"><span>Custom Enquiry</span></a>
+            <a href="packages.html" class="btn btn--primary"><span>All Packages</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities panel removed and moved to separate activities.html page -->
+
+  </div><!-- /adv-content -->
+
+  <!-- Footer container -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ======================================================
+       SCRIPTS
+  ====================================================== -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/site-data.js?v=6"></script>
+  <script src="js/policy-modal.js"></script>
+  <script src="js/navbar.js?v=3"></script>
+  <script>
+    /* ============================================================
+       Adventures Page Controller
+       – Uses SHData renderers to stay in sync with admin panel
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      var currentTab = 'skiing';
+
+      // ── Tab switch ──────────────────────────────────────────
+      window.switchTab = function (tabId) {
+        if (currentTab === tabId) return;
+        currentTab = tabId;
+
+        // Update card states
+        document.querySelectorAll('.cat-card').forEach(function (card) {
+          card.classList.toggle('active', card.dataset.tab === tabId);
+        });
+
+        // Show/hide panels
+        document.querySelectorAll('.adv-panel').forEach(function (panel) {
+          panel.classList.remove('is-active');
+        });
+        var target = document.getElementById('panel-' + tabId);
+        if (target) {
+          target.classList.add('is-active');
+          // Scroll smoothly to content
+          setTimeout(function () {
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 50);
+        }
+
+        // Sync navbar active highlighting
+        if (typeof window.updateNavbarActiveState === 'function') {
+          window.updateNavbarActiveState('#' + tabId);
+        }
+      };
+
+      // ── Check URL hash or query param for deep link ──
+      var hash = (window.location.hash || '').replace('#', '');
+      var params = new URLSearchParams(window.location.search);
+      var queryTab = params.get('tab');
+      var initialTab = queryTab || hash;
+      if (['skiing', 'snowboarding', 'trekking'].indexOf(initialTab) !== -1) {
+        currentTab = '';
+        switchTab(initialTab);
+      }
+
+      window.addEventListener('hashchange', function () {
+        var newHash = (window.location.hash || '').replace('#', '');
+        if (['skiing', 'snowboarding', 'trekking'].indexOf(newHash) !== -1) {
+          switchTab(newHash);
+        } else if (!newHash) {
+          switchTab('skiing');
+        }
+      });
+
+
+      // ── Render all panels via SHData (admin-synced) ──────────
+      document.addEventListener('DOMContentLoaded', function () {
+        SHData.init();
+        SHData.onChange(function() {
+            // Skiing - uses SHData.renderSkiing
+            SHData.renderSkiing('skiing-packages-container');
+
+            // Snowboarding - uses SHData.renderSnowboarding
+            SHData.renderSnowboarding('snowboarding-packages-container');
+
+            // Trekking - uses SHData.renderTrekking
+            SHData.renderTrekking('trekking-packages-container');
+
+            // Setup observer for active/centered card scaling
+            const container = document.getElementById('trekking-packages-container');
+            if (container && window.IntersectionObserver) {
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                  } else {
+                    entry.target.classList.remove('is-active');
+                  }
+                });
+              }, {
+                root: container,
+                threshold: 0.6
+              });
+              
+              setTimeout(function() {
+                container.querySelectorAll('.trek-card').forEach(function(card) {
+                  observer.observe(card);
+                });
+              }, 300);
+            }
+
+            // Activities rendering removed from adventures.html
+
+            // Footer
+            SHData.renderFooter();
+
+            // Update WhatsApp links with correct number from settings
+            SHData.updateWhatsApp();
+          });
+        });
+
+    }());
+
+  </script>
+  <script src="js/cursor.js?v=1"></script>
+</body>
+
+</html>

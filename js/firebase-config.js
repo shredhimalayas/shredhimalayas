@@ -18,13 +18,13 @@ if (typeof firebase !== 'undefined' && !firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// Global Cloud Firestore reference
-let db = null;
+// Global Cloud Firestore reference (used by site-data.js)
+var db = null;
 if (typeof firebase !== 'undefined' && firebase.firestore) {
   try {
     db = firebase.firestore();
+    console.log('[Firebase] Firestore connected to project: shredhimalayas');
   } catch (e) {
-    console.warn("Firestore init warning:", e);
+    console.warn('[Firebase] Firestore init warning:', e);
   }
 }
-

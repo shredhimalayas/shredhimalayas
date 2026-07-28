@@ -579,8 +579,6 @@ const SHData = (function () {
       as5: 'assets/images/gallery-luxury-stay.png'
     };
     // Activities data merge with defaults handled inline below
-    const stored = load();
-
     // Merge stored activities with defaults to fill any missing fields (migration for old data)
     const defActs = JSON.parse(JSON.stringify(defaults.activities));
 

@@ -1,7 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow read & write access for site content and admin authentication
+    // Allow full public read & write for all site content (admin + public pages)
     match /{document=**} {
       allow read, write: if true;
     }
