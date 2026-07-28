@@ -49,7 +49,7 @@ function doLogin(e) {
     }
 
     // Save session & credentials in localStorage
-    localStorage.setItem('sh_admin_logged_in', 'true');
+    sessionStorage.setItem('sh_admin_logged_in', 'true');
     localStorage.setItem('sh_admin_user', user);
     localStorage.setItem('sh_admin_pass', pass);
 
@@ -91,7 +91,7 @@ function doLogin(e) {
 
 function doLogout() {
   if (confirm('Are you sure you want to log out from the Admin Panel?')) {
-    localStorage.removeItem('sh_admin_logged_in');
+    sessionStorage.removeItem('sh_admin_logged_in');
     var appScr = document.getElementById('app');
     if (appScr) appScr.classList.remove('visible');
     var loginScreen = document.getElementById('loginScreen');
@@ -1717,5 +1717,29 @@ if (typeof SHData !== 'undefined' && SHData.onChange) {
     }
   });
 }
+
+// Auto-login persistence check ONLY on reload
+(function() {
+  var navEntries = performance.getEntriesByType("navigation");
+  var isReload = navEntries.length > 0 && navEntries[0].type === "reload";
+  if (isReload && sessionStorage.getItem('sh_admin_logged_in') === 'true') {
+    var loginScr = document.getElementById('loginScreen');
+    if (loginScr) loginScr.style.display = 'none';
+    var appScr = document.getElementById('app');
+    if (appScr) appScr.classList.add('visible');
+
+    // Fetch site data from Firestore and populate dashboard views
+    if (typeof SHData !== 'undefined' && SHData.init) {
+      SHData.init().then(function () {
+        if (typeof loadAll === 'function') {
+          loadAll();
+        }
+      });
+    }
+  } else {
+    // If not a reload, clear the session so they must log in
+    sessionStorage.removeItem('sh_admin_logged_in');
+  }
+})();
 
 
