@@ -276,7 +276,7 @@ const SHData = (function () {
   // ─── FIRESTORE STORAGE HELPERS ──────────────────────
   var _listeners = [];
   var _unsubscribers = [];
-  var _initPromise = null;
+  var _initDone = false;
   var _cache = {};
 
   var SECTIONS = [
@@ -285,49 +285,62 @@ const SHData = (function () {
     'testimonials', 'team', 'contacts', 'sightseeing'
   ];
 
+  // Register a callback that fires immediately and on every future Firestore update
   function onChange(cb) {
     if (typeof cb !== 'function') return;
     _listeners.push(cb);
-    try { cb(_cache); } catch (e) { console.error('Error triggering callback:', e); }
+    // Fire immediately with current cache so first render happens at once
+    try { cb(_cache); } catch (e) { console.error('[SHData] onChange immediate error:', e); }
   }
 
-  // Helper to sanitize objects (remove undefined properties for Firestore)
+  // Helper to sanitize objects (remove undefined/function properties for Firestore)
   function cleanData(data) {
     if (data === undefined || data === null) return null;
     return JSON.parse(JSON.stringify(data));
   }
 
-  // Writes to _cache, localStorage (for instant reload & offline backup), and Firestore
+  // Notify all registered listeners with the current cache
+  function _notify() {
+    _listeners.forEach(function (cb) {
+      try { cb(_cache); } catch (e) { console.error('[SHData] listener error:', e); }
+    });
+  }
+
+  // Writes to _cache, localStorage (for instant reload), and Firestore (for global sync)
   function save(section, data) {
     var sanitized = cleanData(data);
     _cache[section] = sanitized;
 
-    // 1. Save to localStorage for instant reload persistence
+    // Persist to localStorage for instant reload on same device
     try {
       localStorage.setItem('sh_data_' + section, JSON.stringify(sanitized));
     } catch (e) {
-      console.warn('LocalStorage save error for ' + section + ':', e);
+      console.warn('[SHData] localStorage save error for ' + section + ':', e);
     }
 
-    // 2. Save to Firestore if available
+    // Write to Firestore — this triggers onSnapshot on ALL connected devices
     if (typeof db !== 'undefined' && db) {
       var docData = Array.isArray(sanitized) ? { items: sanitized } : sanitized;
-      db.collection(section).doc('main').set(docData).catch(function (e) {
-        console.warn('Firestore save warning for ' + section + ' (cached locally):', e);
-      });
+      db.collection(section).doc('main').set(cleanData(docData))
+        .then(function () {
+          console.log('[SHData] Firestore write OK for section:', section);
+        })
+        .catch(function (e) {
+          console.error('[SHData] Firestore write FAILED for ' + section + ':', e);
+          console.error('[SHData] Check Firestore security rules at https://console.firebase.google.com/project/shredhimalayas/firestore/rules');
+        });
     }
 
-    // Trigger listeners
-    _listeners.forEach(function (cb) {
-      try { cb(_cache); } catch (e) { console.error('Listener error on save:', e); }
-    });
+    // Immediately notify local listeners (don't wait for Firestore round-trip on admin)
+    _notify();
   }
 
-  // Async init — pre-loads from localStorage, then syncs with Firestore
+  // Init — loads from localStorage for instant render, then establishes live Firestore listeners
   function init() {
-    if (_initPromise) return _initPromise;
+    if (_initDone) return Promise.resolve();
+    _initDone = true;
 
-    // Step 1: Immediately populate _cache from localStorage or defaults
+    // Step 1: Immediately populate _cache from localStorage or defaults for instant first render
     SECTIONS.forEach(function (sec) {
       try {
         var local = localStorage.getItem('sh_data_' + sec);
@@ -342,61 +355,48 @@ const SHData = (function () {
     });
 
     if (typeof db === 'undefined' || !db) {
-      console.warn('Firestore not available, using local cache');
+      console.warn('[SHData] Firestore not available — running in offline mode (localStorage only)');
       return Promise.resolve();
     }
 
-    // Step 2: Listen for live updates and seed Firestore in the background
+    // Step 2: Attach live onSnapshot listener for each section
+    // Each listener: updates _cache[sec] from Firestore, updates localStorage, notifies all listeners
+    // This is what makes changes from Device A appear instantly on Device B
     SECTIONS.forEach(function (sec) {
-      try {
-        var unsub = db.collection(sec).doc('main').onSnapshot(function (doc) {
-          if (doc.exists) {
-            var val = doc.data();
-            var fetched = (val && val.items !== undefined) ? val.items : val;
-            _cache[sec] = fetched;
-            try {
-              localStorage.setItem('sh_data_' + sec, JSON.stringify(fetched));
-            } catch (e) {}
-          } else {
-            // Seed Firestore document with current _cache or default value if document doesn't exist
-            var defVal = _cache[sec] || defaults[sec];
-            var docData = Array.isArray(defVal) ? { items: defVal } : defVal;
-            db.collection(sec).doc('main').set(cleanData(docData)).catch(function (e) {
-              console.warn('Error seeding Firestore for ' + sec + ':', e);
-            });
-          }
-
-          // Trigger change listeners if subscribers are attached
-          _listeners.forEach(function (cb) {
-            try { cb(_cache); } catch (e) { console.error('Listener callback error:', e); }
-          });
-        }, function (err) {
-          console.warn('Firestore listener warning for ' + sec + ':', err);
-        });
-        _unsubscribers.push(unsub);
-      } catch (err) {
-        console.warn('Firestore subscribe error for ' + sec + ':', err);
-      }
+      (function (section) {
+        try {
+          var unsub = db.collection(section).doc('main').onSnapshot(
+            function (doc) {
+              if (doc.exists) {
+                var val = doc.data();
+                // Firestore stores arrays as {items: [...]} and objects directly
+                var fetched = (val && val.items !== undefined) ? val.items : val;
+                _cache[section] = fetched;
+                // Update localStorage so next page load gets fresh data instantly
+                try {
+                  localStorage.setItem('sh_data_' + section, JSON.stringify(fetched));
+                } catch (e) {}
+              }
+              // Always notify listeners — triggers re-render on ALL connected devices
+              _notify();
+            },
+            function (err) {
+              // Permission error = rules not deployed. Log clearly.
+              if (err && err.code === 'permission-denied') {
+                console.error('[SHData] PERMISSION DENIED for section "' + section + '". Firestore security rules have not been deployed to project "shredhimalayas". Real-time sync is DISABLED until rules are deployed.');
+              } else {
+                console.warn('[SHData] Firestore listener error for ' + section + ':', err);
+              }
+            }
+          );
+          _unsubscribers.push(unsub);
+        } catch (err) {
+          console.warn('[SHData] Firestore subscribe error for ' + section + ':', err);
+        }
+      })(sec);
     });
 
-    // Ensure default admin user document exists in Firestore asynchronously
-    try {
-      db.collection('users').doc('admin').get().then(function (userDoc) {
-        if (!userDoc.exists) {
-          return db.collection('users').doc('admin').set({
-            username: 'jammu&kashmir',
-            password: 'admin@2000'
-          });
-        }
-      }).catch(function(e) {
-        console.warn('Admin user doc fetch warning:', e);
-      });
-    } catch (e) {
-      console.warn('Admin user check error:', e);
-    }
-
-    _initPromise = Promise.resolve();
-    return _initPromise;
+    return Promise.resolve();
   }
 
   function getPolicies() {
