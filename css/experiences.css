@@ -1,5 +1,5 @@
 /* ============================================
-   EXPERIENCES v2 â€” Editorial Magazine Layout
+   EXPERIENCES v2 - Editorial Magazine Layout
    Forest Green & Sand Beige Premium Edition
    ============================================ */
 
@@ -252,7 +252,7 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* ---- Right Panel â€” Image Stage ---- */
+/* ---- Right Panel - Image Stage ---- */
 .experiences__stage {
   position: relative;
   overflow: hidden;
@@ -512,7 +512,7 @@
 }
 
 /* ================================================
-   MOBILE LAYOUT â€” Sidebar First, Image Below
+   MOBILE LAYOUT - Sidebar First, Image Below
    3Ã—2 icon grid Â· Dark sidebar Â· Clean stage
    ================================================ */
 
@@ -641,7 +641,7 @@
 
   /* ================================================
      3 Ã— 2 SERVICE ICON GRID
-     All 6 options visible â€” no scrolling needed
+     All 6 options visible - no scrolling needed
      ================================================ */
   .experiences__nav {
     display: grid;
@@ -655,7 +655,7 @@
     flex-shrink: unset;
   }
 
-  /* Each card â€” tall, centred icon style */
+  /* Each card - tall, centred icon style */
   .experiences__nav-btn {
     width: 100%;
     flex-direction: column;
