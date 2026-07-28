@@ -1702,23 +1702,6 @@ function saveSEOSettings() {
   showToast('🔎 SEO settings saved! Tags will be injected on next page load.');
 }
 
-// Auto-login session persistence check on page load to prevent login screen flash
-if (localStorage.getItem('sh_admin_logged_in') === 'true') {
-  var loginScr = document.getElementById('loginScreen');
-  if (loginScr) loginScr.style.display = 'none';
-  var appScr = document.getElementById('app');
-  if (appScr) appScr.classList.add('visible');
-
-  // Fetch site data from Firestore and populate dashboard views
-  if (typeof SHData !== 'undefined' && SHData.init) {
-    SHData.init().then(function () {
-      if (typeof loadAll === 'function') {
-        loadAll();
-      }
-    });
-  }
-}
-
 // Real-time synchronization callback for admin panel UI
 if (typeof SHData !== 'undefined' && SHData.onChange) {
   SHData.onChange(function () {
