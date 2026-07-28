@@ -286,10 +286,9 @@ const SHData = (function () {
   ];
 
   function onChange(cb) {
+    if (typeof cb !== 'function') return;
     _listeners.push(cb);
-    if (Object.keys(_cache).length >= SECTIONS.length) {
-      try { cb(_cache); } catch (e) { console.error('Error triggering callback:', e); }
-    }
+    try { cb(_cache); } catch (e) { console.error('Error triggering callback:', e); }
   }
 
   // Helper to sanitize objects (remove undefined properties for Firestore)
@@ -1264,7 +1263,8 @@ const SHData = (function () {
 
     // Build tabs
     tabsEl.innerHTML = cats.map(function (cat, i) {
-      var isCS = cat.comingSoon || !cat.items || cat.items.length === 0;
+      var enabledItems = cat.items ? cat.items.filter(function (it) { return it.enabled !== false; }) : [];
+      var isCS = (cat.comingSoon && enabledItems.length === 0) || (!cat.items || cat.items.length === 0);
       var isActive = (i === activeIdx);
       return '<button class="rental-tab-btn' + (isActive ? ' active' : '') + '" data-tab="' + i + '" onclick="window._rentalTab(this,' + i + ')" role="tab" aria-selected="' + (isActive ? 'true' : 'false') + '">' +
         '<span class="rental-tab-icon">' + (cat.icon || '🎿') + '</span>' +
@@ -1275,7 +1275,8 @@ const SHData = (function () {
 
     // Build panels
     panelsEl.innerHTML = cats.map(function (cat, i) {
-      var isCS = cat.comingSoon || !cat.items || cat.items.length === 0;
+      var enabledItems = cat.items ? cat.items.filter(function (it) { return it.enabled !== false; }) : [];
+      var isCS = (cat.comingSoon && enabledItems.length === 0) || (!cat.items || cat.items.length === 0);
       var panelContent = '';
       if (isCS) {
         panelContent = '<div class="rental-coming-soon">' +
@@ -1285,7 +1286,6 @@ const SHData = (function () {
           '<a href="https://wa.me/' + waNum + '?text=' + encodeURIComponent('I\'m interested in ' + cat.title + ' rental') + '" target="_blank" class="rental-coming-soon__btn">📲 Enquire Now</a>' +
           '</div>';
       } else {
-        var enabledItems = cat.items.filter(function (it) { return it.enabled !== false; });
         if (enabledItems.length === 0) {
           panelContent = '<div class="rental-coming-soon"><div class="rental-coming-soon__icon">' + (cat.icon || '🎿') + '</div><div class="rental-coming-soon__title">No Items Available</div><p class="rental-coming-soon__text">Nothing available in this category yet. Check back soon.</p><a href="https://wa.me/' + waNum + '" class="rental-coming-soon__btn">📲 Enquire Now</a></div>';
         } else {

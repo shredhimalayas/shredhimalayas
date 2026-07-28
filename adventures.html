@@ -1195,8 +1195,8 @@
 
       // ── Render all panels via SHData (admin-synced) ──────────
       document.addEventListener('DOMContentLoaded', function () {
-        SHData.init().then(function () {
-          SHData.onChange(function() {
+        SHData.init();
+        SHData.onChange(function() {
             // Skiing — uses SHData.renderSkiing
             SHData.renderSkiing('skiing-packages-container');
 
@@ -1238,7 +1238,6 @@
             SHData.updateWhatsApp();
           });
         });
-      });
 
     }());
 

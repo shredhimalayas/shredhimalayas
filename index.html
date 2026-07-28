@@ -1332,17 +1332,17 @@
   <script src="js/gallery.js?v=4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      SHData.init().then(function () {
-        SHData.onChange(function() {
-          SHData.renderSEO();
-          SHData.renderHero();
-          SHData.renderAbout('about-container');
-          SHData.renderRentals('rentals-grid');
-          SHData.renderTeam('team-cards-container');
-          SHData.renderContact('contact-card-container');
-          SHData.updateWhatsApp();
-          SHData.renderFooter();
-        });
+      SHData.init();
+      SHData.onChange(function() {
+        SHData.renderSEO();
+        SHData.renderHero();
+        SHData.renderAbout('about-container');
+        SHData.renderRentals('rentals-grid');
+        SHData.renderTeam('team-cards-container');
+        SHData.renderContact('contact-card-container');
+        SHData.updateWhatsApp();
+        SHData.renderFooter();
+      });
 
         // ---- Loading Screen ----
         const loader = document.getElementById('sh-loader');

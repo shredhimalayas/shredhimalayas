@@ -241,12 +241,12 @@
   <script>
     (function () {
       document.addEventListener('DOMContentLoaded', function () {
-        SHData.init().then(function () {
-          SHData.onChange(function() {
-            SHData.renderActivities('activities-winter-container', 'activities-summer-container');
-            SHData.renderFooter();
-            SHData.updateWhatsApp();
-          });
+        SHData.init();
+        SHData.onChange(function() {
+          SHData.renderActivities('activities-winter-container', 'activities-summer-container');
+          SHData.renderFooter();
+          SHData.updateWhatsApp();
+        });
 
         var btnWinter = document.getElementById('btn-winter');
         var btnSummer = document.getElementById('btn-summer');

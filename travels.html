@@ -255,12 +255,11 @@
   <script src="js/navbar.js?v=3"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      SHData.init().then(function () {
-        SHData.onChange(function() {
-          SHData.renderTransportPage('transportTabs', 'transportPanels');
-          SHData.updateWhatsApp();
-          SHData.renderFooter();
-        });
+      SHData.init();
+      SHData.onChange(function() {
+        SHData.renderTransportPage('transportTabs', 'transportPanels');
+        SHData.updateWhatsApp();
+        SHData.renderFooter();
       });
     });
   </script>

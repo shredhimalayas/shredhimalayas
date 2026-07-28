@@ -648,12 +648,11 @@
   <script src="js/scroll-animations.js?v=3"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      SHData.init().then(function () {
-        SHData.onChange(function() {
-          SHData.renderPackages('packages-dynamic-container');
-          SHData.updateWhatsApp();
-          SHData.renderFooter();
-        });
+      SHData.init();
+      SHData.onChange(function() {
+        SHData.renderPackages('packages-dynamic-container');
+        SHData.updateWhatsApp();
+        SHData.renderFooter();
       });
     });
   </script>
