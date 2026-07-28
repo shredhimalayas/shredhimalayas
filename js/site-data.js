@@ -1365,7 +1365,8 @@ const SHData = (function () {
 
     // Build tabs
     tabsEl.innerHTML = cats.map(function (cat, i) {
-      var isCS = cat.comingSoon || !cat.items || cat.items.length === 0;
+      var enabledItems = cat.items ? cat.items.filter(function (it) { return it.enabled !== false; }) : [];
+      var isCS = (cat.comingSoon && enabledItems.length === 0) || (!cat.items || cat.items.length === 0);
       var isActive = (i === activeIdx);
       return '<button class="rental-tab-btn' + (isActive ? ' active' : '') + '" data-tab="' + i + '" onclick="window._transportTab(this,' + i + ')" role="tab" aria-selected="' + (isActive ? 'true' : 'false') + '">' +
         '<span class="rental-tab-icon">' + (cat.icon || '🚗') + '</span>' +
@@ -1376,7 +1377,8 @@ const SHData = (function () {
 
     // Build panels
     panelsEl.innerHTML = cats.map(function (cat, i) {
-      var isCS = cat.comingSoon || !cat.items || cat.items.length === 0;
+      var enabledItems = cat.items ? cat.items.filter(function (it) { return it.enabled !== false; }) : [];
+      var isCS = (cat.comingSoon && enabledItems.length === 0) || (!cat.items || cat.items.length === 0);
       var panelContent = '';
       if (isCS) {
         panelContent = '<div class="rental-coming-soon">' +
