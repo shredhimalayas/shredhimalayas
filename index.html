@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1343,21 +1343,32 @@
         SHData.updateWhatsApp();
         SHData.renderFooter();
       });
-
-        // ---- Loading Screen ----
-        const loader = document.getElementById('sh-loader');
-        if (loader) {
+    });
+  </script>
+  <script>
+    // ---- Loading Screen (standalone — always runs regardless of Firebase/SHData) ----
+    (function () {
+      var DISMISS_AFTER_MS = 2200;
+      var FADE_DURATION_MS = 900;
+      function dismissLoader() {
+        var loader = document.getElementById('sh-loader');
+        if (!loader) return;
+        setTimeout(function () {
+          loader.classList.add('loaded');
           setTimeout(function () {
-            loader.classList.add('loaded');
-            setTimeout(function () {
-              loader.style.display = 'none';
-              if (window.ScrollTrigger) {
-                ScrollTrigger.refresh();
-              }
-            }, 900);
-          }, 2200);
-        }
-      });
+            loader.style.display = 'none';
+            if (window.ScrollTrigger) {
+              ScrollTrigger.refresh();
+            }
+          }, FADE_DURATION_MS);
+        }, DISMISS_AFTER_MS);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', dismissLoader);
+      } else {
+        dismissLoader();
+      }
+    })();
     
   </script>
   <script src="js/cursor.js?v=1"></script>
