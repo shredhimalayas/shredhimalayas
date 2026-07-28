@@ -1127,7 +1127,11 @@
   <!-- ======================================================
        SCRIPTS
   ====================================================== -->
-  <script src="js/site-data.js?v=4"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/site-data.js?v=5"></script>
   <script src="js/policy-modal.js"></script>
   <script src="js/navbar.js?v=3"></script>
   <script>
@@ -1191,47 +1195,49 @@
 
       // ── Render all panels via SHData (admin-synced) ──────────
       document.addEventListener('DOMContentLoaded', function () {
+        SHData.init().then(function () {
+          SHData.onChange(function() {
+            // Skiing — uses SHData.renderSkiing
+            SHData.renderSkiing('skiing-packages-container');
 
-        // Skiing — uses SHData.renderSkiing
-        SHData.renderSkiing('skiing-packages-container');
+            // Snowboarding — uses SHData.renderSnowboarding
+            SHData.renderSnowboarding('snowboarding-packages-container');
 
-        // Snowboarding — uses SHData.renderSnowboarding
-        SHData.renderSnowboarding('snowboarding-packages-container');
+            // Trekking — uses SHData.renderTrekking
+            SHData.renderTrekking('trekking-packages-container');
 
-        // Trekking — uses SHData.renderTrekking
-        SHData.renderTrekking('trekking-packages-container');
+            // Setup observer for active/centered card scaling
+            const container = document.getElementById('trekking-packages-container');
+            if (container && window.IntersectionObserver) {
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                  } else {
+                    entry.target.classList.remove('is-active');
+                  }
+                });
+              }, {
+                root: container,
+                threshold: 0.6
+              });
+              
+              setTimeout(function() {
+                container.querySelectorAll('.trek-card').forEach(function(card) {
+                  observer.observe(card);
+                });
+              }, 300);
+            }
 
-        // Setup observer for active/centered card scaling
-        const container = document.getElementById('trekking-packages-container');
-        if (container && window.IntersectionObserver) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-active');
-              } else {
-                entry.target.classList.remove('is-active');
-              }
-            });
-          }, {
-            root: container,
-            threshold: 0.6
+            // Activities rendering removed from adventures.html
+
+            // Footer
+            SHData.renderFooter();
+
+            // Update WhatsApp links with correct number from settings
+            SHData.updateWhatsApp();
           });
-          
-          setTimeout(function() {
-            container.querySelectorAll('.trek-card').forEach(function(card) {
-              observer.observe(card);
-            });
-          }, 300);
-        }
-
-        // Activities rendering removed from adventures.html
-
-        // Footer
-        SHData.renderFooter();
-
-        // Update WhatsApp links with correct number from settings
-        SHData.updateWhatsApp();
-
+        });
       });
 
     }());

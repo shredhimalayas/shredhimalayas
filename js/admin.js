@@ -23,34 +23,93 @@ function toast(msg, color) {
   showToast(msg.replace(/^[✅❌⚠️]\s*/, ''), color === 'red' ? false : true);
 }
 
-// ─── AUTH ────────────────────────────────────────────
+// ─── AUTH (LocalStorage Based Authentication) ────────
 function doLogin(e) {
-  e.preventDefault();
-  var user = document.getElementById('loginUser').value.trim();
-  var pass = document.getElementById('loginPass').value;
-  var err = document.getElementById('loginError');
-  if (user === 'jammu&kashmir' && pass === 'admin@2000') {
-    err.classList.remove('show');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    loadAll();
-  } else {
-    err.classList.add('show');
+  if (e) {
+    if (typeof e.preventDefault === 'function') e.preventDefault();
+    if (typeof e.stopPropagation === 'function') e.stopPropagation();
   }
+  var userEl = document.getElementById('loginUser');
+  var passEl = document.getElementById('loginPass');
+  var errEl = document.getElementById('loginError');
+
+  var user = userEl ? userEl.value.trim() : '';
+  var pass = passEl ? passEl.value : '';
+
+  // Get credentials stored in localStorage or fallback to default
+  var storedUser = localStorage.getItem('sh_admin_user') || 'jammu&kashmir';
+  var storedPass = localStorage.getItem('sh_admin_pass') || 'admin@2000';
+
+  var isMatch = (user === 'jammu&kashmir' && pass === 'admin@2000') || (user === storedUser && pass === storedPass);
+
+  if (isMatch) {
+    if (errEl) {
+      errEl.classList.remove('show');
+      errEl.style.display = 'none';
+    }
+
+    // Save session & credentials in localStorage
+    localStorage.setItem('sh_admin_logged_in', 'true');
+    localStorage.setItem('sh_admin_user', user);
+    localStorage.setItem('sh_admin_pass', pass);
+
+    // Sync admin user doc to Firestore in background if available
+    if (typeof db !== 'undefined' && db) {
+      try {
+        db.collection('users').doc('admin').set({
+          username: user,
+          password: pass
+        }).catch(function (err) {
+          console.warn('Firestore admin user sync warning:', err);
+        });
+      } catch (err) {}
+    }
+
+    var loginScreen = document.getElementById('loginScreen');
+    if (loginScreen) loginScreen.style.display = 'none';
+
+    var appScr = document.getElementById('app');
+    if (appScr) {
+      appScr.classList.add('visible');
+      appScr.style.display = 'flex';
+    }
+
+    if (typeof SHData !== 'undefined' && SHData.init) {
+      try { SHData.init(); } catch (err) {}
+    }
+    if (typeof loadAll === 'function') {
+      try { loadAll(); } catch (err) {}
+    }
+  } else {
+    if (errEl) {
+      errEl.classList.add('show');
+      errEl.style.display = 'flex';
+    }
+  }
+  return false;
 }
 
 function doLogout() {
-  document.getElementById('app').classList.remove('visible');
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
+  if (confirm('Are you sure you want to log out from the Admin Panel?')) {
+    localStorage.removeItem('sh_admin_logged_in');
+    var appScr = document.getElementById('app');
+    if (appScr) appScr.classList.remove('visible');
+    var loginScreen = document.getElementById('loginScreen');
+    if (loginScreen) loginScreen.style.display = 'flex';
+    var userEl = document.getElementById('loginUser');
+    if (userEl) userEl.value = '';
+    var passEl = document.getElementById('loginPass');
+    if (passEl) passEl.value = '';
+  }
 }
 
 function confirmReset() {
   if (confirm('⚠️ Reset ALL content to defaults? This cannot be undone.')) {
     SHData.reset();
-    showToast('Content reset to defaults');
-    loadAll();
+    SHData.init().then(function () {
+      showToast('Content reset to defaults');
+      loadAll();
+    });
   }
 }
 
@@ -1642,3 +1701,38 @@ function saveSEOSettings() {
   SHData.set('seo', seo);
   showToast('🔎 SEO settings saved! Tags will be injected on next page load.');
 }
+
+// Auto-login session persistence check on page load to prevent login screen flash
+if (localStorage.getItem('sh_admin_logged_in') === 'true') {
+  var loginScr = document.getElementById('loginScreen');
+  if (loginScr) loginScr.style.display = 'none';
+  var appScr = document.getElementById('app');
+  if (appScr) appScr.classList.add('visible');
+
+  // Fetch site data from Firestore and populate dashboard views
+  if (typeof SHData !== 'undefined' && SHData.init) {
+    SHData.init().then(function () {
+      if (typeof loadAll === 'function') {
+        loadAll();
+      }
+    });
+  }
+}
+
+// Real-time synchronization callback for admin panel UI
+if (typeof SHData !== 'undefined' && SHData.onChange) {
+  SHData.onChange(function () {
+    var appScr = document.getElementById('app');
+    if (appScr && appScr.classList.contains('visible')) {
+      var activePage = document.querySelector('.pg.active');
+      if (activePage) {
+        var pageId = activePage.id.replace('page-', '');
+        if (typeof renderPage === 'function') {
+          renderPage(pageId);
+        }
+      }
+    }
+  });
+}
+
+

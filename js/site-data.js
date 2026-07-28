@@ -1,11 +1,12 @@
 // ====================================================
 // SHRED HIMALAYAS — SITE DATA MANAGER
-// Manages all dynamic content via localStorage.
+// Manages all dynamic content via Firebase Firestore.
 // Public pages read from this; admin panel writes to it.
 // ====================================================
 
 const SHData = (function () {
-  const KEY = 'sh_site_data_v3';
+  // In-memory cache (populated by init() from Firestore)
+  var _cache = null;
 
   // ─── DEFAULT DATA ────────────────────────────────────
   const defaults = {
@@ -272,52 +273,172 @@ const SHData = (function () {
     }
   };
 
-  // ─── STORAGE HELPERS ─────────────────────────────────
-  function load() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) { return null; }
+  // ─── FIRESTORE STORAGE HELPERS ──────────────────────
+  var _listeners = [];
+  var _unsubscribers = [];
+  var _initPromise = null;
+  var _cache = {};
+
+  var SECTIONS = [
+    'settings', 'about', 'seo', 'policies', 'skiing', 'snowboarding',
+    'trekking', 'packages', 'activities', 'rentals', 'transport',
+    'testimonials', 'team', 'contacts', 'sightseeing'
+  ];
+
+  function onChange(cb) {
+    _listeners.push(cb);
+    if (Object.keys(_cache).length >= SECTIONS.length) {
+      try { cb(_cache); } catch (e) { console.error('Error triggering callback:', e); }
+    }
   }
 
-  function save(data) {
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { }
+  // Helper to sanitize objects (remove undefined properties for Firestore)
+  function cleanData(data) {
+    if (data === undefined || data === null) return null;
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  // Writes to _cache, localStorage (for instant reload & offline backup), and Firestore
+  function save(section, data) {
+    var sanitized = cleanData(data);
+    _cache[section] = sanitized;
+
+    // 1. Save to localStorage for instant reload persistence
+    try {
+      localStorage.setItem('sh_data_' + section, JSON.stringify(sanitized));
+    } catch (e) {
+      console.warn('LocalStorage save error for ' + section + ':', e);
+    }
+
+    // 2. Save to Firestore if available
+    if (typeof db !== 'undefined' && db) {
+      var docData = Array.isArray(sanitized) ? { items: sanitized } : sanitized;
+      db.collection(section).doc('main').set(docData).catch(function (e) {
+        console.warn('Firestore save warning for ' + section + ' (cached locally):', e);
+      });
+    }
+
+    // Trigger listeners
+    _listeners.forEach(function (cb) {
+      try { cb(_cache); } catch (e) { console.error('Listener error on save:', e); }
+    });
+  }
+
+  // Async init — pre-loads from localStorage, then syncs with Firestore
+  function init() {
+    if (_initPromise) return _initPromise;
+
+    // Step 1: Immediately populate _cache from localStorage or defaults
+    SECTIONS.forEach(function (sec) {
+      try {
+        var local = localStorage.getItem('sh_data_' + sec);
+        if (local !== null) {
+          _cache[sec] = JSON.parse(local);
+        } else {
+          _cache[sec] = JSON.parse(JSON.stringify(defaults[sec]));
+        }
+      } catch (e) {
+        _cache[sec] = JSON.parse(JSON.stringify(defaults[sec]));
+      }
+    });
+
+    if (typeof db === 'undefined' || !db) {
+      console.warn('Firestore not available, using local cache');
+      return Promise.resolve();
+    }
+
+    // Step 2: Listen for live updates and seed Firestore in the background
+    SECTIONS.forEach(function (sec) {
+      try {
+        var unsub = db.collection(sec).doc('main').onSnapshot(function (doc) {
+          if (doc.exists) {
+            var val = doc.data();
+            var fetched = (val && val.items !== undefined) ? val.items : val;
+            _cache[sec] = fetched;
+            try {
+              localStorage.setItem('sh_data_' + sec, JSON.stringify(fetched));
+            } catch (e) {}
+          } else {
+            // Seed Firestore document with current _cache or default value if document doesn't exist
+            var defVal = _cache[sec] || defaults[sec];
+            var docData = Array.isArray(defVal) ? { items: defVal } : defVal;
+            db.collection(sec).doc('main').set(cleanData(docData)).catch(function (e) {
+              console.warn('Error seeding Firestore for ' + sec + ':', e);
+            });
+          }
+
+          // Trigger change listeners if subscribers are attached
+          _listeners.forEach(function (cb) {
+            try { cb(_cache); } catch (e) { console.error('Listener callback error:', e); }
+          });
+        }, function (err) {
+          console.warn('Firestore listener warning for ' + sec + ':', err);
+        });
+        _unsubscribers.push(unsub);
+      } catch (err) {
+        console.warn('Firestore subscribe error for ' + sec + ':', err);
+      }
+    });
+
+    // Ensure default admin user document exists in Firestore asynchronously
+    try {
+      db.collection('users').doc('admin').get().then(function (userDoc) {
+        if (!userDoc.exists) {
+          return db.collection('users').doc('admin').set({
+            username: 'jammu&kashmir',
+            password: 'admin@2000'
+          });
+        }
+      }).catch(function(e) {
+        console.warn('Admin user doc fetch warning:', e);
+      });
+    } catch (e) {
+      console.warn('Admin user check error:', e);
+    }
+
+    _initPromise = Promise.resolve();
+    return _initPromise;
   }
 
   function getPolicies() {
-    const stored = load();
-    if (stored && stored.policies) return stored.policies;
+    var stored = get('policies');
+    if (stored) return stored;
     return JSON.parse(JSON.stringify(defaults.policies));
   }
 
   function setPolicies(policiesObj) {
-    const stored = load() || JSON.parse(JSON.stringify(defaults));
-    stored.policies = policiesObj;
-    save(stored);
+    save('policies', policiesObj);
   }
 
   function get(section) {
-    const stored = load();
-    if (stored && stored[section] !== undefined) {
-      // Rentals migration: old flat array → new category+items structure
-      if (section === 'rentals' && stored[section] && stored[section].length > 0 && stored[section][0].items === undefined) {
-        var freshRentals = JSON.parse(JSON.stringify(defaults.rentals));
-        stored[section] = freshRentals;
-        save(stored);
-        return freshRentals;
-      }
-      return stored[section];
+    if (_cache && _cache[section] !== undefined) {
+      return _cache[section];
     }
     return JSON.parse(JSON.stringify(defaults[section]));
   }
 
   function set(section, data) {
-    const stored = load() || JSON.parse(JSON.stringify(defaults));
-    stored[section] = data;
-    save(stored);
+    save(section, data);
   }
 
-  function reset() { localStorage.removeItem(KEY); }
+  function reset() {
+    _cache = {};
+    SECTIONS.forEach(function (sec) {
+      try {
+        localStorage.removeItem('sh_data_' + sec);
+      } catch (e) {}
+      _cache[sec] = JSON.parse(JSON.stringify(defaults[sec]));
+    });
+    if (typeof db !== 'undefined' && db) {
+      SECTIONS.forEach(function (sec) {
+        var defVal = defaults[sec];
+        var docData = Array.isArray(defVal) ? { items: defVal } : defVal;
+        db.collection(sec).doc('main').set(cleanData(docData)).catch(function (e) {
+          console.warn('Firestore reset error for ' + sec + ':', e);
+        });
+      });
+    }
+  }
 
   // ─── HELPERS ─────────────────────────────────────────
   function wa(num, msg) {
@@ -458,29 +579,8 @@ const SHData = (function () {
       as4: 'assets/images/sightseeing-dal-lake.png',
       as5: 'assets/images/gallery-luxury-stay.png'
     };
-    // MIGRATION: Force-upgrade stored activities data to include new fields (price, badge, waMsg)
-    // This runs once and updates localStorage so old data gets enriched with defaults
-    const ACTS_MIGRATION_KEY = 'sh_acts_migrated_v2';
+    // Activities data merge with defaults handled inline below
     const stored = load();
-    if (stored && !localStorage.getItem(ACTS_MIGRATION_KEY)) {
-      const defActsFull = JSON.parse(JSON.stringify(defaults.activities));
-      ['winter', 'summer'].forEach(function (season) {
-        if (stored.activities && stored.activities[season]) {
-          stored.activities[season] = stored.activities[season].map(function (a) {
-            const def = defActsFull[season].find(function (d) { return d.id === a.id; }) || {};
-            const merged = Object.assign({}, def);
-            Object.keys(a).forEach(function (k) {
-              if (a[k] !== undefined && a[k] !== null && a[k] !== '') {
-                merged[k] = a[k];
-              }
-            });
-            return merged;
-          });
-        }
-      });
-      save(stored);
-      localStorage.setItem(ACTS_MIGRATION_KEY, '1');
-    }
 
     // Merge stored activities with defaults to fill any missing fields (migration for old data)
     const defActs = JSON.parse(JSON.stringify(defaults.activities));
@@ -1627,7 +1727,7 @@ const SHData = (function () {
 
   // Public API
   return {
-    get, set, reset, defaults,
+    init, onChange, get, set, reset, defaults,
     getPolicies, setPolicies,
     renderSkiing, renderSnowboarding, renderTrekking,
     renderPackages, renderActivities, renderRentals, renderRentalPage,

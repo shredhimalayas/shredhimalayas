@@ -2155,12 +2155,12 @@
       <h1>Welcome Back</h1>
       <p>Sign in to manage your website content and services.</p>
       <div class="lerr" id="loginError"><span>&#128274;</span> Incorrect credentials. Please try again.</div>
-      <form onsubmit="doLogin(event)">
+      <form onsubmit="return doLogin(event)">
         <div class="fg"><label>Username</label><input type="text" id="loginUser" placeholder="Enter your username"
             autocomplete="username" required></div>
         <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="Enter your password"
             autocomplete="current-password" required></div>
-        <button type="submit" class="lbtn">Sign in to Dashboard <svg viewBox="0 0 24 24" fill="none"
+        <button type="submit" onclick="doLogin(event)" class="lbtn">Sign in to Dashboard <svg viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2.5" width="16" height="16">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg></button>
@@ -2946,16 +2946,7 @@
 
     function toggleSB() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sbOv').classList.toggle('open') }
     function closeSB() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sbOv').classList.remove('open') }
-    var CREDS = { user: 'jammu&kashmir', pass: 'admin@2000' };
-    function doLogin(e) { e.preventDefault(); var u = document.getElementById('loginUser').value.trim(), p = document.getElementById('loginPass').value, err = document.getElementById('loginError'); if (u === CREDS.user && p === CREDS.pass) { err.classList.remove('show'); document.getElementById('loginScreen').style.display = 'none'; document.getElementById('app').classList.add('visible'); loadAll() } else { err.classList.add('show') } }
-    function doLogout() {
-      if (confirm('Are you sure you want to log out from the Admin Panel?')) {
-        document.getElementById('app').classList.remove('visible');
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('loginUser').value = '';
-        document.getElementById('loginPass').value = '';
-      }
-    }
+
 
     window.addEventListener('beforeunload', function (e) {
       var app = document.getElementById('app');
@@ -2967,7 +2958,11 @@
       }
     });
   </script>
-  <script src="js/site-data.js?v=4"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/site-data.js?v=5"></script>
   <script src="js/policy-modal.js"></script>
   <script src="js/admin.js?v=2"></script>
   <script>
@@ -2984,7 +2979,7 @@
     function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modalBackdrop')) closeModal() }
     function closeModal() { document.getElementById('modalBackdrop').classList.remove('open') }
     function showToast(msg, ok) { var t = document.getElementById('toast'); t.textContent = (ok !== false ? '\u2705 ' : '\u274c ') + msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show') }, 3000) }
-    function confirmReset() { if (confirm('Reset all content to defaults? This cannot be undone.')) { if (typeof resetToDefaults === 'function') resetToDefaults(); showToast('Content reset to defaults'); loadAll() } }
+    function confirmReset() { if (confirm('Reset all content to defaults? This cannot be undone.')) { SHData.reset(); SHData.init().then(function () { showToast('Content reset to defaults'); loadAll(); }); } }
   </script>
 </body>
 
