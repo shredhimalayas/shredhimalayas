@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -796,7 +796,7 @@
         <p class="section-subtitle">Meticulously crafted itineraries for unforgettable Himalayan experiences.</p>
       </div>
 
-      <div class="packages__grid">
+      <div class="packages__grid" id="packages-grid">
         <div class="packages__card reveal-scale">
           <img src="assets/images/kashmir-package.png" alt="Luxury Kashmir Tour" class="packages__card-image">
           <div class="packages__card-overlay"></div>
@@ -1336,7 +1336,8 @@
       SHData.onChange(function() {
         SHData.renderSEO();
         SHData.renderHero();
-        SHData.renderAbout('about-container');
+        SHData.renderAbout('about-container');
+        SHData.renderHomePackages('packages-grid');
         SHData.renderRentals('rentals-grid');
         SHData.renderTeam('team-cards-container');
         SHData.renderContact('contact-card-container');

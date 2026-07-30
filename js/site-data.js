@@ -562,6 +562,28 @@ const SHData = (function () {
     }).join('');
   }
 
+  /* -- Home page packages preview (shows exactly 3 packages) -- */
+  function renderHomePackages(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const pkgs = get('packages').filter(p => p.enabled !== false).slice(0, 3);
+    el.innerHTML = pkgs.map(p => {
+      const badgeHtml = p.badge ? `<span class="packages__card-tag">${escHtml(p.badge)}</span>` : '';
+      return `
+        <div class="packages__card reveal-scale">
+          <img src="${escHtml(p.image)}" alt="${escHtml(p.title)}" class="packages__card-image">
+          <div class="packages__card-overlay"></div>
+          <div class="packages__card-content">
+            ${badgeHtml}
+            <h3 class="packages__card-title">${escHtml(p.title)}</h3>
+            <p class="packages__card-desc">${escHtml(p.description)}</p>
+            <a href="packages.html" class="btn btn--primary" style="padding: 7px 18px; font-size: 11.5px;"><span>View Details</span></a>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+
   /* -- Activities (rich cards with price & enquiry, synced with admin) -- */
   function renderActivities(winterId, summerId) {
     const acts = get('activities');
@@ -1730,7 +1752,7 @@ const SHData = (function () {
     init, onChange, get, set, reset, defaults,
     getPolicies, setPolicies,
     renderSkiing, renderSnowboarding, renderTrekking,
-    renderPackages, renderActivities, renderRentals, renderRentalPage,
+    renderPackages, renderHomePackages, renderActivities, renderRentals, renderRentalPage,
     renderTestimonials, renderHero, renderAbout, renderFooter, updateWhatsApp,
     renderTransportPage, renderContact, renderSEO, renderTeam
   };
