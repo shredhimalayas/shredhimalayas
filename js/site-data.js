@@ -278,6 +278,7 @@ const SHData = (function () {
   var _unsubscribers = [];
   var _initDone = false;
   var _cache = {};
+  var _lastSaveTime = {};
 
   var SECTIONS = [
     'settings', 'about', 'seo', 'policies', 'skiing', 'snowboarding',
@@ -311,23 +312,30 @@ const SHData = (function () {
     var sanitized = cleanData(data);
     _cache[section] = sanitized;
 
+    var now = Date.now();
+    _lastSaveTime[section] = now;
+
     // Persist to localStorage for instant reload on same device
     try {
       localStorage.setItem('sh_data_' + section, JSON.stringify(sanitized));
+      localStorage.setItem('sh_data_time_' + section, String(now));
     } catch (e) {
       console.warn('[SHData] localStorage save error for ' + section + ':', e);
+      if (e.name === 'QuotaExceededError' || e.code === 22) {
+        console.error('[SHData] LocalStorage quota exceeded for ' + section + '. Compressed images are recommended.');
+      }
     }
 
     // Write to Firestore — this triggers onSnapshot on ALL connected devices
     if (typeof db !== 'undefined' && db) {
-      var docData = Array.isArray(sanitized) ? { items: sanitized } : sanitized;
+      var docData = Array.isArray(sanitized) ? { items: sanitized, _updatedAt: now } : Object.assign({}, sanitized, { _updatedAt: now });
       db.collection(section).doc('main').set(cleanData(docData))
         .then(function () {
           console.log('[SHData] Firestore write OK for section:', section);
         })
         .catch(function (e) {
           console.error('[SHData] Firestore write FAILED for ' + section + ':', e);
-          console.error('[SHData] Check Firestore security rules at https://console.firebase.google.com/project/shredhimalayas/firestore/rules');
+          console.error('[SHData] Changes preserved in LocalStorage.');
         });
     }
 
@@ -344,6 +352,8 @@ const SHData = (function () {
     SECTIONS.forEach(function (sec) {
       try {
         var local = localStorage.getItem('sh_data_' + sec);
+        var t = localStorage.getItem('sh_data_time_' + sec);
+        if (t) _lastSaveTime[sec] = Number(t);
         if (local !== null) {
           _cache[sec] = JSON.parse(local);
         } else {
@@ -368,9 +378,26 @@ const SHData = (function () {
           var unsub = db.collection(section).doc('main').onSnapshot(
             function (doc) {
               if (doc.exists) {
+                // Skip if local write is still pending confirmation
+                if (doc.metadata && doc.metadata.hasPendingWrites) {
+                  return;
+                }
                 var val = doc.data();
+                var serverTime = (val && val._updatedAt) ? Number(val._updatedAt) : 0;
+                var localTime = _lastSaveTime[section] || Number(localStorage.getItem('sh_data_time_' + section) || 0);
+
+                // Suppress stale Firestore server snapshot if local save is newer
+                if (localTime && serverTime < localTime && (Date.now() - localTime < 300000)) {
+                  console.warn('[SHData] Suppressing stale Firestore rollback snapshot for section "' + section + '" (localTime: ' + localTime + ', serverTime: ' + serverTime + ')');
+                  return;
+                }
+
                 // Firestore stores arrays as {items: [...]} and objects directly
                 var fetched = (val && val.items !== undefined) ? val.items : val;
+                if (fetched && typeof fetched === 'object' && !Array.isArray(fetched)) {
+                  fetched = Object.assign({}, fetched);
+                  delete fetched._updatedAt;
+                }
                 _cache[section] = fetched;
                 // Update localStorage so next page load gets fresh data instantly
                 try {

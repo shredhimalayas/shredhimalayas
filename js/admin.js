@@ -1167,7 +1167,56 @@ function fieldSelect(label, id, options, selected) {
   return '<div class="field"><label>' + label + '</label><select id="' + id + '">' + opts + '</select></div>';
 }
 
-// ─── IMAGE UPLOAD ─────────────────────────────────────
+// ─── IMAGE UPLOAD & COMPRESSION ─────────────────────────
+function compressImage(file, maxDim, quality, callback) {
+  maxDim = maxDim || 1200;
+  quality = quality || 0.8;
+  if (!file) return callback('');
+
+  if (file.type === 'image/svg+xml' || file.size < 60000) {
+    var r = new FileReader();
+    r.onload = function (e) { callback(e.target.result); };
+    r.onerror = function () { callback(''); };
+    r.readAsDataURL(file);
+    return;
+  }
+
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var rawUrl = e.target.result;
+    var img = new Image();
+    img.onload = function () {
+      var w = img.width;
+      var h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          h = Math.round((h * maxDim) / w);
+          w = maxDim;
+        } else {
+          w = Math.round((w * maxDim) / h);
+          h = maxDim;
+        }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var compressed = canvas.toDataURL('image/jpeg', quality);
+      callback(compressed);
+    };
+    img.onerror = function () {
+      callback(rawUrl);
+    };
+    img.src = rawUrl;
+  };
+  reader.onerror = function () {
+    showToast('Failed to read image file', false);
+    callback('');
+  };
+  reader.readAsDataURL(file);
+}
+
 function imageUploadField(fieldId, val) {
   var hasVal = val && val.length > 0;
   return '<div class="field"><label>Image</label>' +
@@ -1187,16 +1236,23 @@ function triggerImageUpload(fieldId) {
 function handleImageUpload(fieldId) {
   var fileEl = document.getElementById(fieldId + '-file');
   if (!fileEl || !fileEl.files[0]) return;
-  var reader = new FileReader();
-  reader.onload = function (e) {
-    var dataUrl = e.target.result;
+  var file = fileEl.files[0];
+  showToast('Optimizing image...');
+  compressImage(file, 1200, 0.8, function (dataUrl) {
+    if (!dataUrl) {
+      showToast('Image processing failed', false);
+      return;
+    }
     var input = document.getElementById(fieldId);
     if (input) input.value = dataUrl;
     var preview = document.getElementById(fieldId + '-preview');
-    if (preview) { preview.style.display = 'block'; var img = preview.querySelector('img'); if (img) img.src = dataUrl; }
-    showToast('Image imported from PC');
-  };
-  reader.readAsDataURL(fileEl.files[0]);
+    if (preview) {
+      preview.style.display = 'block';
+      var img = preview.querySelector('img');
+      if (img) img.src = dataUrl;
+    }
+    showToast('Image imported & optimized');
+  });
 }
 function updateImgPreview(fieldId) {
   var val = (document.getElementById(fieldId) || {}).value || '';
