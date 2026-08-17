@@ -1308,47 +1308,23 @@ function handleImageUpload(fieldId) {
   if (!fileEl || !fileEl.files[0]) return;
   var file = fileEl.files[0];
 
-  var applyResultUrl = function(url) {
+  showToast('Optimizing image...');
+  compressImage(file, 400, 0.5, function (dataUrl) {
+    if (!dataUrl) {
+      showToast('Image processing failed', false);
+      return;
+    }
     var input = document.getElementById(fieldId);
-    if (input) input.value = url;
+    if (input) input.value = dataUrl;
     var preview = document.getElementById(fieldId + '-preview');
     if (preview) {
       preview.style.display = 'block';
       var img = preview.querySelector('img');
-      if (img) img.src = url;
+      if (img) img.src = dataUrl;
     }
-  };
-
-  showToast('Uploading image to Cloud Storage...');
-
-  var started = uploadFileToFirebaseStorage(file, 'images',
-    function(pct) {
-      showToast('Uploading image: ' + pct + '%');
-    },
-    function(downloadUrl) {
-      applyResultUrl(downloadUrl);
-      showToast('✅ Image uploaded to Cloud Storage!');
-    },
-    function(err) {
-      showToast('Cloud upload failed, compressing locally...');
-      fallbackCompress();
-    }
-  );
-
-  function fallbackCompress() {
-    compressImage(file, 500, 0.55, function (dataUrl) {
-      if (!dataUrl) {
-        showToast('Image processing failed', false);
-        return;
-      }
-      applyResultUrl(dataUrl);
-      showToast('Image compressed & attached locally');
-    });
-  }
-
-  if (!started) {
-    fallbackCompress();
-  }
+    var sizeKB = Math.round(dataUrl.length / 1024);
+    showToast('✅ Image optimized (' + sizeKB + ' KB) — ready to save!');
+  });
 }
 function updateImgPreview(fieldId) {
   var val = (document.getElementById(fieldId) || {}).value || '';
@@ -1417,40 +1393,16 @@ function handlePdfField() {
     showToast('File too large (max 10MB)', false); fileEl.value = ''; return;
   }
 
-  showToast('Uploading PDF to Cloud Storage...');
-
-  var started = uploadFileToFirebaseStorage(file, 'pdfs',
-    function(pct) {
-      showToast('Uploading PDF: ' + pct + '%');
-    },
-    function(downloadUrl) {
-      document.getElementById('f-pdf').value = downloadUrl;
-      document.getElementById('f-pdf-name').value = file.name;
-      var status = document.getElementById('f-pdf-status');
-      if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span><a href="' + escHtml(downloadUrl) + '" target="_blank" style="color:var(--gold);text-decoration:underline;">' + escHtml(file.name) + '</a> ✓</span></div>';
-      showToast('✅ PDF uploaded to Cloud Storage!');
-    },
-    function(err) {
-      showToast('Cloud upload failed, attaching PDF locally...');
-      fallbackReadPdf();
-    }
-  );
-
-  function fallbackReadPdf() {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      document.getElementById('f-pdf').value = e.target.result;
-      document.getElementById('f-pdf-name').value = file.name;
-      var status = document.getElementById('f-pdf-status');
-      if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + escHtml(file.name) + ' ✓</span></div>';
-      showToast('PDF attached');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  if (!started) {
-    fallbackReadPdf();
-  }
+  showToast('Reading PDF...');
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById('f-pdf').value = e.target.result;
+    document.getElementById('f-pdf-name').value = file.name;
+    var status = document.getElementById('f-pdf-status');
+    if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + escHtml(file.name) + ' ✓</span></div>';
+    showToast('✅ PDF attached (' + Math.round(file.size / 1024) + ' KB)');
+  };
+  reader.readAsDataURL(file);
 }
 function removePdfField() {
   document.getElementById('f-pdf').value = '__REMOVED__';
