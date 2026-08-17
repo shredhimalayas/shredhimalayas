@@ -331,9 +331,10 @@ function renderActivitiesEditor() {
     var wRows = (acts.winter || []).map(function (a, ai) {
       var actions =
         toggleBtn(a.enabled, "toggleActivity('winter'," + ai + ")") +
-        '<button class="icon-btn icon-btn--edit" onclick="openModal(\'activity\',\'winter\',' + ai + ')">' + SVG_EDIT + '</button>' +
-        '<button class="icon-btn icon-btn--delete" onclick="deleteActivity(\'winter\',' + ai + ')">' + SVG_DEL + '</button>';
-      return simpleRow(a.name, a.desc, '', a.enabled, actions);
+        '<button class="icon-btn icon-btn--edit" title="Edit" onclick="openModal(\'activity\',\'winter\',' + ai + ')">' + SVG_EDIT + '</button>' +
+        '<button class="icon-btn icon-btn--delete" title="Delete" onclick="deleteActivity(\'winter\',' + ai + ')">' + SVG_DEL + '</button>';
+      var meta = (a.price || 'No Price') + (a.badge ? ' &nbsp;&middot;&nbsp; ' + escHtml(a.badge) : '');
+      return itemRow(a.image, a.name, meta, a.enabled, actions);
     }).join('');
     wEl.innerHTML = wRows || emptyState('No winter activities yet');
   }
@@ -342,9 +343,10 @@ function renderActivitiesEditor() {
     var sRows = (acts.summer || []).map(function (a, ai) {
       var actions =
         toggleBtn(a.enabled, "toggleActivity('summer'," + ai + ")") +
-        '<button class="icon-btn icon-btn--edit" onclick="openModal(\'activity\',\'summer\',' + ai + ')">' + SVG_EDIT + '</button>' +
-        '<button class="icon-btn icon-btn--delete" onclick="deleteActivity(\'summer\',' + ai + ')">' + SVG_DEL + '</button>';
-      return simpleRow(a.name, a.desc, '', a.enabled, actions);
+        '<button class="icon-btn icon-btn--edit" title="Edit" onclick="openModal(\'activity\',\'summer\',' + ai + ')">' + SVG_EDIT + '</button>' +
+        '<button class="icon-btn icon-btn--delete" title="Delete" onclick="deleteActivity(\'summer\',' + ai + ')">' + SVG_DEL + '</button>';
+      var meta = (a.price || 'No Price') + (a.badge ? ' &nbsp;&middot;&nbsp; ' + escHtml(a.badge) : '');
+      return itemRow(a.image, a.name, meta, a.enabled, actions);
     }).join('');
     sEl.innerHTML = sRows || emptyState('No summer activities yet');
   }
@@ -358,9 +360,9 @@ function renderSightseeingEditor() {
   el.innerHTML = items.length ? items.map(function (s, si) {
     var actions =
       toggleBtn(s.enabled, "toggleSight(" + si + ")") +
-      '<button class="icon-btn icon-btn--edit" onclick="openModal(\'sightseeing\',null,' + si + ')">' + SVG_EDIT + '</button>' +
-      '<button class="icon-btn icon-btn--delete" onclick="deleteSight(' + si + ')">' + SVG_DEL + '</button>';
-    return simpleRow(s.title, s.desc, s.place, s.enabled, actions);
+      '<button class="icon-btn icon-btn--edit" title="Edit" onclick="openModal(\'sightseeing\',null,' + si + ')">' + SVG_EDIT + '</button>' +
+      '<button class="icon-btn icon-btn--delete" title="Delete" onclick="deleteSight(' + si + ')">' + SVG_DEL + '</button>';
+    return itemRow(s.image, s.title, s.place || '', s.enabled, actions);
   }).join('') : emptyState('No sightseeing destinations yet');
 }
 
