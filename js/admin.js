@@ -1229,6 +1229,39 @@ function imageUploadField(fieldId, val) {
     '<img src="' + escHtml(val || '') + '" alt="Preview" onerror="this.parentElement.style.display=\'none\'">' +
     '</div></div>';
 }
+// Helper: Upload file to Firebase Cloud Storage (or fallback to local)
+function uploadFileToFirebaseStorage(file, pathPrefix, onProgress, onComplete, onError) {
+  if (typeof storage !== 'undefined' && storage) {
+    try {
+      var fileName = pathPrefix + '/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      var ref = storage.ref(fileName);
+      var uploadTask = ref.put(file);
+      uploadTask.on('state_changed',
+        function(snapshot) {
+          var pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          if (onProgress) onProgress(pct);
+        },
+        function(err) {
+          console.warn('[Storage] Upload failed, using local fallback:', err);
+          if (onError) onError(err);
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadUrl) {
+            console.log('[Storage] Upload success URL:', downloadUrl);
+            if (onComplete) onComplete(downloadUrl);
+          }).catch(function(e) {
+            if (onError) onError(e);
+          });
+        }
+      );
+      return true;
+    } catch (e) {
+      console.warn('[Storage] Exception starting upload:', e);
+    }
+  }
+  return false;
+}
+
 function triggerImageUpload(fieldId) {
   var el = document.getElementById(fieldId + '-file');
   if (el) el.click();
@@ -1237,22 +1270,48 @@ function handleImageUpload(fieldId) {
   var fileEl = document.getElementById(fieldId + '-file');
   if (!fileEl || !fileEl.files[0]) return;
   var file = fileEl.files[0];
-  showToast('Optimizing image...');
-  compressImage(file, 1200, 0.8, function (dataUrl) {
-    if (!dataUrl) {
-      showToast('Image processing failed', false);
-      return;
-    }
+
+  var applyResultUrl = function(url) {
     var input = document.getElementById(fieldId);
-    if (input) input.value = dataUrl;
+    if (input) input.value = url;
     var preview = document.getElementById(fieldId + '-preview');
     if (preview) {
       preview.style.display = 'block';
       var img = preview.querySelector('img');
-      if (img) img.src = dataUrl;
+      if (img) img.src = url;
     }
-    showToast('Image imported & optimized');
-  });
+  };
+
+  showToast('Uploading image to Cloud Storage...');
+
+  var started = uploadFileToFirebaseStorage(file, 'images',
+    function(pct) {
+      showToast('Uploading image: ' + pct + '%');
+    },
+    function(downloadUrl) {
+      applyResultUrl(downloadUrl);
+      showToast('✅ Image uploaded to Cloud Storage!');
+    },
+    function(err) {
+      showToast('Cloud upload failed, compressing locally...');
+      fallbackCompress();
+    }
+  );
+
+  function fallbackCompress() {
+    compressImage(file, 650, 0.6, function (dataUrl) {
+      if (!dataUrl) {
+        showToast('Image processing failed', false);
+        return;
+      }
+      applyResultUrl(dataUrl);
+      showToast('Image compressed & attached locally');
+    });
+  }
+
+  if (!started) {
+    fallbackCompress();
+  }
 }
 function updateImgPreview(fieldId) {
   var val = (document.getElementById(fieldId) || {}).value || '';
@@ -1288,14 +1347,19 @@ function removeTag(id, tag) { _setTags(id, _getTags(id).filter(function (t) { re
 
 // ─── PDF UPLOAD FIELD (reusable for all card forms) ───
 function pdfUploadField(item) {
-  var hasPdf = item.itineraryPdf && item.itineraryPdf.length > 100;
+  var hasPdf = item.itineraryPdf && item.itineraryPdf.length > 10;
   var displayName = item.itineraryPdfName || (hasPdf ? 'itinerary.pdf' : '');
+  var isUrl = hasPdf && /^https?:\/\//i.test(item.itineraryPdf);
+  var pdfLinkHtml = isUrl
+    ? '<a href="' + escHtml(item.itineraryPdf) + '" target="_blank" style="color:var(--gold);text-decoration:underline;">' + escHtml(displayName) + '</a>'
+    : escHtml(displayName);
+
   return '<div class="field"><label>📄 Itinerary PDF (max 10 MB)</label>' +
     '<input type="hidden" id="f-pdf" value="">' +
     '<input type="hidden" id="f-pdf-name" value="' + escHtml(displayName) + '">' +
     '<div id="f-pdf-status">' +
     (hasPdf
-      ? '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + escHtml(displayName) + '</span></div>'
+      ? '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + pdfLinkHtml + '</span></div>'
       : '<div style="margin-bottom:8px;font-size:13px;color:var(--t3);font-style:italic;">No itinerary uploaded</div>') +
     '</div>' +
     '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
@@ -1315,15 +1379,41 @@ function handlePdfField() {
   if (file.size > 10 * 1024 * 1024) {
     showToast('File too large (max 10MB)', false); fileEl.value = ''; return;
   }
-  var reader = new FileReader();
-  reader.onload = function (e) {
-    document.getElementById('f-pdf').value = e.target.result;
-    document.getElementById('f-pdf-name').value = file.name;
-    var status = document.getElementById('f-pdf-status');
-    if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + escHtml(file.name) + ' ✓</span></div>';
-    showToast('PDF attached');
-  };
-  reader.readAsDataURL(file);
+
+  showToast('Uploading PDF to Cloud Storage...');
+
+  var started = uploadFileToFirebaseStorage(file, 'pdfs',
+    function(pct) {
+      showToast('Uploading PDF: ' + pct + '%');
+    },
+    function(downloadUrl) {
+      document.getElementById('f-pdf').value = downloadUrl;
+      document.getElementById('f-pdf-name').value = file.name;
+      var status = document.getElementById('f-pdf-status');
+      if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span><a href="' + escHtml(downloadUrl) + '" target="_blank" style="color:var(--gold);text-decoration:underline;">' + escHtml(file.name) + '</a> ✓</span></div>';
+      showToast('✅ PDF uploaded to Cloud Storage!');
+    },
+    function(err) {
+      showToast('Cloud upload failed, attaching PDF locally...');
+      fallbackReadPdf();
+    }
+  );
+
+  function fallbackReadPdf() {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById('f-pdf').value = e.target.result;
+      document.getElementById('f-pdf-name').value = file.name;
+      var status = document.getElementById('f-pdf-status');
+      if (status) status.innerHTML = '<div style="margin-bottom:8px;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px;">📄 <span>' + escHtml(file.name) + ' ✓</span></div>';
+      showToast('PDF attached');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if (!started) {
+    fallbackReadPdf();
+  }
 }
 function removePdfField() {
   document.getElementById('f-pdf').value = '__REMOVED__';

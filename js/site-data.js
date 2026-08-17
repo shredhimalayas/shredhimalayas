@@ -326,21 +326,24 @@ const SHData = (function () {
       }
     }
 
+    // Immediately notify local listeners
+    _notify();
+
     // Write to Firestore — this triggers onSnapshot on ALL connected devices
     if (typeof db !== 'undefined' && db) {
       var docData = Array.isArray(sanitized) ? { items: sanitized, _updatedAt: now } : Object.assign({}, sanitized, { _updatedAt: now });
-      db.collection(section).doc('main').set(cleanData(docData))
+      return db.collection(section).doc('main').set(cleanData(docData))
         .then(function () {
           console.log('[SHData] Firestore write OK for section:', section);
+          return true;
         })
         .catch(function (e) {
           console.error('[SHData] Firestore write FAILED for ' + section + ':', e);
-          console.error('[SHData] Changes preserved in LocalStorage.');
+          throw e;
         });
     }
 
-    // Immediately notify local listeners (don't wait for Firestore round-trip on admin)
-    _notify();
+    return Promise.resolve(true);
   }
 
   // Init — loads from localStorage for instant render, then establishes live Firestore listeners
@@ -383,14 +386,6 @@ const SHData = (function () {
                   return;
                 }
                 var val = doc.data();
-                var serverTime = (val && val._updatedAt) ? Number(val._updatedAt) : 0;
-                var localTime = _lastSaveTime[section] || Number(localStorage.getItem('sh_data_time_' + section) || 0);
-
-                // Suppress stale Firestore server snapshot if local save is newer
-                if (localTime && serverTime < localTime && (Date.now() - localTime < 300000)) {
-                  console.warn('[SHData] Suppressing stale Firestore rollback snapshot for section "' + section + '" (localTime: ' + localTime + ', serverTime: ' + serverTime + ')');
-                  return;
-                }
 
                 // Firestore stores arrays as {items: [...]} and objects directly
                 var fetched = (val && val.items !== undefined) ? val.items : val;
@@ -402,6 +397,9 @@ const SHData = (function () {
                 // Update localStorage so next page load gets fresh data instantly
                 try {
                   localStorage.setItem('sh_data_' + section, JSON.stringify(fetched));
+                  if (val && val._updatedAt) {
+                    localStorage.setItem('sh_data_time_' + section, String(val._updatedAt));
+                  }
                 } catch (e) {}
               }
               // Always notify listeners — triggers re-render on ALL connected devices

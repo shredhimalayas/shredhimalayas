@@ -28,3 +28,15 @@ if (typeof firebase !== 'undefined' && firebase.firestore) {
     console.warn('[Firebase] Firestore init warning:', e);
   }
 }
+
+// Global Cloud Storage reference (used for direct image/PDF uploads)
+var storage = null;
+if (typeof firebase !== 'undefined' && firebase.storage) {
+  try {
+    storage = firebase.storage();
+    console.log('[Firebase] Storage connected to bucket: shredhimalayas.firebasestorage.app');
+  } catch (e) {
+    console.warn('[Firebase] Storage init warning:', e);
+  }
+}
+
