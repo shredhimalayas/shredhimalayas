@@ -317,10 +317,6 @@ const SHData = (function () {
       for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
           var val = obj[key];
-          if (typeof val === 'string' && val.startsWith('data:image/') && val.length > 50000) {
-            console.warn('[SHData] Guarding oversized Base64 image field "' + key + '" (' + val.length + ' chars) for Firestore safety.');
-            val = 'assets/images/skiing-action.png';
-          }
           newObj[key] = cleanOversizedInlineImages(val);
         }
       }

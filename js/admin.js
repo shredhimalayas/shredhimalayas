@@ -1144,11 +1144,11 @@ function fieldSelect(label, id, options, selected) {
 
 // ─── IMAGE UPLOAD & COMPRESSION ─────────────────────────
 function compressImage(file, maxDim, quality, callback) {
-  maxDim = maxDim || 1200;
-  quality = quality || 0.8;
+  maxDim = maxDim || 500;
+  quality = quality || 0.55;
   if (!file) return callback('');
 
-  if (file.type === 'image/svg+xml' || file.size < 60000) {
+  if (file.type === 'image/svg+xml') {
     var r = new FileReader();
     r.onload = function (e) { callback(e.target.result); };
     r.onerror = function () { callback(''); };
@@ -1274,7 +1274,7 @@ function handleImageUpload(fieldId) {
   );
 
   function fallbackCompress() {
-    compressImage(file, 650, 0.6, function (dataUrl) {
+    compressImage(file, 500, 0.55, function (dataUrl) {
       if (!dataUrl) {
         showToast('Image processing failed', false);
         return;
