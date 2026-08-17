@@ -1264,8 +1264,8 @@ function imageUploadField(fieldId, val) {
     '<button type="button" class="import-btn" onclick="triggerImageUpload(\'' + fieldId + '\')">📁 Import</button>' +
     '<input type="file" id="' + fieldId + '-file" accept="image/*" style="display:none" onchange="handleImageUpload(\'' + fieldId + '\')">' +
     '</div>' +
-    '<div class="img-preview" id="' + fieldId + '-preview" style="' + (hasVal ? '' : 'display:none') + '">' +
-    '<img src="' + escHtml(val || '') + '" alt="Preview" onerror="this.parentElement.style.display=\'none\'">' +
+    '<div class="img-preview" id="' + fieldId + '-preview" style="' + (hasVal ? 'display:block' : 'display:none') + '">' +
+    '<img src="' + escHtml(val || '') + '" alt="Preview" onload="this.style.display=\'block\';if(this.parentElement)this.parentElement.style.display=\'block\';" onerror="this.style.display=\'none\';if(this.parentElement)this.parentElement.style.display=\'none\';">' +
     '</div></div>';
 }
 // Helper: Upload file to Firebase Cloud Storage (or fallback to local)
@@ -1322,7 +1322,10 @@ function handleImageUpload(fieldId) {
     if (preview) {
       preview.style.display = 'block';
       var img = preview.querySelector('img');
-      if (img) img.src = dataUrl;
+      if (img) {
+        img.style.display = 'block';
+        img.src = dataUrl;
+      }
     }
     var sizeKB = Math.round(dataUrl.length / 1024);
     showToast('✅ Image optimized (' + sizeKB + ' KB) — ready to save!');
@@ -1332,8 +1335,17 @@ function updateImgPreview(fieldId) {
   var val = (document.getElementById(fieldId) || {}).value || '';
   var preview = document.getElementById(fieldId + '-preview');
   if (!preview) return;
-  if (val) { preview.style.display = 'block'; var img = preview.querySelector('img'); if (img) img.src = val; }
-  else preview.style.display = 'none';
+  var img = preview.querySelector('img');
+  if (val && val.trim().length > 0) {
+    preview.style.display = 'block';
+    if (img) {
+      img.style.display = 'block';
+      img.src = val.trim();
+    }
+  } else {
+    preview.style.display = 'none';
+    if (img) img.style.display = 'none';
+  }
 }
 
 // ─── TAG MANAGER ──────────────────────────────────────
