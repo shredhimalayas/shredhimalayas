@@ -854,39 +854,101 @@ function deleteTimelineItem(idx) {
 var _modalCtx = null;
 function openModal(type, ctx1, ctx2) {
   _modalCtx = { type: type, ctx1: ctx1, ctx2: ctx2 };
-  var isEdit = ctx2 !== null && ctx2 !== undefined;
+  var body = document.getElementById('modal-body');
   var titleEl = document.getElementById('modal-title');
-  var bodyEl = document.getElementById('modal-body');
-  if (!titleEl || !bodyEl) return;
+  var html = '';
+  var item = null;
 
-  var titles = {
-    'ski-item': isEdit ? 'Edit Skiing Package' : 'Add Skiing Package',
-    'sb-item': isEdit ? 'Edit Snowboard Package' : 'Add Snowboard Package',
-    'trek': isEdit ? 'Edit Trekking Route' : 'Add Trekking Route',
-    'activity': isEdit ? 'Edit Activity' : 'Add Activity',
-    'sightseeing': isEdit ? 'Edit Destination' : 'Add Destination',
-    'rental-cat': isEdit ? 'Edit Rental Category' : 'Add Rental Category',
-    'rental-item': isEdit ? 'Edit Rental Item' : 'Add Rental Item',
-    'transport-cat': isEdit ? 'Edit Transport Category' : 'Add Transport Category',
-    'transport-item': isEdit ? 'Edit Vehicle / Service' : 'Add Vehicle / Service',
-    'package': isEdit ? 'Edit Tour Package' : 'Add Tour Package',
-    'testimonial': isEdit ? 'Edit Review' : 'Add Review',
-    'team-member': isEdit ? 'Edit Team Member' : 'Add Team Member',
-    'contact': isEdit ? 'Edit Office Location' : 'Add Office Location',
-    'timeline-item': isEdit ? 'Edit Timeline Milestone' : 'Add Timeline Milestone'
-  };
-  titleEl.textContent = titles[type] || (isEdit ? 'Edit Item' : 'Add Item');
+  if (type === 'ski-item' || type === 'sb-item') {
+    var dataKey = type === 'ski-item' ? 'skiing' : 'snowboarding';
+    var cats = SHData.get(dataKey);
+    var cat = cats[ctx1];
+    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add to "' + cat.title + '"';
+    html = packageForm(item);
+  } else if (type === 'trek') {
+    var treks = SHData.get('trekking');
+    item = ctx2 !== null && ctx2 !== undefined ? treks[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add New Trek';
+    html = trekForm(item);
+  } else if (type === 'activity') {
+    var acts = SHData.get('activities');
+    item = ctx2 !== null && ctx2 !== undefined ? acts[ctx1][ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Activity' : 'Add ' + (ctx1 === 'winter' ? 'Winter' : 'Summer') + ' Activity';
+    html = activityForm(item);
+  } else if (type === 'sightseeing') {
+    var sights = SHData.get('sightseeing');
+    item = ctx2 !== null && ctx2 !== undefined ? sights[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Destination';
+    html = sightseeingForm(item);
+  } else if (type === 'rental-cat') {
+    var cats = SHData.get('rentals');
+    item = ctx1 !== null && ctx1 !== undefined ? cats[ctx1] : {};
+    titleEl.textContent = ctx1 !== null && ctx1 !== undefined ? 'Edit Category: ' + item.title : 'Add Rental Category';
+    html = rentalCatForm(item);
+  } else if (type === 'rental-item') {
+    var cats = SHData.get('rentals');
+    var cat = cats[ctx1];
+    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Item to "' + cat.title + '"';
+    html = rentalItemForm(item);
+  } else if (type === 'transport-cat') {
+    var cats = SHData.get('transport') || [];
+    item = ctx1 !== null && ctx1 !== undefined ? cats[ctx1] : {};
+    titleEl.textContent = ctx1 !== null && ctx1 !== undefined ? 'Edit Category: ' + item.title : 'Add Transport Category';
+    html = transportCatForm(item);
+  } else if (type === 'transport-item') {
+    var cats = SHData.get('transport') || [];
+    var cat = cats[ctx1];
+    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Vehicle to "' + cat.title + '"';
+    html = transportItemForm(item);
+  } else if (type === 'package') {
+    var pkgs = SHData.get('packages');
+    item = ctx2 !== null && ctx2 !== undefined ? pkgs[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Tour Package';
+    html = tourPackageForm(item);
+  } else if (type === 'testimonial') {
+    var tms = SHData.get('testimonials');
+    item = ctx2 !== null && ctx2 !== undefined ? tms[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Review' : 'Add Review';
+    html = testimonialForm(item);
+  } else if (type === 'team-member') {
+    var team = SHData.get('team') || [];
+    item = ctx2 !== null && ctx2 !== undefined ? team[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Team Member: ' + item.name : 'Add Team Member';
+    html = teamMemberForm(item);
+  } else if (type === 'contact') {
+    var contacts = SHData.get('contacts') || [];
+    item = ctx2 !== null && ctx2 !== undefined ? contacts[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Contact Location' : 'Add Contact Location';
+    html = contactForm(item);
+  } else if (type === 'timeline-item') {
+    var about = SHData.get('about') || JSON.parse(JSON.stringify(SHData.defaults.about));
+    var timeline = about.timeline || [];
+    item = ctx2 !== null && ctx2 !== undefined ? timeline[ctx2] : {};
+    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Milestone' : 'Add Timeline Milestone';
+    html = timelineItemForm(item);
+  }
 
-  bodyEl.innerHTML = buildModalForm(type, ctx1, ctx2, isEdit);
-
-  var overlay = document.getElementById('modal-overlay');
-  if (overlay) overlay.style.display = 'flex';
+  body.innerHTML = html;
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.body.classList.add('no-scroll');
+  document.documentElement.classList.add('no-scroll');
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
 }
 
 function closeModal() {
-  var overlay = document.getElementById('modal-overlay');
-  if (overlay) overlay.style.display = 'none';
-  _modalCtx = {};
+  document.getElementById('modalBackdrop').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+  document.documentElement.classList.remove('no-scroll');
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+  _modalCtx = null;
+}
+function closeModalOnBackdrop(e) {
+  if (e.target.id === 'modalBackdrop') closeModal();
 }
 
 function v(id) { var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
