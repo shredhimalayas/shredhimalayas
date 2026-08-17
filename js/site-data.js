@@ -307,9 +307,31 @@ const SHData = (function () {
     });
   }
 
+  function cleanOversizedInlineImages(obj) {
+    if (!obj) return obj;
+    if (Array.isArray(obj)) {
+      return obj.map(cleanOversizedInlineImages);
+    }
+    if (typeof obj === 'object') {
+      var newObj = {};
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var val = obj[key];
+          if (typeof val === 'string' && val.startsWith('data:image/') && val.length > 50000) {
+            console.warn('[SHData] Guarding oversized Base64 image field "' + key + '" (' + val.length + ' chars) for Firestore safety.');
+            val = 'assets/images/skiing-action.png';
+          }
+          newObj[key] = cleanOversizedInlineImages(val);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  }
+
   // Writes to _cache, localStorage (for instant reload), and Firestore (for global sync)
   function save(section, data) {
-    var sanitized = cleanData(data);
+    var sanitized = cleanOversizedInlineImages(cleanData(data));
     _cache[section] = sanitized;
 
     var now = Date.now();

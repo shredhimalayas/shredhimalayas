@@ -666,12 +666,51 @@ function renderContactsEditor() {
   }).join('');
 }
 
+function _handleSavePromise(promise, successMsg, onComplete) {
+  showToast('Syncing changes to Cloud Database...');
+  if (promise && typeof promise.then === 'function') {
+    promise.then(function() {
+      showToast('✅ ' + (successMsg || 'Saved & Synced globally to Cloud Database!'));
+      if (onComplete) onComplete(true);
+    }).catch(function(err) {
+      console.error('[Admin Save Error]', err);
+      showToast('⚠️ Saved locally, Cloud sync warning: ' + (err.message || err), false);
+      if (onComplete) onComplete(false);
+    });
+  } else {
+    showToast('✅ ' + (successMsg || 'Saved successfully!'));
+    if (onComplete) onComplete(true);
+  }
+}
+
+function syncAllToFirestore() {
+  if (typeof db === 'undefined' || !db) {
+    showToast('❌ Firebase Database is not connected.', false);
+    return;
+  }
+  showToast('Pushing all local data to Cloud Database...');
+  var sections = [
+    'settings', 'about', 'seo', 'policies', 'skiing', 'snowboarding',
+    'trekking', 'packages', 'activities', 'rentals', 'transport',
+    'testimonials', 'team', 'contacts', 'sightseeing'
+  ];
+  var promises = sections.map(function(sec) {
+    var data = SHData.get(sec);
+    return SHData.set(sec, data);
+  });
+  Promise.all(promises).then(function() {
+    showToast('✅ All data successfully synced globally to Cloud Database!');
+  }).catch(function(err) {
+    console.error('[Sync All Error]', err);
+    showToast('⚠️ Sync completed with warnings: ' + (err.message || err), false);
+  });
+}
+
 function toggleContact(ci) {
   var contacts = SHData.get('contacts') || [];
   contacts[ci].enabled = contacts[ci].enabled === false ? true : false;
-  SHData.set('contacts', contacts);
-  renderContactsEditor();
-  showToast('Visibility updated');
+  var p = SHData.set('contacts', contacts);
+  _handleSavePromise(p, 'Visibility updated & synced!', function() { renderContactsEditor(); });
 }
 
 function deleteContact(ci) {
@@ -682,9 +721,8 @@ function deleteContact(ci) {
   }
   if (!confirm('Delete contact point "' + contacts[ci].name + '"?')) return;
   contacts.splice(ci, 1);
-  SHData.set('contacts', contacts);
-  renderContactsEditor();
-  showToast('Deleted', false);
+  var p = SHData.set('contacts', contacts);
+  _handleSavePromise(p, 'Contact deleted & synced!', function() { renderContactsEditor(); });
 }
 
 function setDefaultContact(ci) {
@@ -693,9 +731,8 @@ function setDefaultContact(ci) {
     c.isDefault = (idx === ci);
     if (idx === ci) c.enabled = true; // Ensure default is enabled
   });
-  SHData.set('contacts', contacts);
-  renderContactsEditor();
-  showToast('Default contact point updated');
+  var p = SHData.set('contacts', contacts);
+  _handleSavePromise(p, 'Default contact updated & synced!', function() { renderContactsEditor(); });
 }
 
 // ─── SETTINGS ─────────────────────────────────────────
@@ -720,8 +757,8 @@ function saveSettings() {
     heroVideoUrl: (document.getElementById('s-heroVideo') || {}).value || '',
     footerCopyright: (document.getElementById('s-copyright') || {}).value || ''
   };
-  SHData.set('settings', s);
-  showToast('Settings saved successfully');
+  var p = SHData.set('settings', s);
+  _handleSavePromise(p, 'Settings saved & synced globally!');
 }
 function resetToDefaults() { SHData.reset(); }
 
@@ -787,29 +824,29 @@ function saveAboutSettings() {
   about.bio = bEl ? bEl.value.trim() : '';
   if (imgEl) about.portraitImage = imgEl.value.trim();
 
-  SHData.set('about', about);
-  showToast('Story content saved successfully!');
-  renderAboutEditor();
+  var p = SHData.set('about', about);
+  _handleSavePromise(p, 'Story content saved & synced globally!', function() {
+    renderAboutEditor();
+  });
 }
 
 function toggleTimelineItem(idx) {
   var about = SHData.get('about') || JSON.parse(JSON.stringify(SHData.defaults.about));
   if (about.timeline && about.timeline[idx]) {
     about.timeline[idx].enabled = about.timeline[idx].enabled === false ? true : false;
-    SHData.set('about', about);
-    renderAboutEditor();
-    showToast('Visibility updated');
+    var p = SHData.set('about', about);
+    _handleSavePromise(p, 'Visibility updated & synced!', function() { renderAboutEditor(); });
   }
 }
 
 function deleteTimelineItem(idx) {
-  if (!confirm('Delete this timeline milestone?')) return;
-  var about = SHData.get('about') || JSON.parse(JSON.stringify(SHData.defaults.about));
-  if (about.timeline) {
-    about.timeline.splice(idx, 1);
-    SHData.set('about', about);
-    renderAboutEditor();
-    showToast('Milestone deleted', false);
+  if (confirm('Are you sure you want to delete this milestone?')) {
+    var about = SHData.get('about') || JSON.parse(JSON.stringify(SHData.defaults.about));
+    if (about.timeline && about.timeline[idx]) {
+      about.timeline.splice(idx, 1);
+      var p = SHData.set('about', about);
+      _handleSavePromise(p, 'Milestone deleted & synced!', function() { renderAboutEditor(); });
+    }
   }
 }
 
@@ -817,103 +854,39 @@ function deleteTimelineItem(idx) {
 var _modalCtx = null;
 function openModal(type, ctx1, ctx2) {
   _modalCtx = { type: type, ctx1: ctx1, ctx2: ctx2 };
-  var body = document.getElementById('modal-body');
+  var isEdit = ctx2 !== null && ctx2 !== undefined;
   var titleEl = document.getElementById('modal-title');
-  var html = '';
-  var item = null;
+  var bodyEl = document.getElementById('modal-body');
+  if (!titleEl || !bodyEl) return;
 
-  if (type === 'ski-item' || type === 'sb-item') {
-    var dataKey = type === 'ski-item' ? 'skiing' : 'snowboarding';
-    var cats = SHData.get(dataKey);
-    var cat = cats[ctx1];
-    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add to "' + cat.title + '"';
-    html = packageForm(item);
-  } else if (type === 'trek') {
-    var treks = SHData.get('trekking');
-    item = ctx2 !== null && ctx2 !== undefined ? treks[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add New Trek';
-    html = trekForm(item);
-  } else if (type === 'activity') {
-    var acts = SHData.get('activities');
-    item = ctx2 !== null && ctx2 !== undefined ? acts[ctx1][ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Activity' : 'Add ' + (ctx1 === 'winter' ? 'Winter' : 'Summer') + ' Activity';
-    html = activityForm(item);
-  } else if (type === 'sightseeing') {
-    var sights = SHData.get('sightseeing');
-    item = ctx2 !== null && ctx2 !== undefined ? sights[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Destination';
-    html = sightseeingForm(item);
-  } else if (type === 'rental-cat') {
-    var cats = SHData.get('rentals');
-    // ctx1 = category index (edit) or null (new)
-    item = ctx1 !== null && ctx1 !== undefined ? cats[ctx1] : {};
-    titleEl.textContent = ctx1 !== null && ctx1 !== undefined ? 'Edit Category: ' + item.title : 'Add Rental Category';
-    html = rentalCatForm(item);
-  } else if (type === 'rental-item') {
-    var cats = SHData.get('rentals');
-    var cat = cats[ctx1];
-    // ctx2 = item index (edit) or null (new)
-    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Item to "' + cat.title + '"';
-    html = rentalItemForm(item);
-  } else if (type === 'transport-cat') {
-    var cats = SHData.get('transport') || [];
-    item = ctx1 !== null && ctx1 !== undefined ? cats[ctx1] : {};
-    titleEl.textContent = ctx1 !== null && ctx1 !== undefined ? 'Edit Category: ' + item.title : 'Add Transport Category';
-    html = transportCatForm(item);
-  } else if (type === 'transport-item') {
-    var cats = SHData.get('transport') || [];
-    var cat = cats[ctx1];
-    item = ctx2 !== null && ctx2 !== undefined ? cat.items[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Vehicle to "' + cat.title + '"';
-    html = transportItemForm(item);
-  } else if (type === 'package') {
-    var pkgs = SHData.get('packages');
-    item = ctx2 !== null && ctx2 !== undefined ? pkgs[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit: ' + item.title : 'Add Tour Package';
-    html = tourPackageForm(item);
-  } else if (type === 'testimonial') {
-    var tms = SHData.get('testimonials');
-    item = ctx2 !== null && ctx2 !== undefined ? tms[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Review' : 'Add Review';
-    html = testimonialForm(item);
-  } else if (type === 'team-member') {
-    var team = SHData.get('team') || [];
-    item = ctx2 !== null && ctx2 !== undefined ? team[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Team Member: ' + item.name : 'Add Team Member';
-    html = teamMemberForm(item);
-  } else if (type === 'contact') {
-    var contacts = SHData.get('contacts') || [];
-    item = ctx2 !== null && ctx2 !== undefined ? contacts[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Contact Location' : 'Add Contact Location';
-    html = contactForm(item);
-  } else if (type === 'timeline-item') {
-    var about = SHData.get('about') || JSON.parse(JSON.stringify(SHData.defaults.about));
-    var timeline = about.timeline || [];
-    item = ctx2 !== null && ctx2 !== undefined ? timeline[ctx2] : {};
-    titleEl.textContent = ctx2 !== null && ctx2 !== undefined ? 'Edit Milestone' : 'Add Timeline Milestone';
-    html = timelineItemForm(item);
-  }
+  var titles = {
+    'ski-item': isEdit ? 'Edit Skiing Package' : 'Add Skiing Package',
+    'sb-item': isEdit ? 'Edit Snowboard Package' : 'Add Snowboard Package',
+    'trek': isEdit ? 'Edit Trekking Route' : 'Add Trekking Route',
+    'activity': isEdit ? 'Edit Activity' : 'Add Activity',
+    'sightseeing': isEdit ? 'Edit Destination' : 'Add Destination',
+    'rental-cat': isEdit ? 'Edit Rental Category' : 'Add Rental Category',
+    'rental-item': isEdit ? 'Edit Rental Item' : 'Add Rental Item',
+    'transport-cat': isEdit ? 'Edit Transport Category' : 'Add Transport Category',
+    'transport-item': isEdit ? 'Edit Vehicle / Service' : 'Add Vehicle / Service',
+    'package': isEdit ? 'Edit Tour Package' : 'Add Tour Package',
+    'testimonial': isEdit ? 'Edit Review' : 'Add Review',
+    'team-member': isEdit ? 'Edit Team Member' : 'Add Team Member',
+    'contact': isEdit ? 'Edit Office Location' : 'Add Office Location',
+    'timeline-item': isEdit ? 'Edit Timeline Milestone' : 'Add Timeline Milestone'
+  };
+  titleEl.textContent = titles[type] || (isEdit ? 'Edit Item' : 'Add Item');
 
-  body.innerHTML = html;
-  document.getElementById('modalBackdrop').classList.add('open');
-  document.body.classList.add('no-scroll');
-  document.documentElement.classList.add('no-scroll');
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
+  bodyEl.innerHTML = buildModalForm(type, ctx1, ctx2, isEdit);
+
+  var overlay = document.getElementById('modal-overlay');
+  if (overlay) overlay.style.display = 'flex';
 }
 
 function closeModal() {
-  document.getElementById('modalBackdrop').classList.remove('open');
-  document.body.classList.remove('no-scroll');
-  document.documentElement.classList.remove('no-scroll');
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
-  _modalCtx = null;
-}
-function closeModalOnBackdrop(e) {
-  if (e.target.id === 'modalBackdrop') closeModal();
+  var overlay = document.getElementById('modal-overlay');
+  if (overlay) overlay.style.display = 'none';
+  _modalCtx = {};
 }
 
 function v(id) { var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
@@ -922,6 +895,7 @@ function vc(id) { var el = document.getElementById(id); return el ? el.checked :
 function saveModal() {
   var type = _modalCtx.type, ctx1 = _modalCtx.ctx1, ctx2 = _modalCtx.ctx2;
   var isEdit = ctx2 !== null && ctx2 !== undefined;
+  var savePromise = null;
 
   if (type === 'ski-item' || type === 'sb-item') {
     var dataKey = type === 'ski-item' ? 'skiing' : 'snowboarding';
@@ -938,7 +912,7 @@ function saveModal() {
     };
     if (!newItem.title) { showToast('Title is required', false); return; }
     if (isEdit) cats[ctx1].items[ctx2] = newItem; else cats[ctx1].items.push(newItem);
-    SHData.set(dataKey, cats);
+    savePromise = SHData.set(dataKey, cats);
     if (type === 'ski-item') renderSkiingEditor(); else renderSnowboardingEditor();
   }
   else if (type === 'trek') {
@@ -958,7 +932,7 @@ function saveModal() {
     };
     if (!newT.title) { showToast('Title is required', false); return; }
     if (isEdit) treks[ctx2] = newT; else treks.push(newT);
-    SHData.set('trekking', treks); renderTrekkingEditor();
+    savePromise = SHData.set('trekking', treks); renderTrekkingEditor();
   }
   else if (type === 'activity') {
     var acts = SHData.get('activities');
@@ -971,7 +945,7 @@ function saveModal() {
     };
     if (!newA.name) { showToast('Name is required', false); return; }
     if (isEdit) acts[ctx1][ctx2] = newA; else acts[ctx1].push(newA);
-    SHData.set('activities', acts); renderActivitiesEditor();
+    savePromise = SHData.set('activities', acts); renderActivitiesEditor();
   }
   else if (type === 'sightseeing') {
     var sights = SHData.get('sightseeing');
@@ -986,7 +960,7 @@ function saveModal() {
     };
     if (!newS.title) { showToast('Title is required', false); return; }
     if (isEdit) sights[ctx2] = newS; else sights.push(newS);
-    SHData.set('sightseeing', sights); renderSightseeingEditor();
+    savePromise = SHData.set('sightseeing', sights); renderSightseeingEditor();
   }
   else if (type === 'rental-cat') {
     var cats = SHData.get('rentals');
@@ -1001,7 +975,7 @@ function saveModal() {
     };
     if (!newCat.title) { showToast('Category title is required', false); return; }
     if (isCatEdit) cats[ctx1] = newCat; else cats.push(newCat);
-    SHData.set('rentals', cats); renderRentalsEditor();
+    savePromise = SHData.set('rentals', cats); renderRentalsEditor();
   }
   else if (type === 'rental-item') {
     var cats = SHData.get('rentals');
@@ -1017,7 +991,7 @@ function saveModal() {
     };
     if (!newItem.title) { showToast('Title is required', false); return; }
     if (isEdit) cats[ctx1].items[ctx2] = newItem; else cats[ctx1].items.push(newItem);
-    SHData.set('rentals', cats); renderRentalsEditor();
+    savePromise = SHData.set('rentals', cats); renderRentalsEditor();
   }
   else if (type === 'transport-cat') {
     var cats = SHData.get('transport') || [];
@@ -1032,7 +1006,7 @@ function saveModal() {
     };
     if (!newCat.title) { showToast('Category title is required', false); return; }
     if (isCatEdit) cats[ctx1] = newCat; else cats.push(newCat);
-    SHData.set('transport', cats); renderTransportEditor();
+    savePromise = SHData.set('transport', cats); renderTransportEditor();
   }
   else if (type === 'transport-item') {
     var cats = SHData.get('transport') || [];
@@ -1049,7 +1023,7 @@ function saveModal() {
     if (!newItem.title) { showToast('Vehicle name is required', false); return; }
     if (!newItem.price) { showToast('Price is required', false); return; }
     if (isEdit) cats[ctx1].items[ctx2] = newItem; else cats[ctx1].items.push(newItem);
-    SHData.set('transport', cats); renderTransportEditor();
+    savePromise = SHData.set('transport', cats); renderTransportEditor();
   }
   else if (type === 'package') {
     var pkgs = SHData.get('packages');
@@ -1067,7 +1041,7 @@ function saveModal() {
     };
     if (!newP.title) { showToast('Title is required', false); return; }
     if (isEdit) pkgs[ctx2] = newP; else pkgs.push(newP);
-    SHData.set('packages', pkgs); renderPackagesEditor();
+    savePromise = SHData.set('packages', pkgs); renderPackagesEditor();
   }
   else if (type === 'testimonial') {
     var tms = SHData.get('testimonials');
@@ -1080,7 +1054,7 @@ function saveModal() {
     };
     if (!newTm.name || !newTm.text) { showToast('Name and review text required', false); return; }
     if (isEdit) tms[ctx2] = newTm; else tms.push(newTm);
-    SHData.set('testimonials', tms); renderTestimonialsEditor();
+    savePromise = SHData.set('testimonials', tms); renderTestimonialsEditor();
   }
   else if (type === 'team-member') {
     var team = SHData.get('team') || [];
@@ -1098,7 +1072,7 @@ function saveModal() {
     if (!newM.name) { showToast('Name is required', false); return; }
     if (!newM.role) { showToast('Role is required', false); return; }
     if (isEdit) team[ctx2] = newM; else team.push(newM);
-    SHData.set('team', team); renderTeamEditor();
+    savePromise = SHData.set('team', team); renderTeamEditor();
   }
   else if (type === 'contact') {
     var contacts = SHData.get('contacts') || [];
@@ -1127,7 +1101,7 @@ function saveModal() {
     }
 
     if (isEdit) contacts[ctx2] = newC; else contacts.push(newC);
-    SHData.set('contacts', contacts);
+    savePromise = SHData.set('contacts', contacts);
     renderContactsEditor();
   }
   else if (type === 'timeline-item') {
@@ -1143,13 +1117,14 @@ function saveModal() {
     if (!newItem.year) { showToast('Year is required', false); return; }
     if (!newItem.text) { showToast('Milestone description is required', false); return; }
     if (isEdit) about.timeline[ctx2] = newItem; else about.timeline.push(newItem);
-    SHData.set('about', about);
+    savePromise = SHData.set('about', about);
     renderAboutEditor();
   }
 
-  showToast('Saved successfully');
-  closeModal();
-  renderDashboard();
+  _handleSavePromise(savePromise, 'Saved & Synced to Cloud Database!', function() {
+    closeModal();
+    renderDashboard();
+  });
 }
 
 // ─── HTML HELPERS ─────────────────────────────────────
